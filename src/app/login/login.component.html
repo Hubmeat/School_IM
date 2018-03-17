@@ -1,0 +1,27 @@
+    <div class="container demo-1" style="height: 100%;">
+            <div class="content" style="height: 100%;">
+                <div id="large-header" class="large-header" style="height: 100%;">
+                    <canvas id="demo-canvas"></canvas>
+                    <div class="logo_box">
+                        <h3>校友</h3>
+                        <div class="input_outer">
+                            <span class="u_user"></span>
+                            <input name="logname" class="text" style="color: #FFFFFF !important" type="text" [(ngModel)]="userInfo.username" (focus)="focusUser()" placeholder="请输入账户">
+                            <div *ngIf="isUserTrue==false" class="ischeck">请输入账户名!</div>
+                        </div>
+                        <div class="input_outer">
+                            <span class="us_uer"></span>
+                            <input name="logpass" class="text" style="color: #FFFFFF !important; position:absolute; z-index:100;" [(ngModel)]="userInfo.password" (focus)="focusPass()" type="password" placeholder="请输入密码">
+                            <div *ngIf="isPasswordTrue==false" class="ischeck">请输入密码</div>
+                        </div>
+                        <div>
+                            <div>忘记密码</div>
+                        </div>
+                    
+                            <div class="mb2"><a class="act-but submit" href="javascript:;" style="color: #FFFFFF" (click)='login()'> 登录</a></div>
+                    </div>
+                </div>
+                <nz-spin class="spin" [nzTip]="'Please wait...'"[nzSize]="'large'" *ngIf="_isSpinning"></nz-spin>
+            </div>
+    </div>
+    <div *ngIf="_isSpinning" class="model"></div>

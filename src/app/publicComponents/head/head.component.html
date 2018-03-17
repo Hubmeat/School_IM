@@ -1,0 +1,21 @@
+<nz-header>
+    <div class="logo" routerLink='/index/waitPending' style="outline: none;">校园IM</div>
+    <div class="expendControl">
+      <button nz-button [nzType]="'primary'"
+      (click)="toggleCollapsed()"
+      style="margin-bottom: 10px; position: relative; left: 0px;">
+          <i class="anticon"
+              [class.anticon-menu-unfold]="isCollapsed"
+              [class.anticon-menu-fold]="!isCollapsed">
+          </i>
+      </button>
+    </div>
+    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'horizontal'" id="menberController">
+      <!--<li nz-menu-item class="head">{{role}}</li>-->
+      <li nz-menu-item class="head">{{userName}}</li>
+      <!--<li nz-menu-item class="head">{{email}}</li>-->
+      <li nz-menu-item class="head"  (click)='signOut()'>
+          <i class="anticon anticon-logout"></i>退出
+      </li>
+    </ul>
+  </nz-header>

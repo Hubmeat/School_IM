@@ -1,0 +1,17 @@
+
+<nz-layout style="height: 100%;" id="menuClass">
+    <nz-sider [nzWidth]="200" nzClickActive='true' class="slideClass" [class.expend-open]="service2.status"  [class.expend-close]="!service2.status" style="background:#fff">
+        <ul id="oneFloor" nz-menu [nzMode]="'inline'" nzTheme='dark' [nzInlineCollapsed]="service2.status" style="height:100%;">
+            <li nz-submenu  [(nzOpen)]='service2.eventOpen' (nzOpenChange)="openChange('eventOpen')">
+                <span title><i class="anticon anticon-user"></i><span>校友管理</span></span>
+                <ul class="secondFloor">
+                <li nz-menu-item myClass="menuSign" routerLink='/index/waitPending' nzSelected>待审核</li>
+                </ul>
+            </li>
+        </ul>
+    </nz-sider>
+    <nz-layout style="padding:0 24px 24px">
+        <!-- <nz-content style="background:#fff; padding: 24px; min-height: 280px;">Content</nz-content> -->
+        <router-outlet></router-outlet>
+    </nz-layout>
+</nz-layout>
