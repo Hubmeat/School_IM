@@ -16,37 +16,143 @@ import * as $ from 'jquery';
 })
 
 export class MenuComponent implements OnInit, OnChanges  {
-    service2: any
+    // 校友管理
+    alumniManagementList: any = [
+      {
+        name: '待审核',
+        url: '/index/waitPending',
+        active: false
+      },
+      {
+        name: '审核记录',
+        url: '/index/',
+        active: false
+      },
+      {
+        name: '校友记录',
+        url: '/index/',
+        active: false
+      },
+      {
+        name: '群组管理',
+        url: '/index/',
+        active: false
+      },
+    ];
+    // 联系管理员
+    contactAdmin: any = [
+      {
+        name: '消息管理',
+        url: '/index/',
+        active: false
+      }
+    ];
+    // 公告管理
+    noticeAdministration: any = [
+      {
+        name: '公告管理',
+        url: '/index/',
+        active: false
+      }
+    ];
+    // 直播管理
+    liveAdministration: any = [
+      {
+        name: '直播预告',
+        url: '/index/',
+        active: false
+      },
+      {
+        name: '直播列表',
+        url: '/index/',
+        active: false
+      }
+    ];
+    // 资料设置
+    dataSetting: any = [
+      {
+        name: '院系设置',
+        url: '/index/',
+        active: false
+      },
+      {
+        name: '行业设置',
+        url: '/index/',
+        active: false
+      }
+    ];
+    // 系统设置
+    systemSetup: any = [
+      {
+        name: '帐号管理',
+        url: '/index/',
+        active: false
+      }
+    ];
+    service2: any;
     constructor(private service: publicService) {
         this.service2 = service
     }
 
     toggleCollapsed (name) {
-        console.log(name) 
+        console.log(name)
     }
 
     openChange (name) {
         console.log(name)
         window.localStorage.setItem('openSign', name)
 
-        var sign = window.localStorage.getItem('openSign')
-        if (sign === 'eventOpen') {
-            this.service.eventOpen = true
-            this.service.wayOpen = false
-            this.service.reportOpen = false
+        const sign = window.localStorage.getItem('openSign')
+        if (sign === 'alumniManagementListOpen') {
+          this.service.alumniManagementListOpen = true;
+          this.service.contactAdminOpen = false;
+          this.service.noticeAdministrationOpen = false;
+          this.service.liveAdministrationOpen = false;
+          this.service.dataSettingOpen = false;
+          this.service.systemSetupOpen = false;
         }
 
-        if (sign === 'wayOpen') {
-            this.service.eventOpen = false
-            this.service.wayOpen = true
-            this.service.reportOpen = false
+        if (sign === 'contactAdminOpen') {
+          this.service.alumniManagementListOpen = false;
+          this.service.contactAdminOpen = true;
+          this.service.noticeAdministrationOpen = false;
+          this.service.liveAdministrationOpen = false;
+          this.service.dataSettingOpen = false;
+          this.service.systemSetupOpen = false;
         }
 
-        if (sign === 'reportOpen') {
-            this.service.eventOpen = false
-            this.service.wayOpen = false
-            this.service.reportOpen = true
-        }      
+        if (sign === 'noticeAdministrationOpen') {
+          this.service.alumniManagementListOpen = false;
+          this.service.contactAdminOpen = false;
+          this.service.noticeAdministrationOpen = true;
+          this.service.liveAdministrationOpen = false;
+          this.service.dataSettingOpen = false;
+          this.service.systemSetupOpen = false;
+        }
+        if (sign === 'liveAdministrationOpen') {
+          this.service.alumniManagementListOpen = false;
+          this.service.contactAdminOpen = false;
+          this.service.noticeAdministrationOpen = false;
+          this.service.liveAdministrationOpen = true;
+          this.service.dataSettingOpen = false;
+          this.service.systemSetupOpen = false;
+        }
+        if (sign === 'dataSettingOpen') {
+          this.service.alumniManagementListOpen = false;
+          this.service.contactAdminOpen = false;
+          this.service.noticeAdministrationOpen = false;
+          this.service.liveAdministrationOpen = false;
+          this.service.dataSettingOpen = true;
+          this.service.systemSetupOpen = false;
+        }
+        if (sign === 'systemSetupOpen') {
+          this.service.alumniManagementListOpen = false;
+          this.service.contactAdminOpen = false;
+          this.service.noticeAdministrationOpen = false;
+          this.service.liveAdministrationOpen = false;
+          this.service.dataSettingOpen = false;
+          this.service.systemSetupOpen = true;
+        }
     }
 
     ngOnInit () {

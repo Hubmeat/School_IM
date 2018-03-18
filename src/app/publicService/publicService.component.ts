@@ -7,10 +7,13 @@ import 'rxjs/add/operator/retry';
 @Injectable()
 
 export class publicService {
-    status:boolean = false;
-    eventOpen: boolean = true;
-    wayOpen: boolean;
-    reportOpen: boolean;
+    status: boolean = false;
+    alumniManagementListOpen: boolean = true;
+    contactAdminOpen: boolean;
+    noticeAdministrationOpen: boolean;
+    liveAdministrationOpen: boolean;
+    dataSettingOpen: boolean;
+    systemSetupOpen: boolean;
 
 
     constructor (

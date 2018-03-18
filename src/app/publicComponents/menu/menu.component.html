@@ -2,11 +2,83 @@
 <nz-layout style="height: 100%;" id="menuClass">
     <nz-sider [nzWidth]="200" nzClickActive='true' class="slideClass" [class.expend-open]="service2.status"  [class.expend-close]="!service2.status" style="background:#fff">
         <ul id="oneFloor" nz-menu [nzMode]="'inline'" nzTheme='dark' [nzInlineCollapsed]="service2.status" style="height:100%;">
-            <li nz-submenu  [(nzOpen)]='service2.eventOpen' (nzOpenChange)="openChange('eventOpen')">
+            <li nz-submenu  [(nzOpen)]='service2.alumniManagementListOpen' (nzOpenChange)="openChange('alumniManagementListOpen')">
                 <span title><i class="anticon anticon-user"></i><span>校友管理</span></span>
                 <ul class="secondFloor">
-                <li nz-menu-item myClass="menuSign" routerLink='/index/waitPending' nzSelected>待审核</li>
+                  <li nz-menu-item
+                      myClass="menuSign"
+                      *ngFor="let item of alumniManagementList"
+                      [routerLink]=item.url
+                      [nzSelected]=item.active
+                  >
+                    {{item.name}}
+                  </li>
                 </ul>
+            </li>
+            <li nz-submenu  [(nzOpen)]='service2.contactAdminOpen' (nzOpenChange)="openChange('contactAdminOpen')">
+              <span title><i class="anticon anticon-user"></i><span>联系管理员</span></span>
+              <ul class="secondFloor">
+                <li nz-menu-item
+                    myClass="menuSign"
+                    *ngFor="let item of contactAdmin"
+                    [routerLink]=item.url
+                    [nzSelected]=item.active
+                >
+                  {{item.name}}
+                </li>
+              </ul>
+            </li>
+            <li nz-submenu  [(nzOpen)]='service2.noticeAdministrationOpen' (nzOpenChange)="openChange('noticeAdministrationOpen')">
+              <span title><i class="anticon anticon-user"></i><span>公告管理</span></span>
+              <ul class="secondFloor">
+                <li nz-menu-item
+                    myClass="menuSign"
+                    *ngFor="let item of noticeAdministration"
+                    [routerLink]=item.url
+                    [nzSelected]=item.active
+                >
+                  {{item.name}}
+                </li>
+              </ul>
+            </li>
+            <li nz-submenu  [(nzOpen)]='service2.liveAdministrationOpen' (nzOpenChange)="openChange('liveAdministrationOpen')">
+              <span title><i class="anticon anticon-user"></i><span>直播管理</span></span>
+              <ul class="secondFloor">
+                <li nz-menu-item
+                    myClass="menuSign"
+                    *ngFor="let item of liveAdministration"
+                    [routerLink]=item.url
+                    [nzSelected]=item.active
+                >
+                  {{item.name}}
+                </li>
+              </ul>
+            </li>
+            <li nz-submenu  [(nzOpen)]='service2.dataSettingOpen' (nzOpenChange)="openChange('dataSettingOpen')">
+              <span title><i class="anticon anticon-user"></i><span>资料设置</span></span>
+              <ul class="secondFloor">
+                <li nz-menu-item
+                    myClass="menuSign"
+                    *ngFor="let item of dataSetting"
+                    [routerLink]=item.url
+                    [nzSelected]=item.active
+                >
+                  {{item.name}}
+                </li>
+              </ul>
+            </li>
+            <li nz-submenu  [(nzOpen)]='service2.systemSetupOpen' (nzOpenChange)="openChange('systemSetupOpen')">
+              <span title><i class="anticon anticon-user"></i><span>系统设置</span></span>
+              <ul class="secondFloor">
+                <li nz-menu-item
+                    myClass="menuSign"
+                    *ngFor="let item of systemSetup"
+                    [routerLink]=item.url
+                    [nzSelected]=item.active
+                >
+                  {{item.name}}
+                </li>
+              </ul>
             </li>
         </ul>
     </nz-sider>
