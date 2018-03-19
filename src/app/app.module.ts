@@ -23,6 +23,7 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './publicComponents/menu/menu.component';
 import { HeadComponent } from './publicComponents/head/head.component';
 import { LoginComponent } from './login/login.component';
+import {ForgetPasswordComponent} from './login/forgetPassword/forgetPassword.component';
 import { NotFoundComponent } from './publicComponents/404NotFound/notFound-component';
 
 // 导入事件中枢
@@ -46,6 +47,7 @@ import { appRoutes } from './baseRoutes/baseRoutes';
 import { publicService } from 'app/publicService/publicService.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,6 +55,7 @@ import { publicService } from 'app/publicService/publicService.component';
     MenuComponent,
     HeadComponent,
     LoginComponent,
+    ForgetPasswordComponent,
     NotFoundComponent
   ],
   imports: [

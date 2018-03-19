@@ -10,6 +10,7 @@ import { LoginComponent } from '../login/login.component';
 import { NotFoundComponent } from '../publicComponents/404NotFound/notFound-component';
 import {DataSettingModule} from '../dataSetting/dataSetting.module';
 import {LiveAdministrationModule} from '../liveAdministration/liveAdministration.module';
+import {ForgetPasswordComponent} from '../login/forgetPassword/forgetPassword.component';
 
 
 export const appRoutes = [
@@ -42,7 +43,13 @@ export const appRoutes = [
     },
     {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
+        children: [
+          {
+            path: '/forgetPassword',
+            component: ForgetPasswordComponent
+          }
+        ]
     },
     {
         path: '',
