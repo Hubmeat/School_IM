@@ -8,6 +8,8 @@ import { LoginComponent } from '../login/login.component';
 
 // 404页面
 import { NotFoundComponent } from '../publicComponents/404NotFound/notFound-component';
+import {DataSettingModule} from '../dataSetting/dataSetting.module';
+import {LiveAdministrationModule} from '../liveAdministration/liveAdministration.module';
 
 
 export const appRoutes = [
@@ -23,6 +25,18 @@ export const appRoutes = [
                     // path: 'eventAnalysis',
                     // component: EventAanlysisComponent
                 // }
+            },
+            {
+              path: '',
+              loadChildren: './liveAdministration/liveAdministration.module#LiveAdministrationModule'
+            },
+            {
+              path: '',
+              loadChildren: './dataSetting/dataSetting.module#DataSettingModule'
+            },
+            {
+              path: '',
+              loadChildren: './systemSetup/systemSetup.module#SystemSetupModule'
             }
         ]
     },

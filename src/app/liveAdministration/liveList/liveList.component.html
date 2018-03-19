@@ -1,0 +1,73 @@
+<p>
+  直播列表
+</p>
+<p>
+  zhibaoyugao
+</p>
+<div>
+  <span>直播标题</span><input type="text">
+  <span>直播人</span><input type="text">
+  <span>视频状态</span><select name="" id="">
+  <option value="">213</option>
+</select>
+  <button>搜索</button>
+  <button>添加直播/回放</button>
+
+  <div>
+    <nz-table #nzTable [nzDataSource]="_dataSet" [nzPageSize]="10" nzShowSizeChanger>
+      <thead nz-thead>
+      <tr>
+        <th nz-th><span>发布时间</span></th>
+        <th nz-th><span>直播标题</span></th>
+        <th nz-th><span>缩略图</span></th>
+        <th nz-th><span>视频地址</span></th>
+        <th nz-th><span>直播人</span></th>
+        <th nz-th><span>视频状态</span></th>
+        <th nz-th><span>公告状态</span></th>
+        <th nz-th><span>操作</span></th>
+      </tr>
+      </thead>
+      <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+        <td nz-td>
+          <a>{{data.name}}</a>
+        </td>
+        <td nz-td>{{data.age}}</td>
+        <td nz-td (click)="showModal()">{{data.address}}</td>
+        <td nz-td>{{data.age}}</td>
+        <td nz-td>{{data.age}}</td>
+        <td nz-td>{{data.age}}</td>
+        <td nz-td>{{data.age}}</td>
+        <td nz-td>
+          <button nz-button [nzType]="'primary'">编辑</button>
+          <button nz-button>隐藏</button>
+          <button nz-button>删除</button>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<nz-modal [nzVisible]="isVisible"
+          [nzTitle]="'查看详情'"
+          [nzCancelText]="'关闭'"
+          [nzContent]="modalContent"
+          (nzOnCancel)="handleCancel($event)"
+          (nzOnOk)="handleOk($event)"
+>
+  <ng-template #modalContent>
+    <div><img src="" alt=""></div>
+    <div>
+      <p>题目</p>
+      <p>直播时间</p>
+      <p><img src="" alt=""><span>小张</span></p>
+    </div>
+    <hr>
+    <p>直播简介</p>
+    <div>
+      <p>132123123123123123123123123132132</p>
+    </div>
+    <div>预告状态：显示</div>
+  </ng-template>
+</nz-modal>

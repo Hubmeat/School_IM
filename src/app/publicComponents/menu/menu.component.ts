@@ -59,12 +59,12 @@ export class MenuComponent implements OnInit, OnChanges  {
     liveAdministration: any = [
       {
         name: '直播预告',
-        url: '/index/',
+        url: '/index/livePreview',
         active: false
       },
       {
         name: '直播列表',
-        url: '/index/',
+        url: '/index/liveList',
         active: false
       }
     ];
@@ -72,12 +72,12 @@ export class MenuComponent implements OnInit, OnChanges  {
     dataSetting: any = [
       {
         name: '院系设置',
-        url: '/index/',
+        url: '/index/departmentsSetup',
         active: false
       },
       {
         name: '行业设置',
-        url: '/index/',
+        url: '/index/industrySetup',
         active: false
       }
     ];
@@ -85,7 +85,7 @@ export class MenuComponent implements OnInit, OnChanges  {
     systemSetup: any = [
       {
         name: '帐号管理',
-        url: '/index/',
+        url: '/index/accountManagement',
         active: false
       }
     ];
