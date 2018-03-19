@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 
 export class DepartmentsSetupComponent implements OnInit {
   _dataSet = [];
+  schoolName = ''
   isVisible = false
   isVisible1= false
   ngOnInit() {
