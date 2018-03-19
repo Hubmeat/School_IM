@@ -61,9 +61,9 @@
         <td nz-td>{{data.address}}</td>
         <td nz-td>{{data.age}}</td>
         <td nz-td>
-          <button  nz-button [nzType]="'primary'" (click)="showModal()">重置密码</button>
-          <button>编辑资料</button>
-          <button>停用/启用</button>
+          <button nz-button [nzType]="'primary'" (click)="showModal()">重置密码</button>
+          <button nz-button>编辑资料</button>
+          <button nz-button>停用/启用</button>
         </td>
       </tr>
       </tbody>
@@ -82,7 +82,17 @@
           (nzOnOk)="handleOk($event)"
 >
   <ng-template #modalContent>
-    <p>姓名:</p>
+    <p class="margin-15">姓名:</p>
+    <div class="margin-15">
+      <nz-input [(ngModel)]="newUserName" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)">
+        <ng-template #addOnBefore>密码</ng-template>
+      </nz-input>
+    </div>
+    <div class="margin-15">
+      <nz-input [(ngModel)]="newUserName" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)">
+        <ng-template #addOnBefore>确认密码</ng-template>
+      </nz-input>
+    </div>
     <div>
       <label>密码</label>
       <nz-input

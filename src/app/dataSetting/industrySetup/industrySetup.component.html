@@ -1,0 +1,87 @@
+<p>
+  行业设置
+</p>
+
+
+<div>
+  <span>专业名称</span>
+  <input type="text">
+  <button nz-button>搜索</button>
+  <button nz-button (click)="showModal1()">批量导入</button>
+  <button nz-button (click)="showModal()">手动添加</button>
+
+  <div>
+    <nz-table #nzTable [nzDataSource]="_dataSet" [nzPageSize]="10" nzShowSizeChanger>
+      <thead nz-thead>
+      <tr>
+        <th nz-th><span>专业</span></th>
+        <th nz-th><span>添加时间</span></th>
+        <th nz-th><span>操作</span></th>
+      </tr>
+      </thead>
+      <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+        <td nz-td>
+          <a>{{data.name}}</a>
+        </td>
+        <td nz-td>{{data.age}}</td>
+        <td nz-td>
+          <button nz-button (click)="showModal()">编辑</button>
+          <button nz-button>
+            <nz-popconfirm [nzTitle]="'确定删除专业'"
+                           [nzOkText]="'确定'"
+                           [nzCancelText]="'取消'"
+                           (nzOnConfirm)="confirm()"
+                           (nzOnCancel)="cancel()"
+            >
+              <a nz-popconfirm>删除</a>
+            </nz-popconfirm></button>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<nz-modal [nzVisible]="isVisible"
+          [nzTitle]="'手动添加'"
+          [nzOkText]="'提交'"
+          [nzCancelText]="'取消'"
+          [nzContent]="modalContent"
+          (nzOnCancel)="handleCancel($event)"
+          (nzOnOk)="handleOk($event)"
+>
+  <ng-template #modalContent>
+    <div>
+      <nz-input [(ngModel)]="newUserName" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)">
+        <ng-template #addOnBefore>专业名称</ng-template>
+      </nz-input>
+    </div>
+  </ng-template>
+</nz-modal>
+
+<nz-modal [nzVisible]="isVisible1"
+          [nzTitle]="'批量导入'"
+          [nzOkText]="'提交'"
+          [nzCancelText]="'取消'"
+          [nzContent]="modalContent1"
+          (nzOnCancel)="handleCancel($event)"
+          (nzOnOk)="handleOk($event)"
+>
+  <ng-template #modalContent1>
+    <div>
+      <span>下载模板</span>
+      <button>下载模板</button>
+    </div>
+    <div>
+      <span>选择上传文件</span>
+      <nz-upload
+        nzAction="https://jsonplaceholder.typicode.com/posts/"
+        [nzFileList]="fileList">
+        <button nz-button>
+          <i class="anticon anticon-upload"></i><span>Upload</span>
+        </button>
+      </nz-upload>
+    </div>
+  </ng-template>
+</nz-modal>
