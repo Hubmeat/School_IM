@@ -1,0 +1,148 @@
+<div nz-row >
+  <div nz-col [nzSpan]="24">
+    <nz-breadcrumb [nzSeparator]="'>'">
+      <nz-breadcrumb-item>
+        系统设置
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        <a href="">账号管理</a>
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
+  </div>
+</div>
+
+<div>
+  <div>
+    <label>姓名</label>
+    <nz-input
+      [(ngModel)]="newUserName"
+      [nzPlaceHolder]="'Basic usage'"
+      (ngModelChange)="_console($event)">
+    </nz-input>
+  </div>
+  <div>
+    <label>手机</label>
+    <nz-input
+      [(ngModel)]="newUserName"
+      [nzPlaceHolder]="'Basic usage'"
+      (ngModelChange)="_console($event)">
+    </nz-input>
+  </div>
+  <div>
+    <label for="">账号状态</label>
+    <nz-select style="width: 120px;" [(ngModel)]="selectedOption" [nzPlaceHolder]="'choose option'" nzAllowClear>
+      <nz-option
+        *ngFor="let option of options"
+        [nzLabel]="option.label"
+        [nzValue]="option"
+        [nzDisabled]="option.disabled">
+      </nz-option>
+    </nz-select>
+  </div>
+  <button nz-button>查询</button>
+  <button nz-button>创建账号</button>
+  <div>
+    <nz-table #nzTable [nzDataSource]="_dataSet" [nzPageSize]="10" nzShowSizeChanger>
+      <thead nz-thead>
+      <tr>
+        <th nz-th><span>姓名</span></th>
+        <th nz-th><span>添加时间</span></th>
+        <th nz-th><span>手机</span></th>
+        <th nz-th><span>账号状态</span></th>
+        <th nz-th><span>操作</span></th>
+      </tr>
+      </thead>
+      <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+        <td nz-td>
+          <a>{{data.name}}</a>
+        </td>
+        <td nz-td>{{data.age}}</td>
+        <td nz-td>{{data.address}}</td>
+        <td nz-td>{{data.age}}</td>
+        <td nz-td>
+          <button  nz-button [nzType]="'primary'" (click)="showModal()">重置密码</button>
+          <button>编辑资料</button>
+          <button>停用/启用</button>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+
+
+<nz-modal [nzVisible]="isVisible"
+          [nzTitle]="'重置密码'"
+          [nzOkText]="'确定'"
+          [nzCancelText]="'取消'"
+          [nzContent]="modalContent"
+          (nzOnCancel)="handleCancel($event)"
+          (nzOnOk)="handleOk($event)"
+>
+  <ng-template #modalContent>
+    <p>姓名:</p>
+    <div>
+      <label>密码</label>
+      <nz-input
+        [(ngModel)]="newUserName"
+        [nzPlaceHolder]="'Basic usage'"
+        (ngModelChange)="_console($event)">
+      </nz-input>
+      <label>确认密码</label>
+      <nz-input
+        [(ngModel)]="newUserName"
+        [nzPlaceHolder]="'Basic usage'"
+        (ngModelChange)="_console($event)">
+      </nz-input>
+    </div>
+  </ng-template>
+</nz-modal>
+<!--<div>
+  <div nz-row>
+    <button nz-button>返回</button>
+  </div>
+  <div nz-row>
+    <h3>新建账号</h3>
+    <div>
+        <label>姓名</label>
+        <nz-input
+          [(ngModel)]="newUserName"
+          [nzPlaceHolder]="'Basic usage'"
+          (ngModelChange)="_console($event)">
+        </nz-input>
+        <label>手机号</label>
+        <nz-input
+          [(ngModel)]="userPhone"
+          [nzPlaceHolder]="'Basic usage'"
+          (ngModelChange)="_console($event)">
+        </nz-input>
+        <label>初始密码</label>
+        <nz-input
+          [(ngModel)]="firstPassword"
+          [nzPlaceHolder]="'Basic usage'"
+          (ngModelChange)="_console($event)">
+        </nz-input>
+        <label>确认密码</label>
+        <nz-input
+          [(ngModel)]="lastPassword"
+          [nzPlaceHolder]="'Basic usage'"
+          (ngModelChange)="_console($event)">
+        </nz-input>
+        <div>
+          <span>账号状态</span>
+          <nz-radio-group [(ngModel)]="radioState">
+            <label nz-radio [nzValue]="'start'">
+              <span>正常</span>
+            </label>
+            <label nz-radio [nzValue]="'stop'">
+              <span>停用</span>
+            </label>
+          </nz-radio-group>
+        </div>
+        <button nz-button>取消</button>
+        <button nz-button>提交</button>
+    </div>
+  </div>
+</div>-->

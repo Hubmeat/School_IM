@@ -16,7 +16,7 @@ import * as $ from 'jquery';
 
 /**
  * here is our components
- */ 
+ */
 import { AppComponent } from './app.component';
 
 // 公共组件模块
@@ -27,6 +27,7 @@ import { NotFoundComponent } from './publicComponents/404NotFound/notFound-compo
 
 // 导入事件中枢
 import { AlumniManageModule } from './alumniManage/alumniManage.module';
+import { SystemSetupModule } from './systemSetup/systemSetup.module';
 /**
  * [============================   ******   ==================================]
  */
@@ -40,9 +41,10 @@ import { ApiModule } from './api/api';
 // 布局文件
 import { NzDemoLayoutTopSide2Component } from './layout/layout.component';
 // 导入自定义路由
-import { appRoutes } from './baseRoutes/baseRoutes'; 
+import { appRoutes } from './baseRoutes/baseRoutes';
 // 导入服务模块
 import { publicService } from 'app/publicService/publicService.component';
+
 
 @NgModule({
   declarations: [
@@ -68,16 +70,16 @@ import { publicService } from 'app/publicService/publicService.component';
     RouterModule
   ],
   bootstrap: [AppComponent],
-  providers: [publicService, 
+  providers: [publicService,
               {
-                provide: LocationStrategy, 
+                provide: LocationStrategy,
                 useClass: HashLocationStrategy
               },
               {
                 provide: HTTP_INTERCEPTORS,
                 useClass: NoopInterceptor,
                 multi: true,
-              }, 
+              },
               ApiModule]
 })
 export class AppModule { }

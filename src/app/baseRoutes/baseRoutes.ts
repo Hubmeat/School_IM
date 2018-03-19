@@ -23,6 +23,10 @@ export const appRoutes = [
                     // path: 'eventAnalysis',
                     // component: EventAanlysisComponent
                 // }
+            },
+            {
+              path: '',
+              loadChildren: './systemSetup/systemSetup.module#SystemSetupModule'
             }
         ]
     },

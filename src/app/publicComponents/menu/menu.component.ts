@@ -85,7 +85,7 @@ export class MenuComponent implements OnInit, OnChanges  {
     systemSetup: any = [
       {
         name: '帐号管理',
-        url: '/index/',
+        url: '/index/accountManagement',
         active: false
       }
     ];
