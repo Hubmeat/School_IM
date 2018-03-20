@@ -43,13 +43,7 @@ export const appRoutes = [
     },
     {
         path: 'login',
-        component: LoginComponent,
-        children: [
-          {
-            path: '/forgetPassword',
-            component: ForgetPasswordComponent
-          }
-        ]
+        component: LoginComponent
     },
     {
         path: '',
