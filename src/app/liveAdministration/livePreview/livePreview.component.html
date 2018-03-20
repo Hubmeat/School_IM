@@ -1,13 +1,29 @@
-<p>
-  zhibaoyugao
-</p>
-<div>
-  <span>直播标题</span><input type="text">
-  <span>直播人</span><input type="text">
-  <button>搜索</button>
-  <button>添加直播预告</button>
+<div id="livePreview">
+  <div nz-row class="livePreview_head">
+    <div nz-col>
+      <span>直播标题</span>
+      <nz-input
+        style="width: 150px;"
+        [(ngModel)]="newUserName"
+        [nzPlaceHolder]="'Basic usage'"
+        (ngModelChange)="_console($event)">
+      </nz-input>
+    </div>
+    <div nz-col>
+      <span>直播人</span>
+      <nz-input
+        style="width: 150px;"
+        [(ngModel)]="newUserName"
+        [nzPlaceHolder]="'Basic usage'"
+        (ngModelChange)="_console($event)">
+      </nz-input>
+    </div>
+    <button nz-col nz-button>搜索</button>
+    <button nz-col nz-button routerLink="/index/addPreview">添加直播预告</button>
+  </div>
+</div>
 
-  <div>
+<div class="livePreview_table">
     <nz-table #nzTable [nzDataSource]="_dataSet" [nzPageSize]="10" nzShowSizeChanger>
       <thead nz-thead>
       <tr>
@@ -41,7 +57,6 @@
       </tbody>
     </nz-table>
   </div>
-</div>
 
 <nz-modal [nzVisible]="isVisible"
           [nzTitle]="'查看详情'"

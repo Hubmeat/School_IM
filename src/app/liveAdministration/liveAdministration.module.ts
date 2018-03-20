@@ -11,22 +11,35 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import {LivePreviewComponent} from './livePreview/livePreview.component';
 import {LiveListComponent} from './liveList/liveList.component';
 import {LiveAdministrationService} from './liveAdministrationService/liveAdministration.service';
+import {AddLiveComponent} from './liveList/addLive/addLive.component';
+import {AddPreviewComponent} from './livePreview/addPreview/addPreview.component';
 
 // 导入事件模块的服务
 
 
 const EventComponents = [
   LivePreviewComponent,
-  LiveListComponent
+  LiveListComponent,
+  AddLiveComponent,
+  AddPreviewComponent
 ];
 
 const EVENTROUTES: Routes = [
   {
     path: 'livePreview',
     component: LivePreviewComponent
-  },{
+  },
+  {
     path: 'liveList',
-    component: LiveListComponent
+    component: LiveListComponent,
+  },
+  {
+    path: 'addList',
+    component: AddLiveComponent
+  },
+  {
+    path: 'addPreview',
+    component: AddPreviewComponent
   }
 ]
 

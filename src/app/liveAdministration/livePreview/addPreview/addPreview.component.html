@@ -1,0 +1,76 @@
+<div id="addList">
+  <div nz-row class="addList_head">
+    <button nz-button nz-col [nzSpan]="3" style="margin-right: 20px;">返回</button>
+    <h2 nz-col [nzSpan]="20">添加直播/回放</h2>
+  </div>
+  <div nz-row class="addList_head">
+    <div>
+      <span class="text-padd-span">公告标题</span>
+      <nz-input
+        style="width: 75%;"
+        [(ngModel)]="newUserName"
+        [nzPlaceHolder]="'Basic usage'"
+        (ngModelChange)="_console($event)">
+      </nz-input>
+    </div>
+    <div>
+      <span class="text-padd-span">上传缩略图</span>
+      <nz-upload
+        style="width: 75%;"
+        class="avatar-uploader"
+        nzAction="https://jsonplaceholder.typicode.com/posts/"
+        nzName="avatar"
+        [nzShowUploadList]="false"
+        [nzBeforeUpload]="beforeUpload"
+        (nzChange)="handleChange($event)">
+        <i *ngIf="!avatarUrl" class="anticon anticon-plus avatar-uploader-trigger"></i>
+        <img *ngIf="avatarUrl" [src]="avatarUrl" class="avatar">
+      </nz-upload>
+    </div>
+    <div>
+      <span class="text-padd-span">视频地址</span>
+      <nz-input
+        style="width: 75%;"
+        [(ngModel)]="newUserName"
+        [nzPlaceHolder]="'Basic usage'"
+        (ngModelChange)="_console($event)">
+      </nz-input>
+    </div>
+    <div>
+      <span class="text-padd-span">视频类型</span>
+      <nz-radio-group [(ngModel)]="radioValue" style="width: 75%;">
+        <label nz-radio [nzValue]="'A'">
+          <span>直播</span>
+        </label>
+        <label nz-radio [nzValue]="'B'">
+          <span>回放</span>
+        </label>
+      </nz-radio-group>
+    </div>
+    <div>
+      <span class="text-padd-span">直播人</span>
+      <nz-input
+        style="width: 75%;"
+        [(ngModel)]="newUserName"
+        [nzPlaceHolder]="'Basic usage'"
+        (ngModelChange)="_console($event)">
+      </nz-input>
+    </div>
+    <div>
+      <span class="text-padd-span">视频状态</span>
+      <nz-radio-group [(ngModel)]="radioValue" style="width: 75%;">
+        <label nz-radio [nzValue]="'A'">
+          <span>显示</span>
+        </label>
+        <label nz-radio [nzValue]="'B'">
+          <span>隐藏</span>
+        </label>
+      </nz-radio-group>
+    </div>
+    <div nz-row class="foot-buts">
+      <button nz-col [nzSpan]="5" [nzPush]="5" nz-button>取消</button>
+      <button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'"  routerLink="/index/addList">提交</button>
+    </div>
+
+  </div>
+</div>

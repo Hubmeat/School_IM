@@ -58,14 +58,12 @@
           (nzOnOk)="handleOk($event)"
 >
   <ng-template #modalContent>
-    <div nz-row>
-      <span style="padding:0 10% 0 20%">学院名称</span>
-      <nz-input
-        style="width: 150px;"
-        [(ngModel)]="schoolName"
-        [nzPlaceHolder]="'Basic usage'"
-        (ngModelChange)="_console($event)">
-      </nz-input>
+    <div id="template">
+      <div>
+        <nz-input [(ngModel)]="schoolName" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)">
+          <ng-template #addOnBefore>学院名称</ng-template>
+        </nz-input>
+      </div>
     </div>
   </ng-template>
 </nz-modal>

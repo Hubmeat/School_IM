@@ -1,19 +1,44 @@
-<p>
-  直播列表
-</p>
-<p>
-  zhibaoyugao
-</p>
-<div>
-  <span>直播标题</span><input type="text">
-  <span>直播人</span><input type="text">
-  <span>视频状态</span><select name="" id="">
-  <option value="">213</option>
-</select>
-  <button>搜索</button>
-  <button>添加直播/回放</button>
+<div id="liveList">
+  <div nz-row class="accountManagement_head">
+    <div nz-col>
+      <span>直播标题</span>
+      <nz-input
+        style="width: 150px;"
+        [(ngModel)]="newUserName"
+        [nzPlaceHolder]="'Basic usage'"
+        (ngModelChange)="_console($event)">
+      </nz-input>
+    </div>
+    <div nz-col>
+      <span>直播人</span>
+      <nz-input
+        style="width: 150px;"
+        [(ngModel)]="newUserName"
+        [nzPlaceHolder]="'Basic usage'"
+        (ngModelChange)="_console($event)">
+      </nz-input>
+    </div>
+    <div nz-col>
+      <span>视频状态</span>
+      <nz-select style="width: 150px;"
+                 [(ngModel)]="selectedOption"
+                 [nzPlaceHolder]="'choose option'"
+                 nzAllowClear
+      >
+        <nz-option
+          *ngFor="let option of options"
+          [nzLabel]="option.label"
+          [nzValue]="option"
+          [nzDisabled]="option.disabled">
+        </nz-option>
+      </nz-select>
+    </div>
+    <button nz-col nz-button>搜索</button>
+    <button nz-col nz-button  routerLink="/index/addList">添加直播/回放</button>
+  </div>
+</div>
 
-  <div>
+<div class="accountM_table">
     <nz-table #nzTable [nzDataSource]="_dataSet" [nzPageSize]="10" nzShowSizeChanger>
       <thead nz-thead>
       <tr>
@@ -47,7 +72,6 @@
       </tbody>
     </nz-table>
   </div>
-</div>
 
 <nz-modal [nzVisible]="isVisible"
           [nzTitle]="'查看详情'"
