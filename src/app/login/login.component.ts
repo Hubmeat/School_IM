@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
     isPasswordTrue = true;
     errFlag: Boolean = true;
     isLogin: Boolean = true
+    loginErrorText: String = '';
     userInfo = {
         username: '',
         password: ''
@@ -34,9 +35,6 @@ export class LoginComponent implements OnInit {
 
     login () {
         this.checkLogin();
-        this._isSpinning = false;
-        this.router.navigate(['index/waitPending'])
-        this._message.success(`登录成功!`);
     }
 
     focusUser() {
@@ -46,9 +44,9 @@ export class LoginComponent implements OnInit {
     focusPass(){
         this.isPasswordTrue = true;
     }
-    loginCheck() {
+    /*loginCheck() {
       this.checkLogin()
-    }
+    }*/
 
     checkLogin() {
       const userRep = /^1[0-9]{10}$/;
@@ -56,6 +54,7 @@ export class LoginComponent implements OnInit {
       const user = this.userInfo.username;
       const password = this.userInfo.password;
       let flag = false;
+      console.log(213);
       if (user && password) {
         if (userRep.test(user)) {
           this.isUserTrue = true;
@@ -76,6 +75,9 @@ export class LoginComponent implements OnInit {
 
       if (!flag) {
         this.isLogin = false
+        this._isSpinning = false;
+        this.router.navigate(['index/waitPending'])
+        this._message.success(`登录成功!`);
       }
     }
 }

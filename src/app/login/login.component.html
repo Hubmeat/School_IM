@@ -6,19 +6,34 @@
                         <h3>校友</h3>
                         <div class="input_outer">
                             <span class="u_user"></span>
-                            <input name="logname" class="text" style="color: #FFFFFF !important" type="text" [(ngModel)]="userInfo.username" (change)="loginCheck(userInfo.username)" (focus)="focusUser()" placeholder="请输入账户">
-                            <div *ngIf="isUserTrue==false" class="ischeck">请输入账户名!</div>
+                            <input name="logname"
+                                   maxlength="11"
+                                   class="text" style="color: #FFFFFF !important"
+                                   type="text"
+                                   [(ngModel)]="userInfo.username"
+                                   (focus)="focusUser()"
+                                   placeholder="请输入账户"
+                            >
+                            <div *ngIf="isUserTrue == false" class="ischeck">请输入账户名!</div>
                         </div>
                         <div class="input_outer">
                             <span class="us_uer"></span>
-                            <input name="logpass" class="text" style="color: #FFFFFF !important; position:absolute; z-index:100;" [(ngModel)]="userInfo.password" (change)="loginCheck(userInfo.password)" (focus)="focusPass()" type="password" placeholder="请输入密码">
-                            <div *ngIf="isPasswordTrue==false" class="ischeck">请输入密码</div>
+                            <input name="logpass"
+                                   class="text"
+                                   maxlength="20"
+                                   style="color: #FFFFFF !important;position:absolute; z-index:100;"
+                                   [(ngModel)]="userInfo.password"
+                                   (focus)="focusPass()"
+                                   type="password"
+                                   placeholder="请输入密码"
+                            >
+                            <div *ngIf="isPasswordTrue == false" class="ischeck">请输入密码</div>
                         </div>
                         <div>
                             <div><a>忘记密码</a></div>
                         </div>
 
-                            <div class="mb2"><button class="act-but submit" style="color: #FFFFFF" (click)='login()' [disabled]="isLogin"> 登录</button></div>
+                            <div class="mb2"><button class="act-but submit" style="color: #FFFFFF" (click)='login()'> 登录</button></div>
                     </div>
                 </div>
                 <nz-spin class="spin" [nzTip]="'Please wait...'"[nzSize]="'large'" *ngIf="_isSpinning"></nz-spin>
