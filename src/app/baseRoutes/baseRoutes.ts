@@ -11,6 +11,7 @@ import { NotFoundComponent } from '../publicComponents/404NotFound/notFound-comp
 import {DataSettingModule} from '../dataSetting/dataSetting.module';
 import {LiveAdministrationModule} from '../liveAdministration/liveAdministration.module';
 import {ForgetPasswordComponent} from '../login/forgetPassword/forgetPassword.component';
+import {NoticeAdministrationModule} from '../noticeAdministration/noticeAdministration.module';
 
 
 export const appRoutes = [
@@ -38,6 +39,10 @@ export const appRoutes = [
             {
               path: '',
               loadChildren: './systemSetup/systemSetup.module#SystemSetupModule'
+            },
+            {
+              path: '',
+              loadChildren: './noticeAdministration/noticeAdministration.module#NoticeAdministrationModule'
             }
         ]
     },

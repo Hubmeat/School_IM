@@ -51,7 +51,7 @@ export class MenuComponent implements OnInit, OnChanges  {
     noticeAdministration: any = [
       {
         name: '公告管理',
-        url: '/index/',
+        url: '/index/noticeAdmin',
         active: false
       }
     ];

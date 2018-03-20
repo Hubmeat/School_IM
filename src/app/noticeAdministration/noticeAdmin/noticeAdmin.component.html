@@ -1,0 +1,88 @@
+<div id="noticeAdmin">
+  <div nz-row class="noticeAdmin_head">
+    <div nz-col [nzSpan]="6">
+      <span>公告标题</span>
+      <nz-input
+        style="width: 75%;"
+        [(ngModel)]="newUserName"
+        [nzPlaceHolder]="'Basic usage'"
+        (ngModelChange)="_console($event)">
+      </nz-input>
+    </div>
+    <div nz-col [nzSpan]="6">
+      <span>公告状态</span>
+      <nz-select style="width: 75%;"
+                 [(ngModel)]="selectedOption"
+                 nzAllowClear
+      >
+        <nz-option
+          *ngFor="let option of options"
+          [nzLabel]="option.label"
+          [nzValue]="option"
+          [nzDisabled]="option.disabled">
+        </nz-option>
+      </nz-select>
+    </div>
+    <button nz-col [nzSpan]="2" nz-button>搜索</button>
+    <button nz-col [nzSpan]="2" nz-button>添加公告</button>
+  </div>
+</div>
+
+<div class="accountM_table">
+  <nz-table #nzTable [nzDataSource]="_dataSet" [nzPageSize]="10" nzShowSizeChanger>
+    <thead nz-thead>
+    <tr>
+      <th nz-th><span>发布时间</span></th>
+      <th nz-th><span>发布人姓名</span></th>
+      <th nz-th><span>公告标题</span></th>
+      <th nz-th><span>缩略图</span></th>
+      <th nz-th><span>公告链接</span></th>
+      <th nz-th><span>互动</span></th>
+      <th nz-th><span>公告状态</span></th>
+      <th nz-th><span>操作</span></th>
+    </tr>
+    </thead>
+    <tbody nz-tbody>
+    <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+      <td nz-td>
+        <a>{{data.name}}</a>
+      </td>
+      <td nz-td>{{data.age}}</td>
+      <td nz-td (click)="showModal()">{{data.address}}</td>
+      <td nz-td>{{data.age}}</td>
+      <td nz-td>{{data.age}}</td>
+      <td nz-td>{{data.age}}</td>
+      <td nz-td>{{data.age}}</td>
+      <td nz-td>
+        <a class="a-click">编辑</a>
+        <a class="a-click">隐藏</a>
+        <a class="a-click">删除</a>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+<nz-modal [nzVisible]="isVisible"
+          [nzTitle]="'查看详情'"
+          [nzCancelText]="'关闭'"
+          [nzContent]="modalContent"
+          (nzOnCancel)="handleCancel($event)"
+          (nzOnOk)="handleOk($event)"
+>
+  <ng-template #modalContent>
+    <div><img src="" alt=""></div>
+    <div>
+      <p>题目</p>
+      <p>直播时间</p>
+      <p><img src="" alt=""><span>小张</span></p>
+    </div>
+    <hr>
+    <p>直播简介</p>
+    <div>
+      <p>132123123123123123123123123132132</p>
+    </div>
+    <div>预告状态：显示</div>
+  </ng-template>
+</nz-modal>
+
