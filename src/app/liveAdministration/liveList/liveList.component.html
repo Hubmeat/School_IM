@@ -81,17 +81,23 @@
           (nzOnOk)="handleOk($event)"
 >
   <ng-template #modalContent>
-    <div><img src="" alt=""></div>
-    <div>
-      <p>题目</p>
-      <p>直播时间</p>
-      <p><img src="" alt=""><span>小张</span></p>
+    <div nz-row class="details-template">
+      <div nz-col [nzSpan]="10" class="user-heard-img"><img src="" alt=""></div>
+      <div nz-col [nzSpan]="10">
+        <h2>直播题目title</h2>
+        <p>直播时间</p>
+        <div class="user-sm-img">
+
+        </div>
+        <div class="user-sm-name">name</div>
+      </div>
     </div>
+
     <hr>
-    <p>直播简介</p>
-    <div>
+    <div class="margin-top-15">直播简介</div>
+    <div class="margin-top-15">
       <p>132123123123123123123123123132132</p>
     </div>
-    <div>预告状态：显示</div>
+    <div class="margin-top-15">预告状态：<span>显示</span></div>
   </ng-template>
 </nz-modal>

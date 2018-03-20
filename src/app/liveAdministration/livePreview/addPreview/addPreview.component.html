@@ -1,6 +1,11 @@
 <div id="addList">
   <div nz-row class="addList_head">
-    <button nz-button nz-col [nzSpan]="3" style="margin-right: 20px;">返回</button>
+    <button nz-button
+            nz-col [nzSpan]="3"
+            style="margin-right: 20px;"
+            (click)="goback()">
+      返回
+    </button>
     <h2 nz-col [nzSpan]="20">添加直播/回放</h2>
   </div>
   <div nz-row class="addList_head">
@@ -68,8 +73,8 @@
       </nz-radio-group>
     </div>
     <div nz-row class="foot-buts">
-      <button nz-col [nzSpan]="5" [nzPush]="5" nz-button>取消</button>
-      <button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'"  routerLink="/index/addList">提交</button>
+      <button nz-col [nzSpan]="5" [nzPush]="5" nz-button (click)="goback()">取消</button>
+      <button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="previewSubmit()">提交</button>
     </div>
 
   </div>

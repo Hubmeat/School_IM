@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
 
 
 
@@ -14,6 +15,11 @@ export class LivePreviewComponent implements OnInit  {
   _dataSet = [];
   isVisible = false
   isVisible1= false
+  constructor(
+    private router: Router
+  ) {
+
+  }
   ngOnInit() {
     for (let i = 0; i < 46; i++) {
       this._dataSet.push({
@@ -23,6 +29,9 @@ export class LivePreviewComponent implements OnInit  {
         address: `London, Park Lane no. ${i}`,
       });
     }
+  }
+  getEdit(data) {
+    this.router.navigate(['/index/addPreview']);
   }
   showModal = () => {
     this.isVisible = true;
