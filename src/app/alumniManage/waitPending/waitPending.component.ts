@@ -53,6 +53,9 @@ export class WaitPendingComponent implements OnInit {
     pageSize = 10;
     totalPage = 0;
 
+    // 审核model
+    isVisible:boolean = false;
+
 
     ngOnInit():any {
         var arr = new Array()
@@ -72,6 +75,11 @@ export class WaitPendingComponent implements OnInit {
             arr.push(obj)
         }
         this.data = arr;
+    }
+
+    
+    showModal = () => {
+        this.isVisible = true;
     }
 
     currentPageChange () {
