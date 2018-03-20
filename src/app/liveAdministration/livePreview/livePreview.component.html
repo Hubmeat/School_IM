@@ -1,25 +1,25 @@
 <div id="livePreview">
   <div nz-row class="livePreview_head">
-    <div nz-col>
+    <div nz-col [nzSpan]="6">
       <span>直播标题</span>
       <nz-input
-        style="width: 150px;"
+        style="width: 75%;"
         [(ngModel)]="newUserName"
         [nzPlaceHolder]="'Basic usage'"
         (ngModelChange)="_console($event)">
       </nz-input>
     </div>
-    <div nz-col>
+    <div nz-col [nzSpan]="6">
       <span>直播人</span>
       <nz-input
-        style="width: 150px;"
+        style="width: 75%"
         [(ngModel)]="newUserName"
         [nzPlaceHolder]="'Basic usage'"
         (ngModelChange)="_console($event)">
       </nz-input>
     </div>
-    <button nz-col nz-button>搜索</button>
-    <button nz-col nz-button routerLink="/index/addPreview">添加直播预告</button>
+    <button nz-col [nzSpan]="2" nz-button>搜索</button>
+    <button nz-col [nzSpan]="2" nz-button routerLink="/index/addPreview">添加直播预告</button>
   </div>
 </div>
 
@@ -49,9 +49,9 @@
         <td nz-td>{{data.age}}</td>
         <td nz-td>{{data.age}}</td>
         <td nz-td>
-          <button nz-button [nzType]="'primary'">编辑</button>
-          <button nz-button>隐藏</button>
-          <button nz-button>删除</button>
+          <a class="a-click">编辑</a>
+          <a class="a-click">隐藏</a>
+          <a class="a-click">删除</a>
         </td>
       </tr>
       </tbody>

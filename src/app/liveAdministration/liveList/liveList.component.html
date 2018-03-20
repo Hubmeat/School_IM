@@ -1,26 +1,26 @@
 <div id="liveList">
   <div nz-row class="accountManagement_head">
-    <div nz-col>
+    <div nz-col [nzSpan]="6">
       <span>直播标题</span>
       <nz-input
-        style="width: 150px;"
+        style="width: 75%;"
         [(ngModel)]="newUserName"
         [nzPlaceHolder]="'Basic usage'"
         (ngModelChange)="_console($event)">
       </nz-input>
     </div>
-    <div nz-col>
+    <div nz-col [nzSpan]="6">
       <span>直播人</span>
       <nz-input
-        style="width: 150px;"
+        style="width: 75%;"
         [(ngModel)]="newUserName"
         [nzPlaceHolder]="'Basic usage'"
         (ngModelChange)="_console($event)">
       </nz-input>
     </div>
-    <div nz-col>
+    <div nz-col [nzSpan]="6">
       <span>视频状态</span>
-      <nz-select style="width: 150px;"
+      <nz-select style="width: 75%;"
                  [(ngModel)]="selectedOption"
                  [nzPlaceHolder]="'choose option'"
                  nzAllowClear
@@ -33,8 +33,8 @@
         </nz-option>
       </nz-select>
     </div>
-    <button nz-col nz-button>搜索</button>
-    <button nz-col nz-button  routerLink="/index/addList">添加直播/回放</button>
+    <button nz-col [nzSpan]="2" nz-button>搜索</button>
+    <button nz-col [nzSpan]="2" nz-button  routerLink="/index/addList">添加直播/回放</button>
   </div>
 </div>
 
@@ -64,9 +64,9 @@
         <td nz-td>{{data.age}}</td>
         <td nz-td>{{data.age}}</td>
         <td nz-td>
-          <button nz-button [nzType]="'primary'">编辑</button>
-          <button nz-button>隐藏</button>
-          <button nz-button>删除</button>
+          <a class="a-click">编辑</a>
+          <a class="a-click">隐藏</a>
+          <a class="a-click">删除</a>
         </td>
       </tr>
       </tbody>
