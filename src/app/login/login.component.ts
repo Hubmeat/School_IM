@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
     isPasswordTrue = true;
     errFlag: Boolean = true;
     isLogin: Boolean = true
-    loginErrorText: String = '';
+    loginErrorText: String = '请输入账户名或密码';
     userInfo = {
         username: '',
         password: ''
@@ -51,8 +51,8 @@ export class LoginComponent implements OnInit {
     checkLogin() {
       const userRep = /^1[0-9]{10}$/;
       const passwordRep = /^[0-9A-Za-z!@#$%^&*()_/.,?=+]{6,20}$/;
-      const user = this.userInfo.username;
-      const password = this.userInfo.password;
+      const user = this.userInfo.username.replace(/ /g,'');
+      const password = this.userInfo.password.replace(/ /g,'');
       let flag = false;
       console.log(213);
       if (user && password) {
@@ -69,6 +69,7 @@ export class LoginComponent implements OnInit {
           this.isPasswordTrue = false;
         }
       } else {
+        this.isUserTrue = false;
         this.isLogin = false;
         flag = true;
       }

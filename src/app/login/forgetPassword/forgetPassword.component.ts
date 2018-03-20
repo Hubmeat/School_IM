@@ -11,6 +11,8 @@ import {NzMessageService} from 'ng-zorro-antd';
 })
 
 export class ForgetPasswordComponent implements OnInit {
+  username: '';
+  validateCode: '';
   ngOnInit() {
 
   }

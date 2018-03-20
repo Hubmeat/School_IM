@@ -46,6 +46,10 @@ export const appRoutes = [
         component: LoginComponent
     },
     {
+      path: 'forgetPassword',
+      component: ForgetPasswordComponent
+    },
+    {
         path: '',
         redirectTo: '/login',
         pathMatch: 'full'
