@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
+import {NzMessageService} from 'ng-zorro-antd';
 
 
 
@@ -14,6 +16,12 @@ export class AddPreviewComponent implements OnInit  {
   _dataSet = [];
   isVisible = false
   isVisible1= false
+  constructor(
+    private router: Router,
+    private _message: NzMessageService
+  ) {
+
+  }
   ngOnInit() {
     for (let i = 0; i < 46; i++) {
       this._dataSet.push({
@@ -23,6 +31,13 @@ export class AddPreviewComponent implements OnInit  {
         address: `London, Park Lane no. ${i}`,
       });
     }
+  }
+  goback(): void {
+    this.router.navigate(['/index/livePreview'])
+  }
+  previewSubmit(): void {
+    this.router.navigate(['/index/livePreview'])
+    this._message.success(`创建成功!`);
   }
   showModal = () => {
     this.isVisible = true;
