@@ -25,12 +25,12 @@ export class MenuComponent implements OnInit, OnChanges  {
       },
       {
         name: '审核记录',
-        url: '/index/',
+        url: '/index/auditRecord',
         active: false
       },
       {
         name: '校友记录',
-        url: '/index/',
+        url: '/index/schoolfellow',
         active: false
       },
       {

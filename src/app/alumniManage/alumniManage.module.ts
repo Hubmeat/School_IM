@@ -10,19 +10,29 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { AMService } from './alumniMgService/alumniMgService.component';
 
 import { WaitPendingComponent } from 'app/alumniManage/waitPending/waitPending.component';
+import { AuditRecordCom } from './auditRecord/auditRecord.component';
+import { SchoolfellowListCom } from './schoolfellowList/schoolfellowList.component';
 
 // 导入事件模块的服务
 
 
 const EventComponents = [
-    WaitPendingComponent
+    WaitPendingComponent,
+    AuditRecordCom,
+    SchoolfellowListCom
 ];
 
 const EVENTROUTES: Routes = [
     {
         path: 'waitPending',
         component: WaitPendingComponent
-    }
+    }, {
+        path: 'auditRecord',
+        component: AuditRecordCom
+    }, {
+        path: 'schoolfellow',
+        component: SchoolfellowListCom
+    }, 
 ]
 
 @NgModule({

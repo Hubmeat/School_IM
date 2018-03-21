@@ -1,0 +1,249 @@
+<div id="auditRecordContent">
+    <div class="auditRecord_head">
+      <!-- 查询时间段 -->
+      <div class="timeSelect_area">
+          <div class="register">
+              <span>
+                  注册时间：
+              </span>
+              <nz-datepicker [(ngModel)]="registerBeginTime" nzShowTime [nzPlaceHolder]="'选择开始时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+              <span>至</span>
+              <nz-datepicker [(ngModel)]="registeEndrTime" nzShowTime [nzPlaceHolder]="'选择结束时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+          </div>
+          <div class="joinSchool">
+              <span>
+                  入学时间：
+              </span>
+              <nz-datepicker [(ngModel)]="joinBeginTime" nzShowTime [nzPlaceHolder]="'选择开始时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+              <span>至</span>
+              <nz-datepicker [(ngModel)]="joinEndrTime" nzShowTime [nzPlaceHolder]="'选择结束时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+          </div>
+      </div>
+      <!-- 查询条件、下拉框 -->
+      <div class="conditionSelect_area">
+        <div class="top">
+            <div class="name">
+              <span>
+                  姓名：
+              </span>
+              <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="inputValue" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)"></nz-input>
+            </div>
+            <div class="ID_card">
+              <span>
+                  身份证：
+              </span>
+              <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="inputValue" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)"></nz-input>
+            </div>
+            <div class="phone">
+              <span>
+                  手机：
+              </span>
+              <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="inputValue" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)"></nz-input>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="college">
+              <span>
+                  学院：
+              </span>
+              <nz-select  class="selectInput" style="width: 150px;" [(ngModel)]="collegeSelected" [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+                  <nz-option
+                    *ngFor="let item of collegeOptions"
+                    [nzLabel]="item.label"
+                    [nzValue]="item"
+                    [nzDisabled]="item.disabled">
+                  </nz-option>
+              </nz-select>
+            </div>
+            <div class="major">
+              <span>
+                  专业：
+              </span>
+              <nz-select  class="selectInput" style="width: 150px;" [(ngModel)]="majorSelected" [nzPlaceHolder]="'请选择学历'" nzAllowClear>
+                  <nz-option
+                    *ngFor="let item of majorOptions"
+                    [nzLabel]="item.label"
+                    [nzValue]="item"
+                    [nzDisabled]="item.disabled">
+                  </nz-option>
+              </nz-select>
+            </div>
+            <div class="education">
+              <span>
+                  学历：
+              </span>
+              <nz-select  class="selectInput" class="" style="width: 150px;" [(ngModel)]="educationSelected" [nzPlaceHolder]="'请选择学历'" nzAllowClear>
+                  <nz-option
+                    *ngFor="let item of educationOptions"
+                    [nzLabel]="item.label"
+                    [nzValue]="item"
+                    [nzDisabled]="item.disabled">
+                  </nz-option>
+              </nz-select>
+            </div>
+        </div>
+      </div>
+      <!-- 搜索 -->
+      <div class="search">    
+        <button nz-button [nzType]="'primary'">
+          <span>搜索</span>
+        </button>
+      </div>
+  
+    </div>
+  
+    <!-- 表格 -->
+    <div class="auditRecord_table">
+      <div class="table">
+          <nz-table #nzTable 
+            [nzDataSource]="data"
+            [nzBordered] = "borderShow"
+            [nzLoading] = "spinShow"
+            [nzIsPagination]="false"
+          >
+          <thead nz-thead>
+            <tr>
+              <th nz-th><span>审核时间</span></th>
+              <th nz-th><span>审核人</span></th>
+              <th nz-th><span>审核状态</span></th>
+              <th nz-th><span>注册时间</span></th>
+              <th nz-th><span>姓名</span></th>
+              <th nz-th><span>手机</span></th>
+              <th nz-th><span>身份证号</span></th>
+              <th nz-th><span>男</span></th>
+              <th nz-th><span>入学时间</span></th>
+              <th nz-th><span>学院</span></th>
+              <th nz-th><span>专业</span></th>
+              <th nz-th><span>学历</span></th>
+            </tr>
+          </thead>
+          <tbody nz-tbody>
+            <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+              <td nz-td>
+                {{data.time}}
+              </td>
+              <td nz-td>
+                {{data.auditPerson}}
+              </td>
+              <td nz-td>
+                {{data.status}}
+              </td>
+              <td nz-td>
+                {{data.registerTime}}
+              </td>
+              <td nz-td   (click)="showModal()"  style="color: blue;">
+                {{data.name}}
+              </td>
+              <td nz-td>
+                {{data.tel}}
+              </td>
+              <td nz-td>
+                {{data.IDNumber}}
+              </td>
+              <td nz-td>
+                {{data.sex}}
+              </td>
+              <td nz-td>
+                {{data.joinTime}}
+              </td>
+              <td nz-td>
+                {{data.college}}
+              </td>
+              <td nz-td>
+                {{data.major}}
+              </td>
+              <td nz-td>
+                {{data.education}}
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+      <div class="page" *ngIf="nzTable.data.length > 0">
+          <nz-pagination
+              [nzPageIndex]="currentPage"
+              [nzTotal]="totalPage"
+              [nzPageSizeSelectorValues]='pageSizeValues'
+              [nzPageSize] = 'pageSize'
+              (nzPageIndexClickChange) = 'currentPageChange($event)'
+              (nzPageSizeChange) = 'pageSizeChange($event)'
+              nzShowTotal
+              nzShowSizeChanger>
+          </nz-pagination>
+      </div>
+  
+    </div>
+  
+    <!-- 模态框 -->
+    <nz-modal [nzVisible]="isVisible" [nzTitle]="'第一个 Modal'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
+      <ng-template #modalContent>
+        <div id="examineModel">
+            <div class="examineModel_head">
+              <div>
+                <img class="headImg" />
+              </div>
+              <div>
+                <ul>
+                  <li>
+                    <span>姓名：张小三</span>
+                    <span>性别：女</span>
+                  </li>
+                  <li>
+                    <span>手机：</span>
+                    18728883336
+                  </li>
+                  <li>
+                    <span>身份证：</span>
+                    246546454554645665454
+                  </li>
+                  <li>
+                    <span>目前所在地：</span>
+                    北京 朝阳区
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="examineModel_middle">
+              <ul>
+                <li>
+                  入学时间：2010年
+                </li>
+                <li>
+                  学院：设计学院
+                </li>
+                <li>
+                  专业：平面设计
+                </li>
+              </ul>
+            </div>
+            <div class="examineModel_bottom">
+              <ul>
+                <li>
+                  公司名称： 百度
+                </li>
+                <li>
+                  职位名称： 产品经理
+                </li>
+                <li>
+                  所属行业： 互联网
+                </li>
+              </ul>
+              <p>
+                一句话介绍
+              </p>
+              <p>
+                  一介莽夫，愤世嫉俗，空有一腔热血，不想报效祖国~
+              </p>
+            </div>
+            <div class="examineModel_control">
+                <button>
+                  审核不通过
+                </button>
+                <button>
+                  审核通过
+                </button>
+            </div>
+        </div>
+      </ng-template>
+    </nz-modal>
+  </div>
