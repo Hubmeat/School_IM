@@ -4,18 +4,18 @@
       <span>学院名称</span>
       <nz-input
         style="width: 80%;"
-        [(ngModel)]="schoolName"
-        [nzPlaceHolder]="'Basic usage'"
+        [(ngModel)]="searchParam"
+        [nzPlaceHolder]="'请输入学院名称'"
         (ngModelChange)="_console($event)">
       </nz-input>
     </div>
-    <button nz-col nz-col [nzSpan]="2" nz-button>搜索</button>
+    <button nz-col nz-col [nzSpan]="2" nz-button (click)="search()">搜索</button>
     <button nz-col nz-col [nzSpan]="2" nz-button (click)="showModal1()">批量导入</button>
     <button nz-col nz-col [nzSpan]="2" nz-button (click)="showModal()">手动添加</button>
   </div>
 </div>
 <div class="departments_table">
-  <nz-table #nzTable [nzDataSource]="_dataSet" [nzPageSize]="10" nzShowSizeChanger>
+  <nz-table #nzTable [nzDataSource]="_dataSet" [nzPageIndex]="page" [nzPageSize]="10" nzShowSizeChanger>
     <thead nz-thead>
     <tr>
       <th nz-th><span>学院名称</span></th>
@@ -25,7 +25,7 @@
     </tr>
     </thead>
     <tbody nz-tbody>
-    <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+    <tr nz-tbody-tr *ngFor="let data of _dataSet">
       <td nz-td>
         <a>{{data.name}}</a>
       </td>
@@ -38,7 +38,7 @@
           <nz-popconfirm [nzTitle]="'确定删除专业'"
                          [nzOkText]="'确定'"
                          [nzCancelText]="'取消'"
-                         (nzOnConfirm)="confirm()"
+                         (nzOnConfirm)="deleteDepartments(data.id)"
                          (nzOnCancel)="cancel()"
           >
             <a nz-popconfirm>删除</a>
@@ -55,14 +55,15 @@
           [nzCancelText]="'取消'"
           [nzContent]="modalContent"
           (nzOnCancel)="handleCancel($event)"
-          (nzOnOk)="handleOk($event)"
+          (nzOnOk)="addDepartments()"
 >
   <ng-template #modalContent>
     <div id="template">
       <div>
-        <nz-input [(ngModel)]="schoolName" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)">
+        <nz-input [(ngModel)]="academy_name" [nzPlaceHolder]="'请输入学院名'" (ngModelChange)="_console($event)">
           <ng-template #addOnBefore>学院名称</ng-template>
         </nz-input>
+        <div>{{msg}}</div>
       </div>
     </div>
   </ng-template>
