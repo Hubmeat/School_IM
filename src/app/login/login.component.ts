@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiModule } from '../api/api';
 import {NzMessageService} from 'ng-zorro-antd';
+import {publicService} from '../publicService/publicService.component';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
     selector: 'login-component',
@@ -22,9 +24,11 @@ export class LoginComponent implements OnInit {
         username: '',
         password: ''
     }
+    subject = Subject
 
-    constructor (private router:Router,
-                 private _message: NzMessageService
+    constructor (private router: Router,
+                 private _message: NzMessageService,
+                 private service: publicService
                 ) {
     }
 
@@ -77,8 +81,19 @@ export class LoginComponent implements OnInit {
       if (!flag) {
         this.isLogin = false
         this._isSpinning = false;
-        this.router.navigate(['index/waitPending'])
-        this._message.success(`登录成功!`);
+        this.service.getUserInfo(
+          this.userInfo.username,
+          this.userInfo.password
+        );
+        this.service.LoginSubject.subscribe( res => {
+            console.log(res);
+            if (res) {
+              this.router.navigate(['index/waitPending'])
+              this._message.success(`登录成功!`);
+            }
+        })
+
+
       }
     }
 }

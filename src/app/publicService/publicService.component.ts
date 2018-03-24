@@ -36,16 +36,25 @@ export class publicService {
     // 登录的方法
     public LoginSubject = new Subject<any>();
 
-    public getUserInfo(name, pwd):void {
+    public getUserInfo(contact_phone, password) {
 
-        var data = {"username":name,"password":pwd};
-        var val = this.HOST.host;
+        const data = {
+          // 'contact_phone': name,
+          'contact_phone': '18333608367',
+          // 'password': pwd
+          'password': '123456'
+        };
+        const val = this.HOST.host;
         this.$http
-            .post(`${val}/login`, data)
+            .post(`${val}/a/user/login`, data)
             .retry(3)
-            .subscribe( res => {
+            .subscribe(
+              res => {
                 this.LoginSubject.next(res)
-            });
+            },
+              err => {
+                this.LoginSubject.next(err)
+              });
     }
 
 
