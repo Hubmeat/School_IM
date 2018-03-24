@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {SystemSetupService} from '../systemSetupService/systemSetup.service';
+import {NzMessageService} from 'ng-zorro-antd';
 @Component({
   selector: 'accountManagement-component',
   templateUrl: './accountManagement.component.html',
@@ -43,6 +44,7 @@ export class AccountManagementComponent implements OnInit {
 
   constructor(
     private service: SystemSetupService,
+    private _message: NzMessageService
   ) {}
 
   ngOnInit() {
@@ -103,6 +105,21 @@ export class AccountManagementComponent implements OnInit {
     this.service.SystemListDataSubject.subscribe(res => {
       console.log(res);
       // this.state = res.result.a_data_state;
+    })
+  }
+
+  // 编辑
+  editData(id, username, state) {
+    this.service.userUpData(
+      id,
+      username,
+      state
+    )
+    this.service.SystemUpDataSubject.subscribe(res => {
+       console.log(res);
+       if (res.error_code === 0) {
+         this._message.success('编辑完成');
+       }
     })
   }
 

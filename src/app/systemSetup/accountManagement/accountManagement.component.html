@@ -59,7 +59,7 @@
       <td nz-td>{{data.a_data_state === 1 ? "正常" : '已停用'}}</td>
       <td nz-td>
         <a class="a-click" (click)="showModal(data.user_name, data.id)">重置密码</a>
-        <a class="a-click">编辑资料</a>
+        <a class="a-click" (click)="editData(data.id,data.user_name, data.a_data_state)">编辑资料</a>
         <a class="a-click" (click)="toggle(data.id, data.a_data_state)">停用/启用</a>
       </td>
     </tr>

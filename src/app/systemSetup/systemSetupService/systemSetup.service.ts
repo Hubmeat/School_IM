@@ -76,4 +76,19 @@ export class SystemSetupService {
     }
 
 
+    public SystemUpDataSubject = new Subject<any>();
+    // 编辑
+    public userUpData(id, username, state) {
+      const formData = {
+        id: id,
+        user_name: username,
+        a_data_state: state
+      };
+      this.$http
+        .post(this.$HOST.host + '/a/user/adminupdate', formData)
+        .subscribe(res => {
+          this.SystemListDataSubject.next(res);
+        })
+    }
+
 }
