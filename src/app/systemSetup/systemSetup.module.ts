@@ -10,6 +10,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import {SystemSetupService} from './systemSetupService/systemSetup.service';
 import {AccountManagementComponent} from './accountManagement/accountManagement.component';
+import {AddNewUserComponent} from './accountManagement/addNewUser/addNewUser.component';
 
 
 
@@ -17,14 +18,19 @@ import {AccountManagementComponent} from './accountManagement/accountManagement.
 
 
 const EventComponents = [
-  AccountManagementComponent
+  AccountManagementComponent,
+  AddNewUserComponent
 ];
 
 const EVENTROUTES: Routes = [
   {
     path: 'accountManagement',
     component: AccountManagementComponent
-  }
+  },
+  {
+    path: 'addNewUser',
+    component: AddNewUserComponent
+  },
 ]
 
 @NgModule({

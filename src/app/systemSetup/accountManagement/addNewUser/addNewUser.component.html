@@ -1,0 +1,70 @@
+<div id="addList">
+  <div nz-row class="addList_head">
+    <button nz-button
+            nz-col [nzSpan]="3"
+            style="margin-right: 20px;"
+            (click)="goback()">
+      返回
+    </button>
+    <h2 nz-col [nzSpan]="20">新建账号</h2>
+  </div>
+  <div nz-row class="addList_head">
+    <div>
+      <span class="text-padd-span">姓名</span>
+      <nz-input
+        style="width: 75%;"
+        [(ngModel)]="UserName"
+        [nzPlaceHolder]="'请输入姓名'"
+        (ngModelChange)="_console($event)">
+      </nz-input>
+    </div>
+    <div>
+      <span class="text-padd-span">手机</span>
+      <nz-input
+        style="width: 75%;"
+        maxlength="11"
+        [(ngModel)]="UserPhone"
+        [nzPlaceHolder]="'请输入手机'"
+        (ngModelChange)="_console($event)">
+      </nz-input>
+    </div>
+    <div>
+      <span class="text-padd-span">初始密码</span>
+      <nz-input
+        nzType="password"
+        style="width: 75%;"
+        [(ngModel)]="initPassword"
+        [nzPlaceHolder]="'请输入密码'"
+        (ngModelChange)="_console($event)">
+      </nz-input>
+    </div>
+    <div>
+      <span class="text-padd-span">确认密码</span>
+      <nz-input
+        nzType="password"
+        style="width: 75%;"
+        [(ngModel)]="confirmPassword"
+        [nzPlaceHolder]="'请再次输入密码'"
+        (ngModelChange)="_console($event)">
+      </nz-input>
+    </div>
+    <div>
+      <span class="text-padd-span">帐号状态</span>
+      <nz-radio-group [(ngModel)]="radioValue" style="width: 75%;">
+        <label nz-radio [nzValue]= 1>
+          <span>正常</span>
+        </label>
+        <label nz-radio [nzValue]= 2>
+          <span>停用</span>
+        </label>
+      </nz-radio-group>
+    </div>
+    <div>
+      {{msg}}
+    </div>
+    <div nz-row class="foot-buts">
+      <button nz-col [nzSpan]="5" [nzPush]="5" nz-button (click)="goback()">取消</button>
+      <button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="previewSubmit()">提交</button>
+    </div>
+  </div>
+</div>
