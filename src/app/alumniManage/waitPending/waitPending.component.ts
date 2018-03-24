@@ -1,6 +1,7 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
 import { AMService } from '../alumniMgService/alumniMgService.component';
 import { Observable } from "rxjs/Observable";
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
     selector: 'waitPending-component',
@@ -17,7 +18,8 @@ export class WaitPendingComponent implements OnInit {
     joinEndrTime = null;
 
     constructor(
-        private alumniMgService: AMService
+        private alumniMgService: AMService,
+        private _message: NzMessageService
     ) {
     }
 
@@ -57,6 +59,8 @@ export class WaitPendingComponent implements OnInit {
     }
     // 审核model
     auditVisible:boolean = false;
+    acceptLoading:boolean = false;
+    rejectLoading:boolean = false;
 
     ngOnInit():any {
         // 初始化下拉列表数据与表格数据
@@ -131,8 +135,19 @@ export class WaitPendingComponent implements OnInit {
     collegeChange (value) {
         this.geMojorData(this.collegeSelected)
     }
+    // 搜索、分页方法
 
-    
+    currentPageChange (currentPage) {
+        this.currentPage = currentPage;
+        this.loadData ()
+    }
+
+    handlerSearch ():void {
+        this.currentPage = 1;
+        this.loadData()
+    }
+
+    // 审核资料展示 方法
     showInfoModal = (data) => {
         console.log('data', data)
         this.userInfo = Object.assign({}, data);
@@ -143,14 +158,58 @@ export class WaitPendingComponent implements OnInit {
         this.inforVisible = false;
     }
 
-    currentPageChange (currentPage) {
-        this.currentPage = currentPage;
-        this.loadData ()
+    // 审核模态框 方法
+    showAuditModal = (data) => {
+        console.log('data', data)
+        this.userInfo = Object.assign({}, data);
+        this.auditVisible = true;
     }
 
-    handlerSearch ():void {
-        this.currentPage = 1;
-        this.loadData()
+    handerAccept(data):void {
+        console.log('accept adta', this.userInfo.id)
+        this.acceptLoading = true;
+        this.alumniMgService.handerAudit(this.userInfo.id, '1');
+        this.alumniMgService.pendingAuditSubject.subscribe(
+            res => {
+                console.log('审核结果', res)
+                if (res.error_code === 0) {
+                    this._message.success('审核成功！')
+                    setTimeout( () => {
+                        this.acceptLoading = false;
+                        this.auditVisible = false;
+
+                        this.loadData()
+                    }, 500);
+                } else {
+                    this._message.error('审核失败!')
+                }
+            }
+        )
+    }    
+    
+    handerReject(data):void {
+        this.rejectLoading = true;
+        this.alumniMgService.handerAudit(this.userInfo.id, '2');
+        this.alumniMgService.pendingAuditSubject.subscribe(
+            res => {
+                if (res.error_code === 0) {
+                    this._message.success('拒绝成功！')
+                    setTimeout( () => {
+                        this.rejectLoading = false;
+                        this.auditVisible = false;
+                        
+                        this.loadData()
+                    }, 500);
+                } else {
+                    this._message.error('系统出错!')
+                }
+            }
+        )
+    }
+
+    closeAuditModel ():void {
+        console.log('花花');
+        this.auditVisible = false;
     }
 
 }

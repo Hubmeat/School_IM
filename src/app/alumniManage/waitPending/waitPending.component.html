@@ -144,7 +144,7 @@
             <td nz-td>
               {{data.education}}
             </td>
-            <td  style="color: blue;">
+            <td  (click)='showAuditModal(data)' style="color: blue; cursor: pointer;">
               审核
             </td>
           </tr>
@@ -162,7 +162,7 @@
 
   </div>
 
-  <!-- 模态框 -->
+  <!-- 资料模态框 -->
   <nz-modal [nzVisible]="inforVisible" [nzStyle]="modelStyle" [nzTitle]="'校友资料'" [nzContent]="modalContent" [nzFooter]="modelFooter" (nzOnCancel)="closeInforModel($event)">
     <ng-template #modalContent>
       <div id="examineModel">
@@ -237,75 +237,81 @@
     </ng-template>
   </nz-modal>
 
-  <!-- <nz-modal [nzVisible]="auditVisible" [nzTitle]="'校友资料'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
-    <ng-template #modalContent>
-      <div id="examineModel">
-          <div class="examineModel_head">
-            <div>
-              <img class="headImg" />
+  <!-- 审核模态框 -->
+  <nz-modal [nzVisible]="auditVisible" [nzStyle]="modelStyle" [nzTitle]="'校友审核'" [nzContent]="AuditModalContent" [nzFooter]="AuditModalFooter" (nzOnCancel)="closeAuditModel($event)">
+      <ng-template #AuditModalContent>
+        <div id="examineModel">
+            <div class="examineModel_head">
+              <div>
+                <img class="headImg" src="{{userInfo.avatar}}" />
+              </div>
+              <div>
+                <ul>
+                  <li>
+                    <span><b class="weight">姓名：</b> {{userInfo.user_name}}</span>
+                    <span  style="margin-left: 10px;"><b class="weight">性别：</b>{{userInfo.gender === 1?'男':[userInfo.gender === '2'?'女':'未知']}}</span>
+                  </li>
+                  <li>
+                    <span><b class="weight">手机：</b></span>
+                    {{userInfo.contact_phone}}
+                  </li>
+                  <li>
+                    <span><b class="weight">身份证：</b></span>
+                    {{userInfo.id_number}}
+                  </li>
+                  <li>
+                    <span><b class="weight">目前所在地：</b></span>
+                    {{userInfo.province}} {{userInfo.city}} 
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div>
+            <div class="examineModel_middle">
               <ul>
                 <li>
-                  <span>姓名：张小三</span>
-                  <span>性别：女</span>
+                  <b class="weight">入学时间：</b>{{userInfo.academic_starts}}
                 </li>
                 <li>
-                  <span>手机：</span>
-                  18728883336
+                  <b class="weight">学院：</b>{{userInfo.academy}}
                 </li>
                 <li>
-                  <span>身份证：</span>
-                  246546454554645665454
+                  <b class="weight">专业：</b>{{userInfo.profession}}
                 </li>
                 <li>
-                  <span>目前所在地：</span>
-                  北京 朝阳区
+                  <b class="weight">学历：</b>{{userInfo.education}}
                 </li>
               </ul>
             </div>
-          </div>
-          <div class="examineModel_middle">
-            <ul>
-              <li>
-                入学时间：2010年
-              </li>
-              <li>
-                学院：设计学院
-              </li>
-              <li>
-                专业：平面设计
-              </li>
-            </ul>
-          </div>
-          <div class="examineModel_bottom">
-            <ul>
-              <li>
-                公司名称： 百度
-              </li>
-              <li>
-                职位名称： 产品经理
-              </li>
-              <li>
-                所属行业： 互联网
-              </li>
-            </ul>
-            <p>
-              一句话介绍
-            </p>
-            <p>
-                一介莽夫，愤世嫉俗，空有一腔热血，不想报效祖国~
-            </p>
-          </div>
-          <div class="examineModel_control">
-              <button>
-                审核不通过
-              </button>
-              <button>
-                审核通过
-              </button>
-          </div>
-      </div>
-    </ng-template>
-  </nz-modal> -->
+            <div class="examineModel_bottom">
+              <ul>
+                <li>
+                  <b class="weight">公司名称：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch.company_name}}
+                </li>
+                <li>
+                  <b class="weight">职位名称：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch.job_title}}
+                </li>
+                <li>
+                  <b class="weight">所属行业：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch.industry_involved}}
+                </li>
+              </ul>
+              <p>
+                <b class="weight">一句话介绍：</b>
+              </p>
+              <p>
+                {{userInfo.a_word_introduce}}
+              </p>
+            </div>
+        </div>
+      </ng-template>
+      <ng-template  #AuditModalFooter>
+        <div class="examineModel_control">
+          <button [nzLoading]="acceptLoading" nz-button (click) = 'handerAccept($event)' [nzType]="'default'">
+              <span>审核通过</span>
+          </button>
+          <button [nzLoading]="rejectLoading" nz-button (click) = 'handerReject($event)' [nzType]="'danger'">
+              <span>审核不通过</span>
+          </button>
+        </div>
+      </ng-template>
+  </nz-modal>
 </div>

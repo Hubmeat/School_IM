@@ -100,4 +100,25 @@ export class AMService {
                 }
             )
     }
+
+    public pendingAuditSubject = new Subject<any>();
+
+    public handerAudit(id, status):void {
+        var formData = {
+            "id": id,
+            "examine_state": status,
+            "examine_user": window.localStorage.getItem('userName')
+        }
+        
+        this.$http
+        .post(this.$HOST.host + '/a/examine_state/change', formData)
+        .subscribe(
+            res => {
+                this.pendingAuditSubject.next(res)
+            },
+            err => {
+                this.pendingAuditSubject.next(err)
+            }
+        )       
+    }
 }
