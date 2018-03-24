@@ -19,12 +19,12 @@ export class LoginComponent implements OnInit {
     isPasswordTrue = true;
     errFlag: Boolean = true;
     isLogin: Boolean = true
-    loginErrorText: String = '请输入账户名或密码';
+    error_msg: String = '';
     userInfo = {
         username: '',
         password: ''
     }
-    subject = Subject
+    subject = Subject;
 
     constructor (private router: Router,
                  private _message: NzMessageService,
@@ -58,7 +58,6 @@ export class LoginComponent implements OnInit {
       const user = this.userInfo.username.replace(/ /g,'');
       const password = this.userInfo.password.replace(/ /g,'');
       let flag = false;
-      console.log(213);
       if (user && password) {
         if (userRep.test(user)) {
           this.isUserTrue = true;
@@ -75,6 +74,7 @@ export class LoginComponent implements OnInit {
       } else {
         this.isUserTrue = false;
         this.isLogin = false;
+        this.error_msg = '帐号或密码不能为空';
         flag = true;
       }
 
@@ -87,9 +87,11 @@ export class LoginComponent implements OnInit {
         );
         this.service.LoginSubject.subscribe( res => {
             console.log(res);
-            if (res) {
+            if (res.error_code === '0') {
               this.router.navigate(['index/waitPending'])
               this._message.success(`登录成功!`);
+            } else {
+              this.error_msg = res.error_msg;
             }
         })
 
