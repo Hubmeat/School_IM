@@ -85,15 +85,17 @@ export class LoginComponent implements OnInit {
           this.userInfo.username,
           this.userInfo.password
         );
-        this.service.LoginSubject.subscribe( res => {
-            console.log(res);
-            if (res.error_code === '0') {
-              this.router.navigate(['index/waitPending'])
-              this._message.success(`登录成功!`);
-            } else {
-              this.error_msg = res.error_msg;
-            }
-        })
+        this.service.LoginSubject.subscribe( 
+          res => {
+              console.log(res);
+              if (res.error_code === 0) {
+                this.router.navigate(['index/waitPending'])
+                this._message.success(`登录成功!`);
+              } else {
+                this.error_msg = res.error_msg;
+                this.isUserTrue = false;
+              }
+          })
 
 
       }
