@@ -118,28 +118,28 @@
         <tbody nz-tbody>
           <tr nz-tbody-tr *ngFor="let data of nzTable.data">
             <td nz-td>
-              {{data.time}}
+              {{data.created_at}}
             </td>
             <td nz-td  (click)="showModal()"  style="color: blue;">
-              {{data.name}}
+              {{data.user_name}}
             </td>
             <td nz-td>
-              {{data.tel}}
+              {{data.contact_phone}}
             </td>
             <td nz-td>
-              {{data.IDNumber}}
+              {{data.id_number}}
             </td>
             <td nz-td>
-              {{data.sex}}
+              {{data.gender}}
             </td>
             <td nz-td>
-              {{data.joinTime}}
+              {{data.academic_starts}}
             </td>
             <td nz-td>
-              {{data.college}}
+              {{data.academy}}
             </td>
             <td nz-td>
-              {{data.major}}
+              {{data.profession}}
             </td>
             <td nz-td>
               {{data.education}}

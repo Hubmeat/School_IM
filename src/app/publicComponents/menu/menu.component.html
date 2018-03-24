@@ -3,7 +3,7 @@
     <nz-sider [nzWidth]="200" nzClickActive='true' class="slideClass" [class.expend-open]="service2.status"  [class.expend-close]="!service2.status" style="background:#fff">
         <ul id="oneFloor" nz-menu [nzMode]="'inline'" nzTheme='dark' [nzInlineCollapsed]="service2.status" style="height:100%;">
             <li nz-submenu  [(nzOpen)]='service2.alumniManagementListOpen' (nzOpenChange)="openChange('alumniManagementListOpen')">
-                <span title><i class="anticon anticon-user"></i><span>校友管理</span></span>
+                <span title><i class="anticon anticon-usergroup-add"></i><span>校友管理</span></span>
                 <ul class="secondFloor">
                   <li nz-menu-item
                       myClass="menuSign"
@@ -16,7 +16,7 @@
                 </ul>
             </li>
             <li nz-submenu  [(nzOpen)]='service2.contactAdminOpen' (nzOpenChange)="openChange('contactAdminOpen')">
-              <span title><i class="anticon anticon-user"></i><span>联系管理员</span></span>
+              <span title><i class="anticon anticon-team"></i><span>联系管理员</span></span>
               <ul class="secondFloor">
                 <li nz-menu-item
                     myClass="menuSign"
@@ -29,7 +29,7 @@
               </ul>
             </li>
             <li nz-submenu  [(nzOpen)]='service2.noticeAdministrationOpen' (nzOpenChange)="openChange('noticeAdministrationOpen')">
-              <span title><i class="anticon anticon-user"></i><span>公告管理</span></span>
+              <span title><i class="anticon anticon-exception"></i><span>公告管理</span></span>
               <ul class="secondFloor">
                 <li nz-menu-item
                     myClass="menuSign"
@@ -42,7 +42,7 @@
               </ul>
             </li>
             <li nz-submenu  [(nzOpen)]='service2.liveAdministrationOpen' (nzOpenChange)="openChange('liveAdministrationOpen')">
-              <span title><i class="anticon anticon-user"></i><span>直播管理</span></span>
+              <span title><i class="anticon anticon-laptop"></i><span>直播管理</span></span>
               <ul class="secondFloor">
                 <li nz-menu-item
                     myClass="menuSign"
@@ -55,7 +55,7 @@
               </ul>
             </li>
             <li nz-submenu  [(nzOpen)]='service2.dataSettingOpen' (nzOpenChange)="openChange('dataSettingOpen')">
-              <span title><i class="anticon anticon-user"></i><span>资料设置</span></span>
+              <span title><i class="anticon anticon-database"></i><span>资料设置</span></span>
               <ul class="secondFloor">
                 <li nz-menu-item
                     myClass="menuSign"
@@ -68,7 +68,7 @@
               </ul>
             </li>
             <li nz-submenu  [(nzOpen)]='service2.systemSetupOpen' (nzOpenChange)="openChange('systemSetupOpen')">
-              <span title><i class="anticon anticon-user"></i><span>系统设置</span></span>
+              <span title><i class="anticon anticon-setting"></i><span>系统设置</span></span>
               <ul class="secondFloor">
                 <li nz-menu-item
                     myClass="menuSign"

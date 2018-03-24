@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AMService } from '../alumniMgService/alumniMgService.component';
 
 @Component({
     selector: 'waitPending-component',
@@ -13,6 +14,11 @@ export class WaitPendingComponent implements OnInit {
     registeEndrTime = null;
     joinBeginTime = null;
     joinEndrTime = null;
+
+    constructor(
+        private alumniMgService: AMService
+    ) {
+    }
 
     // 学院选项框
     collegeOptions = [        
@@ -58,23 +64,33 @@ export class WaitPendingComponent implements OnInit {
 
 
     ngOnInit():any {
-        var arr = new Array()
-        for (var i = 0; i < 10; i++) {
-            var obj = {}
+        // var arr = new Array()
+        // for (var i = 0; i < 10; i++) {
+        //     var obj = {}
             
-            obj['time'] = '2017-8-22 18:22:22' +"&" + i
-            obj['name'] = 'John Brown' +"&" + i
-            obj['tel'] = '13822345533' +"&" + i
-            obj['IDNumber'] = '4561231321546465' +"&" + i
-            obj['sex'] = '男' +"&" + i
-            obj['joinTime'] = '2018-3-19 18:22:22' +"&" + i
-            obj['college'] = '计算机科学与技术' +"&" + i
-            obj['major'] = '电子商务管理' +"&" + i
-            obj['education'] = '硕士' +"&" + i
+        //     obj['time'] = '2017-8-22 18:22:22' +"&" + i
+        //     obj['name'] = 'John Brown' +"&" + i
+        //     obj['tel'] = '13822345533' +"&" + i
+        //     obj['IDNumber'] = '4561231321546465' +"&" + i
+        //     obj['sex'] = '男' +"&" + i
+        //     obj['joinTime'] = '2018-3-19 18:22:22' +"&" + i
+        //     obj['college'] = '计算机科学与技术' +"&" + i
+        //     obj['major'] = '电子商务管理' +"&" + i
+        //     obj['education'] = '硕士' +"&" + i
 
-            arr.push(obj)
-        }
-        this.data = arr;
+        //     arr.push(obj)
+        // }
+        // this.data = arr;
+        this.loadData()
+    }
+
+    loadData() {
+        this.alumniMgService.getPendingData();
+        this.alumniMgService.WaitPendingSubject.subscribe(
+            res => {
+                console.log('this is 订阅的数据', res)
+            }
+        )
     }
 
     
