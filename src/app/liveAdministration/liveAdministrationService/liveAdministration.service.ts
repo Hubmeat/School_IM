@@ -7,5 +7,11 @@ import 'rxjs/add/operator/retry';
 @Injectable()
 
 export class LiveAdministrationService {
+    constructor(
+      private $HOST: ApiModule,
+      private $http: HttpClient
+    ) {}
+
+    public LivePreviewSubject = new Subject<any>();
 
 }

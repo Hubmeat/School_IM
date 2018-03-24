@@ -11,8 +11,8 @@ export class NoopInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const clonedRequest = req.clone({
-            
-            headers: req.headers.set('Content-Type', 'text/plain;charset=UTF-8')
+            // content-type 登录传输报错text
+            headers: req.headers.set('Content-Type', 'application/json;charset=UTF-8')
         });
         // console.log("new headers", clonedRequest.headers.keys());
         return next.handle(clonedRequest)
@@ -23,7 +23,7 @@ export class NoopInterceptor implements HttpInterceptor {
                 return Observable.create(Observable => Observable.next(event));
             })
             .catch((res: HttpResponse<any>) => {
-    
+
                 return Observable.throw(res);
             })
     }
