@@ -15,8 +15,10 @@ export class DepartmentsSetupComponent implements OnInit {
   schoolName = '';
   isVisible = false;
   isVisible1= false;
+  isEditVisible= false;
   page: 1;
   searchParam: '';
+  editName: '';
 
   academy_name: string = ''; // 学院名
   msg: string = '';
@@ -49,6 +51,7 @@ export class DepartmentsSetupComponent implements OnInit {
 
   // 添加学院信息
   addDepartments() {
+    console.log(this.academy_name);
     if (this.academy_name  === '') {
       this._message.warning(`学院名称为空!`);
       return;
@@ -65,6 +68,7 @@ export class DepartmentsSetupComponent implements OnInit {
         this._message.success(this.msg || '添加失败');
       }else {
         this._message.success(`添加成功!`);
+        this.isVisible = false;
       }
     })
   }
@@ -85,8 +89,32 @@ export class DepartmentsSetupComponent implements OnInit {
     })
   }
 
+  // 编辑学院信息
+  editDepartments(id, name) {
+    this.service.editDepartments(
+      id,
+      name
+    )
+    this.service.DataSettingDepartmentsSubject.subscribe(res => {
+       console.log(res);
+      if (res.editmsg.error_code !== 0) {
+        this._message.warning('编辑失败');
+      } else {
+        this._message.success('编辑成功');
+        this.isEditVisible = false;
+      }
+    })
+  }
+
+  showEditModal(name) {
+    this.msg = '';
+    this.editName = name;
+    this.isEditVisible = true;
+  }
+
 
   showModal = () => {
+    this.msg = '';
     this.isVisible = true;
   }
   showModal1 = () => {
@@ -103,5 +131,6 @@ export class DepartmentsSetupComponent implements OnInit {
     console.log(e);
     this.isVisible = false;
     this.isVisible1 = false;
+    this.isEditVisible = false;
   }
 }

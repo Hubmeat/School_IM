@@ -54,4 +54,17 @@ export class DataSettingService {
           this.DataSettingDepartmentsSubject.next({delmsg: res})
         })
     }
+
+    // 编辑学院信息
+    public editDepartments(id, name) {
+      const formData = {
+        id: id,
+        academy_name: name
+      }
+      this.$http
+        .post(this.$HOST.host + '/a/academy/update', formData)
+        .subscribe(res => {
+          this.DataSettingDepartmentsSubject.next({editmsg: res})
+        })
+    }
 }
