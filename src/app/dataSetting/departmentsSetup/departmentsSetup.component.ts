@@ -71,10 +71,11 @@ export class DepartmentsSetupComponent implements OnInit {
 
   // 删除学院信息
   deleteDepartments(id) {
+    console.log('123213')
     this.service.deleteDepartments(
       id
     );
-    this.service.DataSettingDepartmentsSubject.next(res => {
+    this.service.DataSettingDepartmentsSubject.subscribe(res => {
       console.log(res);
       if (res.delmsg.error_code !== 0) {
         this._message.warning('删除失败');
