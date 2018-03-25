@@ -28,7 +28,7 @@ export class publicService {
 
         const data = {
           contact_phone: contact_phone,
-          // 'contact_phone': '18333608367',
+          // 'contact_phone': '18333608300',
           password: password
           // 'password': '123456'
         };

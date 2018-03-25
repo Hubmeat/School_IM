@@ -63,6 +63,7 @@ export class LoginComponent implements OnInit {
           this.isUserTrue = true;
         }else {
           this.isUserTrue = false;
+          this.error_msg = '请输入正确手机号';
           flag = true;
         }
         if (passwordRep.test(password)) {
@@ -85,10 +86,13 @@ export class LoginComponent implements OnInit {
           this.userInfo.username,
           this.userInfo.password
         );
-        this.service.LoginSubject.subscribe( 
+        this.service.LoginSubject.subscribe(
           res => {
               console.log(res);
               if (res.error_code === 0) {
+                window.localStorage.setItem('uid', res.id);
+                window.localStorage.setItem('userName', res.user_name);
+                window.localStorage.setItem('userPhone', res.contact_phone);
                 this.router.navigate(['index/waitPending'])
                 this._message.success(`登录成功!`);
               } else {
@@ -96,8 +100,6 @@ export class LoginComponent implements OnInit {
                 this.isUserTrue = false;
               }
           })
-
-
       }
     }
 }
