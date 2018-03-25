@@ -62,6 +62,8 @@ export class WaitPendingComponent implements OnInit {
     acceptLoading:boolean = false;
     rejectLoading:boolean = false;
 
+    auditStatusSelected = ''
+
     ngOnInit():any {
         // 初始化下拉列表数据与表格数据
         this.getCollegeSelectData()
@@ -87,7 +89,8 @@ export class WaitPendingComponent implements OnInit {
             this.userName,
             this.IDcard,
             this.phone,
-            this.currentPage
+            this.currentPage,
+            this.auditStatusSelected
         );
         this.alumniMgService.WaitPendingSubject.subscribe(
             res => {
@@ -173,7 +176,7 @@ export class WaitPendingComponent implements OnInit {
             res => {
                 console.log('审核结果', res)
                 if (res.error_code === 0) {
-                    this._message.success('审核成功！')
+                    this._message.success('【校友IM】您的帐号已审核通过，快快登陆和校友联系吧。')
                     setTimeout( () => {
                         this.acceptLoading = false;
                         this.auditVisible = false;
@@ -181,7 +184,7 @@ export class WaitPendingComponent implements OnInit {
                         this.loadData()
                     }, 500);
                 } else {
-                    this._message.error('审核失败!')
+                    this._message.error('【校友IM】您的账号审核失败，请认真填写资料并重新注册。')
                 }
             }
         )
@@ -193,7 +196,7 @@ export class WaitPendingComponent implements OnInit {
         this.alumniMgService.pendingAuditSubject.subscribe(
             res => {
                 if (res.error_code === 0) {
-                    this._message.success('拒绝成功！')
+                    this._message.warning('【校友IM】您的账号审核失败，请认真填写资料并重新注册。')
                     setTimeout( () => {
                         this.rejectLoading = false;
                         this.auditVisible = false;

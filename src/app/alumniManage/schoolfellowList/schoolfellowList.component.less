@@ -121,8 +121,88 @@
             float: right;
         }
     }
-    
     #examineModel {
-        
+        overflow: hidden;
+        .examineModel_head {
+            width: 100%;
+            overflow: hidden;
+            height: 130px;
+            border-bottom: 1px dashed #eee;
+            div:nth-of-type(1) {
+                float: left;
+                .headImg {
+                    display: inline-block;
+                    width: 100px;
+                    height: 100px;
+                    margin-top: 8px;
+                }
+            }
+            div:nth-of-type(2) {
+                float: left;
+                margin-left: 30px;
+                ul {
+                    list-style: none;
+                    width: 100%;
+                    li {
+                        height: 30px;
+                        line-height: 30px;
+                    }
+                }
+            }
+        }
+        .examineModel_middle {
+            height: 50px;
+            border-bottom: 1px dashed #eee;
+            line-height: 50px;
+            ul {
+                display: inline-block;
+                list-style: none;
+                overflow: hidden;
+                margin-top: 10px;
+                li {
+                    float: left;
+                    height: 30px;
+                    line-height: 30px;
+                    margin-left: 10px;
+                }
+            }
+        }
+        .examineModel_bottom {
+            height: 120px;
+            ul {
+                display: inline-block;
+                list-style: none;
+                overflow: hidden;
+                margin-top: 10px;
+                li {
+                    float: left;
+                    height: 30px;
+                    line-height: 30px;
+                    margin-left: 10px;
+                }
+            }
+            p:nth-of-type(1) {
+                margin-top: 20px;
+                margin-left: 11px;
+            }
+            p:nth-of-type(2) {
+                margin-top: 10px;
+                margin-left: 11px;
+            }
+        }
+        .weight {
+            font-weight: bold;
+            font-size: 14px;
+            color: #444;
+        }
+    }
+
+    .examineModel_control {
+        width: 100%;
+        overflow: hidden;
+        text-align: center;
+        button {
+            display: inline-block;
+        }
     }
 }

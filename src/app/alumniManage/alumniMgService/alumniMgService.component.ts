@@ -36,7 +36,8 @@ export class AMService {
         userName,
         IDcard,
         phone,
-        currentPage
+        currentPage,
+        auditStatusSelected
     ):void {
         var formData = {
             "list_type": list_type,
@@ -51,7 +52,7 @@ export class AMService {
             "user_name": userName,
             "id_number": IDcard,
             "contact_phone": phone,
-            "examine_state": ''
+            "examine_state": auditStatusSelected
         };
 
         this.$http
@@ -121,4 +122,64 @@ export class AMService {
             }
         )       
     }
+
+    /**
+     * 校友列表相关的方法，编辑功能，解冻/冻结功能，查询分页功能
+     */
+
+    public schoolFWSubject = new Subject<any>();
+
+    // 获取校友列表表
+    public getSchoolFwData():void {
+        var formData = {
+            "education": "专科",
+            "page": 1,
+            "profession_id": 1705616188964869,
+            "academy_id": 1705577148383233,
+            "registe_start": 1521724069159,
+            "registe_end": 1521724069159,
+            "academic_start": 1521705972777,
+            "academic_end": 1521705972777,
+            "user_name": "小明",
+            "id_number": "140332122333233321",
+            "contact_phone": "18333608366",
+            "c_data_state":1,
+            "province_code":"11",
+            "city_code":"1101"
+        }
+        
+        this.$http
+        .post(this.$HOST.host + '/a/user/clientlist', formData)
+        .subscribe(
+            res => {
+                this.schoolFWSubject.next(res)
+            },
+            err => {
+                this.schoolFWSubject.next(err)
+            }
+        )       
+    }
+
+    // 处理解冻 / 冻结
+    public handleFreezeSubject = new Subject<any>();
+
+    public dealFreeze (id, status) {
+        var formData = {
+            id: id,
+            c_data_state: status
+        };
+
+        this.$http
+        .post(this.$HOST.host + '/a/user/clientlist', formData)
+        .subscribe(
+            res => {
+                this.handleFreezeSubject.next(res)
+            },
+            err => {
+                this.handleFreezeSubject.next(err)
+            }
+        )       
+    }
+
+    // 校友列表编辑
 }

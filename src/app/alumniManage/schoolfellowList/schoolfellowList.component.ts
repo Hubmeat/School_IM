@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AMService } from '../alumniMgService/alumniMgService.component';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
     selector: 'schoolfellow-component',
@@ -14,79 +16,129 @@ export class SchoolfellowListCom implements OnInit {
     joinBeginTime = null;
     joinEndrTime = null;
 
+    constructor(
+        private alumniMgService: AMService,
+        private _message: NzMessageService
+    ) {
+    }
+
+    // 搜索数据
+    userName:string = '';
+    IDcard:string = '';
+    phone:string = '';
+
     // 学院选项框
-    collegeOptions = [        
-        { value: 'a', label: '全部' },
-        { value: 'b', label: '继续教育学院' },
-        { value: 'c', label: '计算机科学与技术'},
-        { value: 'd', label: '电子商务'},
-        { value: 'e', label: '信息管理'},
-        { value: 'f', label: '电商'}
-    ];
-    collegeSelected = this.collegeOptions[0];
+    collegeOptions = [];
+    collegeSelected = '';
     // 学院选项框
-    majorOptions = [        
-        { value: 'one', label: '全部' },
-        { value: 'two', label: '计算机应用技术' },
-        { value: 'three', label: '电子'},
-        { value: 'four', label: '电话'},
-        { value: 'five', label: '销售类'},
-        { value: 'six', label: '电商'}
-    ];
-    majorSelected = this.collegeSelected[0];
+    majorOptions = [];
+    majorSelected = '';
     // 学历选项框
     educationOptions = [
-        { value: 'all', label: '全部' },
-        { value: 'z', label: '专科' },
-        { value: 'b', label: '本科'},
-        { value: 's', label: '硕士'},
-        { value: 'b', label: '博士'}
+        { value: '全部', label: '全部' },
+        { value: '专科', label: '专科' },
+        { value: '本科', label: '本科'},
+        { value: '硕士', label: '硕士'},
+        { value: '博士', label: '博士'}
     ];
-    educationSelected = this.educationOptions[0];
+    educationSelected = '';
+    // 审核状态下拉框
+    accountOptions= [
+        { value: '0', label: '全部'},
+        { value: '1', label: '正常'},
+        { value: '2', label: '已冻结'}
+    ];
+    accountSelected = this.accountOptions[0].value;
 
     // 表格数据
     data = [];
     spinShow:boolean = false;
     borderShow:boolean = false;
-    pageSizeValues = [10, 25, 50, 100];
     currentPage = 1;
-    pageSize = 10;
     totalPage = 0;
 
+    // 用户资料model
+    inforVisible:boolean = false;
+    userInfo:any = {};
+    modelStyle:any = {
+        width: '600px'
+    }
     // 审核model
-    isVisible:boolean = false;
-
+    auditVisible:boolean = false;
+    acceptLoading:boolean = false;
+    rejectLoading:boolean = false;
 
     ngOnInit():any {
-        var arr = new Array()
-        for (var i = 0; i < 10; i++) {
-            var obj = {}
-            
-            obj['time'] = '2017-8-22 18:22:22' +"&" + i
-            obj['name'] = 'John Brown' +"&" + i
-            obj['tel'] = '13822345533' +"&" + i
-            obj['IDNumber'] = '4561231321546465' +"&" + i
-            obj['sex'] = '男' +"&" + i
-            obj['joinTime'] = '2018-3-19 18:22:22' +"&" + i
-            obj['college'] = '计算机科学与技术' +"&" + i
-            obj['major'] = '电子商务管理' +"&" + i
-            obj['education'] = '硕士' +"&" + i
-
-            arr.push(obj)
-        }
-        this.data = arr;
-    }
-
-    
-    showModal = () => {
-        this.isVisible = true;
-    }
-
-    currentPageChange () {
+        // 初始化下拉列表数据与表格数据
+        this.getCollegeSelectData()
+        this.loadData()
 
     }
 
-    pageSizeChange () {
+    loadData() {
+        this.spinShow = true;
+        console.log("'joinBeginTime", this.joinBeginTime);
+        console.log("'joinBeginTime", this.joinBeginTime === null);
+        console.log("'joinBeginTime", this.joinBeginTime === 'null');
+        console.log("'joinEndrTime", this.joinEndrTime);
+    }
+
+    // 获取下拉列表数据
+    getCollegeSelectData ():void {
+        this.alumniMgService.getCollegeSelectData();
+        this.alumniMgService.waitPendingOfSelectSubject.subscribe(
+            res => {
+                if (res.college) {
+                    console.log('selected data', res)
+                    if (res.college.error_code === 0) {
+                        this.collegeOptions = res.college.result;
+                    }
+                }
+            }
+        )
+    }
+
+    geMojorData (value) {
+        this.alumniMgService.getMajorSelectData(value);
+        this.alumniMgService.waitPendingOfSelectSubject.subscribe(
+            res => {
+                if (res.major) {
+                    if (res.major.error_code === 0) {
+                        this.majorOptions = res.major.result;
+                    }
+                }
+            }
+        )
+    }
+
+    collegeChange (value) {
+        this.geMojorData(this.collegeSelected)
+    }
+    // 搜索、分页方法
+
+    currentPageChange (currentPage) {
+        this.currentPage = currentPage;
+        this.loadData ()
+    }
+
+    handlerSearch ():void {
+        this.currentPage = 1;
+        this.loadData()
+    }
+
+    // 审核资料展示 方法
+    showInfoModal = (data) => {
+        console.log('data', data)
+        this.userInfo = Object.assign({}, data);
+        this.inforVisible = true;
+    }
+
+    closeInforModel = () => {
+        this.inforVisible = false;
+    }
+
+    // 处理解冻与冻结
+    handleFreeze (data) {
 
     }
 }
