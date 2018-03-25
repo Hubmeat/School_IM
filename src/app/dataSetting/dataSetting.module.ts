@@ -8,15 +8,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { RouterModule, Routes, ActivatedRoute } from '@angular/router';
 import { NgxEchartsModule } from 'ngx-echarts';
+
 import {IndustrySetupComponent} from './industrySetup/industrySetup.component';
 import {DepartmentsSetupComponent} from './departmentsSetup/departmentsSetup.component';
+import {SpecialtyComponent} from './departmentsSetup/specialty/specialty.component';
 
 // 导入事件模块的服务
 
 
 const EventComponents = [
   IndustrySetupComponent,
-  DepartmentsSetupComponent
+  DepartmentsSetupComponent,
+  SpecialtyComponent
 ];
 
 const EVENTROUTES: Routes = [
@@ -27,6 +30,10 @@ const EVENTROUTES: Routes = [
   {
     path: 'industrySetup',
     component: IndustrySetupComponent
+  },
+  {
+    path: 'specialty',
+    component: SpecialtyComponent
   }
 ]
 

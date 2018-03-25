@@ -1,25 +1,21 @@
 <div id="industry">
-  <div nz-row style="padding: 20px" *ngIf="true">
-    <button nz-button nz-col [nzSpan]="3" style="margin-right: 20px;">返回</button>
-    <h2 nz-col [nzSpan]="20">学院</h2>
-  </div>
   <div nz-row class="industry_head">
     <div nz-col [nzSpan]="7">
-      <span>专业名称</span>
+      <span>行业名称</span>
       <nz-input
         style="width: 80%;"
-        [(ngModel)]="schoolName"
-        [nzPlaceHolder]="'Basic usage'"
-        (ngModelChange)="_console($event)">
+        [(ngModel)]="industry_name"
+        [nzPlaceHolder]="'请输入行业名称'"
+      >
       </nz-input>
     </div>
-    <button nz-col [nzSpan]="2" nz-button>搜索</button>
+    <button nz-col [nzSpan]="2" nz-button (click)="getDataList()">搜索</button>
     <button nz-col [nzSpan]="2" nz-button (click)="showModal1()">批量导入</button>
-    <button nz-col [nzSpan]="2" nz-button (click)="showModal()">手动添加</button>
+    <button nz-col [nzSpan]="2" nz-button (click)="addModal()">手动添加</button>
   </div>
 </div>
 <div class="industry_table">
-    <nz-table #nzTable [nzDataSource]="_dataSet" [nzPageSize]="10" nzShowSizeChanger>
+    <nz-table #nzTable [nzDataSource]="dataList" [nzPageSize]="10" nzShowSizeChanger>
       <thead nz-thead>
       <tr>
         <th nz-th><span>专业</span></th>
@@ -30,17 +26,17 @@
       <tbody nz-tbody>
       <tr nz-tbody-tr *ngFor="let data of nzTable.data">
         <td nz-td>
-          <a>{{data.name}}</a>
+          <a>{{data.industry_name}}</a>
         </td>
-        <td nz-td>{{data.age}}</td>
+        <td nz-td>{{data.id}}</td>
         <td nz-td>
-          <a class="a-click" (click)="showModal()">编辑</a>
+          <a class="a-click" (click)="editModal(data.id, data.industry_name)">编辑</a>
           <a class="a-click">
             <nz-popconfirm [nzTitle]="'确定删除专业'"
                            [nzOkText]="'确定'"
                            [nzCancelText]="'取消'"
-                           (nzOnConfirm)="confirm()"
-                           (nzOnCancel)="cancel()"
+                           (nzOnConfirm)="deleteConfirm(data.id)"
+                           (nzOnCancel)="deletecancel()"
             >
               <a nz-popconfirm>删除</a>
             </nz-popconfirm></a>
@@ -50,18 +46,35 @@
     </nz-table>
   </div>
 
+<nz-modal [nzVisible]="editVisible"
+          [nzTitle]="'编辑'"
+          [nzOkText]="'提交'"
+          [nzCancelText]="'取消'"
+          [nzContent]="editContent"
+          (nzOnCancel)="handleCancel($event)"
+          (nzOnOk)="editIndustry()"
+>
+  <ng-template #editContent>
+    <div>
+      <nz-input [(ngModel)]="editindustry_name">
+        <ng-template #addOnBefore>行业名称</ng-template>
+      </nz-input>
+    </div>
+  </ng-template>
+</nz-modal>
+
 <nz-modal [nzVisible]="isVisible"
           [nzTitle]="'手动添加'"
           [nzOkText]="'提交'"
           [nzCancelText]="'取消'"
           [nzContent]="modalContent"
           (nzOnCancel)="handleCancel($event)"
-          (nzOnOk)="handleOk($event)"
+          (nzOnOk)="addIndustry()"
 >
   <ng-template #modalContent>
     <div>
-      <nz-input [(ngModel)]="newUserName" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)">
-        <ng-template #addOnBefore>专业名称</ng-template>
+      <nz-input [(ngModel)]="addindustry_name" [nzPlaceHolder]="'请输入行业名称'">
+        <ng-template #addOnBefore>行业名称</ng-template>
       </nz-input>
     </div>
   </ng-template>

@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-
+        window.localStorage.removeItem('openSign');
     }
 
 
@@ -90,6 +90,7 @@ export class LoginComponent implements OnInit {
           res => {
               console.log(res);
               if (res.error_code === 0) {
+                res = res.result[0];
                 window.localStorage.setItem('uid', res.id);
                 window.localStorage.setItem('userName', res.user_name);
                 window.localStorage.setItem('userPhone', res.contact_phone);
