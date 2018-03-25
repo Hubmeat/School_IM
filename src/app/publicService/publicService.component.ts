@@ -18,20 +18,8 @@ export class publicService {
 
     constructor (
         private $http: HttpClient,
-        private HOST: ApiModule) {}
+        private $HOST: ApiModule) {}
 
-    // 事件案例分析模块，总览数据
-    overViewData:any = []
-
-    // 用户信息
-    userInfo = {
-        uid :'123',
-        username :'1111',
-        email: ''
-    }
-
-    // 产品名称
-    productName:any = '';
 
     // 登录的方法
     public LoginSubject = new Subject<any>();
@@ -39,12 +27,12 @@ export class publicService {
     public getUserInfo(contact_phone, password) {
 
         const data = {
-          'contact_phone': contact_phone,
-          // 'contact_phone': '18333608367',
-          'password': password
+          contact_phone: contact_phone,
+          // 'contact_phone': '18333608300',
+          password: password
           // 'password': '123456'
         };
-        const val = this.HOST.host;
+        const val = this.$HOST.host;
         this.$http
             .post(`${val}/a/user/login`, data)
             .retry(3)
