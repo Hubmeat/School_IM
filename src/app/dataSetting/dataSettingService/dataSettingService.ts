@@ -16,6 +16,7 @@ export class DataSettingService {
   /**
    * 学院信息
    */
+  academy_id = '';
   public DataSettingDepartmentsSubject = new Subject<any>();
     // 搜索/查询list
     public getDepartmentsList(page, searchParam) {
@@ -146,10 +147,11 @@ export class DataSettingService {
     }
 
     // 专业列表
-    public getSpecialtyList(page, searchParam) {
+    public getSpecialtyList(page, searchParam, academy_id) {
       const formData = {
         page: page,
-        searchParam: searchParam
+        searchParam: searchParam,
+        academy_id: academy_id
       }
       this.$http
         .post(this.$HOST.host + '/a/major/list', formData)

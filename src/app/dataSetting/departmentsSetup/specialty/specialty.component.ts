@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DataSettingService} from '../../dataSettingService/dataSettingService';
 import {NzMessageService} from 'ng-zorro-antd';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'specialty-component',
@@ -11,120 +12,127 @@ import {NzMessageService} from 'ng-zorro-antd';
 })
 
 export class SpecialtyComponent implements OnInit {
-  _dataSet = [];
-  schoolName = '';
+  dataList = [];
+  majorName = '';
   isVisible = false;
   isVisible1= false;
   isEditVisible= false;
   page: 1;
   searchParam: '';
-  editName: '';
 
-  academy_name: string = ''; // 学院名
+  addMajorName: string = ''; // 学院名
+  editMajorName: string = '';
+  editId;
   msg: string = '';
   constructor(
     private service: DataSettingService,
+    private router: Router,
     private _message: NzMessageService,
   ) {}
   ngOnInit() {
-    for (let i = 0; i < 46; i++) {
-      this._dataSet.push({
-        key    : i,
-        name   : `Edward King ${i}`,
-        age    : 32,
-        address: `London, Park Lane no. ${i}`,
-      });
+    if (this.service.academy_id === '') {
+      this.goback();
     }
 
-    // this.search()
+    this.search()
   }
 
+  // 搜索/获取list
   search() {
-    this.service.getDepartmentsList(
+    const academy_id = this.service.academy_id;
+    this.service.getSpecialtyList(
       this.page,
-      this.searchParam
+      this.searchParam,
+      academy_id
     );
-    this.service.DataSettingDepartmentsSubject.subscribe(res => {
+    this.service.SpecialtySetupSubject.subscribe(res => {
       console.log(res);
+      if (res.dataList === undefined) {
+        return;
+      }
+      if (res.dataList.error_code === 0) {
+        this.dataList = res.dataList.result;
+      }
     })
   }
-
-  // 添加学院信息
-  addDepartments() {
-    console.log(this.academy_name);
-    if (this.academy_name  === '') {
-      this._message.warning(`学院名称为空!`);
-      return;
-    }
-    const uid = window.localStorage.getItem('id');
-    this.service.addDepartments(
+  // 添加专业
+  addmajor = (e) => {
+    const uid = window.localStorage.getItem('uid');
+    const academy_id = this.service.academy_id;
+    this.service.addSpecialty(
       uid,
-      this.academy_name
-    );
-    this.service.DataSettingDepartmentsSubject.subscribe(res => {
-      console.log(res);
-      if (res.addmsg.error_code !== 0) {
-        this.msg = res.addmsg.error_msg;
-        this._message.success(this.msg || '添加失败');
-      }else {
-        this._message.success(`添加成功!`);
-        this.isVisible = false;
-      }
-    })
-  }
-
-  // 删除学院信息
-  deleteDepartments(id) {
-    console.log('123213')
-    this.service.deleteDepartments(
-      id
-    );
-    this.service.DataSettingDepartmentsSubject.subscribe(res => {
-      console.log(res);
-      if (res.delmsg.error_code !== 0) {
-        this._message.warning('删除失败');
-      } else {
-        this._message.success('删除成功');
-      }
-    })
-  }
-
-  // 编辑学院信息
-  editDepartments(id, name) {
-    this.service.editDepartments(
-      id,
-      name
+      this.addMajorName,
+      academy_id
     )
-    this.service.DataSettingDepartmentsSubject.subscribe(res => {
+    this.service.SpecialtySetupSubject.subscribe(res => {
+       if (res.addmsg === undefined) {
+         return;
+       }
+       if (res.addmsg.error_code === 0) {
+         this._message.success('添加成功');
+         this.isVisible = false;
+         this.isVisible1 = false;
+         this.search()
+       } else {
+         this._message.warning('添加失败');
+       }
+    })
+    this.isVisible = false;
+    this.isVisible1 = false;
+  }
+
+  // 删除专业
+  deleteconfirm(id) {
+    this.service.deleteSpecialty(
+      id
+    )
+    this.service.SpecialtySetupSubject.subscribe(res => {
       console.log(res);
-      if (res.editmsg.error_code !== 0) {
-        this._message.warning('编辑失败');
+      if (res.delmsg === undefined) {
+        return;
+      }
+      if (res.delmsg.error_code === 0) {
+        this._message.success('删除成功');
+        this.search()
       } else {
-        this._message.success('编辑成功');
-        this.isEditVisible = false;
+        this._message.warning('删除失败');
       }
     })
   }
 
-  showEditModal(name) {
-    this.msg = '';
-    this.editName = name;
-    this.isEditVisible = true;
+  // 编辑专业
+  editMajor() {
+    const id = this.editId;
+    const major_name = this.editMajorName;
+    this.service.editSpecialty(
+      id,
+      major_name
+    )
+    this.service.SpecialtySetupSubject.subscribe(res => {
+      console.log(res);
+      if (res.editmsg === undefined) {
+        return;
+      }
+      if (res.editmsg.error_code === 0) {
+        this._message.success('修改成功');
+        this.isEditVisible = false;
+        this.search();
+      } else {
+        this._message.warning('修改失败 ');
+      }
+    })
   }
-
-
-  showModal = () => {
+  goback() {
+    this.router.navigate(['/index/departmentsSetup']);
+  }
+  showModal = (major_name, id) => {
     this.msg = '';
-    this.isVisible = true;
+    this.editMajorName = major_name;
+    this.editId = id;
+    this.isEditVisible = true;
   }
   showModal1 = () => {
     this.isVisible1 = true;
-  }
-
-  handleOk = (e) => {
-    console.log('点击了确定');
-    this.isVisible = false;
-    this.isVisible1 = false;
   }
 
   handleCancel = (e) => {
@@ -132,5 +140,8 @@ export class SpecialtyComponent implements OnInit {
     this.isVisible = false;
     this.isVisible1 = false;
     this.isEditVisible = false;
+  }
+  cancel = () => {
+
   }
 }

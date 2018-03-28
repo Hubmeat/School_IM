@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DataSettingService} from '../dataSettingService/dataSettingService';
 import {NzMessageService} from 'ng-zorro-antd';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'departmentsSetup-component',
@@ -26,6 +27,7 @@ export class DepartmentsSetupComponent implements OnInit {
   constructor(
     private service: DataSettingService,
     private _message: NzMessageService,
+    private router: Router
   ) {}
   ngOnInit() {
     this.search()
@@ -121,6 +123,11 @@ export class DepartmentsSetupComponent implements OnInit {
     this.editName = name;
     this.editId = id;
     this.isEditVisible = true;
+  }
+
+  goMajor(id) {
+    this.service.academy_id = id;
+    this.router.navigate(['/index/specialty']);
   }
 
   deletecancel = () => {
