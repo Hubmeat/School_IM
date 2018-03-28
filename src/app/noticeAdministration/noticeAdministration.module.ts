@@ -10,18 +10,24 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import {NoticeAdminService} from './noticeAdministrationService/noticeAdmin.service';
 import {NoticeAdminComponent} from './noticeAdmin/noticeAdmin.component';
+import {AddNoticeComponent} from './addNotice/addNotice.component';
 
 // 导入事件模块的服务
 
 
 const EventComponents = [
-    NoticeAdminComponent
+    NoticeAdminComponent,
+    AddNoticeComponent
 ];
 
 const EVENTROUTES: Routes = [
   {
     path: 'noticeAdmin',
     component: NoticeAdminComponent
+  },
+  {
+    path: 'addNotice',
+    component: AddNoticeComponent
   }
 ]
 

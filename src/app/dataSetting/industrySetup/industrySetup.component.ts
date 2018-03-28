@@ -131,4 +131,7 @@ export class IndustrySetupComponent implements OnInit {
     this.isVisible1 = false;
     this.editVisible = false;
   }
+  handleOk = (e) => {
+
+  }
 }

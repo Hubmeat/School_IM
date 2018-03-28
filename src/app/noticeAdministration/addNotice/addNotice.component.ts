@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
 
 
 
 @Component({
-  selector: 'noticeAdmin-component',
-  templateUrl: './noticeAdmin.component.html',
+  selector: 'addNotice-component',
+  templateUrl: './addNotice.component.html',
   styleUrls: [
-    './noticeAdmin.component.less'
+    './addNotice.component.less'
   ]
 })
 
-export class NoticeAdminComponent implements OnInit  {
+export class AddNoticeComponent implements OnInit  {
   _dataSet = [];
   options = [
     {
@@ -27,9 +26,6 @@ export class NoticeAdminComponent implements OnInit  {
   selectedOption = this.options[0]
   isVisible = false
   isVisible1= false
-  constructor(
-    private router: Router
-  ) {}
   ngOnInit() {
     for (let i = 0; i < 46; i++) {
       this._dataSet.push({
@@ -39,10 +35,6 @@ export class NoticeAdminComponent implements OnInit  {
         address: `London, Park Lane no. ${i}`,
       });
     }
-  }
-
-  addNewNotice(): void {
-    this.router.navigate(['/index/addNotice'])
   }
   showModal = () => {
     this.isVisible = true;

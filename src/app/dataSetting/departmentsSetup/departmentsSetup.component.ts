@@ -11,14 +11,15 @@ import {NzMessageService} from 'ng-zorro-antd';
 })
 
 export class DepartmentsSetupComponent implements OnInit {
-  _dataSet = [];
+  dataList = [];
   schoolName = '';
   isVisible = false;
   isVisible1= false;
   isEditVisible= false;
-  page: 1;
-  searchParam: '';
+  page: number = 1;
+  searchParam:string = '';
   editName: '';
+  editId: string = ''
 
   academy_name: string = ''; // 学院名
   msg: string = '';
@@ -27,16 +28,7 @@ export class DepartmentsSetupComponent implements OnInit {
     private _message: NzMessageService,
   ) {}
   ngOnInit() {
-    for (let i = 0; i < 46; i++) {
-      this._dataSet.push({
-        key    : i,
-        name   : `Edward King ${i}`,
-        age    : 32,
-        address: `London, Park Lane no. ${i}`,
-      });
-    }
-
-    // this.search()
+    this.search()
   }
 
   search() {
@@ -46,6 +38,12 @@ export class DepartmentsSetupComponent implements OnInit {
     );
     this.service.DataSettingDepartmentsSubject.subscribe(res => {
       console.log(res);
+      res = res.dataList
+      if (res !== undefined && res.error_code === 0) {
+        this.dataList = res.result;
+      } else {
+        this.dataList = [];
+      }
     })
   }
 
@@ -63,56 +61,71 @@ export class DepartmentsSetupComponent implements OnInit {
     );
     this.service.DataSettingDepartmentsSubject.subscribe(res => {
       console.log(res);
+      if (res.addmsg === undefined) {
+        return;
+      }
       if (res.addmsg.error_code !== 0) {
         this.msg = res.addmsg.error_msg;
         this._message.success(this.msg || '添加失败');
       }else {
         this._message.success(`添加成功!`);
         this.isVisible = false;
+        this.academy_name = '';
+        this.search();
       }
     })
   }
 
   // 删除学院信息
   deleteDepartments(id) {
-    console.log('123213')
     this.service.deleteDepartments(
       id
     );
     this.service.DataSettingDepartmentsSubject.subscribe(res => {
       console.log(res);
+      if (res.delmsg === undefined) {
+        return;
+      }
       if (res.delmsg.error_code !== 0) {
         this._message.warning('删除失败');
       } else {
         this._message.success('删除成功');
+        this.search()
       }
     })
   }
 
   // 编辑学院信息
-  editDepartments(id, name) {
+  editDepartments() {
     this.service.editDepartments(
-      id,
-      name
+      this.editId,
+      this.editName
     )
     this.service.DataSettingDepartmentsSubject.subscribe(res => {
        console.log(res);
+      if (res.editmsg === undefined) {
+        return;
+      }
       if (res.editmsg.error_code !== 0) {
         this._message.warning('编辑失败');
       } else {
         this._message.success('编辑成功');
         this.isEditVisible = false;
+        this.search()
       }
     })
   }
 
-  showEditModal(name) {
+  showEditModal(name, id) {
     this.msg = '';
     this.editName = name;
+    this.editId = id;
     this.isEditVisible = true;
   }
 
+  deletecancel = () => {
 
+  }
   showModal = () => {
     this.msg = '';
     this.isVisible = true;

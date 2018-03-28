@@ -24,7 +24,7 @@
       </nz-select>
     </div>
     <button nz-col [nzSpan]="2" nz-button>搜索</button>
-    <button nz-col [nzSpan]="2" nz-button>添加公告</button>
+    <button nz-col [nzSpan]="2" nz-button (click)="addNewNotice()">添加公告</button>
   </div>
 </div>
 
@@ -64,7 +64,7 @@
 </div>
 
 <nz-modal [nzVisible]="isVisible"
-          [nzTitle]="'查看详情'"
+          [nzTitle]="'title'"
           [nzCancelText]="'关闭'"
           [nzContent]="modalContent"
           (nzOnCancel)="handleCancel($event)"
@@ -72,17 +72,7 @@
 >
   <ng-template #modalContent>
     <div><img src="" alt=""></div>
-    <div>
-      <p>题目</p>
-      <p>直播时间</p>
-      <p><img src="" alt=""><span>小张</span></p>
-    </div>
-    <hr>
-    <p>直播简介</p>
-    <div>
-      <p>132123123123123123123123123132132</p>
-    </div>
-    <div>预告状态：显示</div>
+    <p>123213</p>
   </ng-template>
 </nz-modal>
 

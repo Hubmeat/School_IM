@@ -20,8 +20,8 @@ export class DataSettingService {
     // 搜索/查询list
     public getDepartmentsList(page, searchParam) {
       const formData = {
-        page: 1,
-        searchParam: '电'
+        page: page,
+        searchParam: searchParam
       }
       this.$http
         .post(this.$HOST.host + '/a/academy/list', formData)
@@ -33,7 +33,7 @@ export class DataSettingService {
     // 添加学院信息
     public addDepartments(uid, academy_name) {
       const formData = {
-        uid: 1646334584094728,
+        uid: uid,
         academy_name: academy_name
       }
       this.$http
@@ -46,7 +46,7 @@ export class DataSettingService {
     // 删除学院信息
     public deleteDepartments(id) {
       const formData = {
-        id: 123131
+        id: id
       };
       this.$http
         .post(this.$HOST.host + '/a/academy/remove', formData)
