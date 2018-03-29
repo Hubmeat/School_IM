@@ -15,6 +15,7 @@ export class LivePreviewComponent implements OnInit  {
   _dataSet = [];
   isVisible = false
   isVisible1= false
+  newUserName
   constructor(
     private router: Router
   ) {

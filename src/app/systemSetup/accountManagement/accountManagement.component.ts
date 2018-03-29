@@ -25,6 +25,8 @@ export class AccountManagementComponent implements OnInit {
   lastPassword: string = '';
   radioState: string = 'start';
   selectedOption;
+  newUserName
+  uid
 
 
   _dataSet: any = [];
@@ -80,14 +82,15 @@ export class AccountManagementComponent implements OnInit {
 
 
 
-  showModal = () => {
+  showModal = (username, uid) => {
+    this.UserName = username;
+    this.uid = uid;
     this.isVisible = true;
   }
   // 重置密码
-  handleOk = (username, uid) => {
-    this.UserName = username;
+  handleOk = (e) => {
     this.service.resetPassword(
-      uid,
+      this.uid,
       this.newUserPassword,
       this.repeatPassword
     )

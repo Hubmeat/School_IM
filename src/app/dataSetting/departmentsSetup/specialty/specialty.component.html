@@ -15,7 +15,7 @@
     </div>
     <button nz-col [nzSpan]="2" nz-button>搜索</button>
     <button nz-col [nzSpan]="2" nz-button (click)="showModal1()">批量导入</button>
-    <button nz-col [nzSpan]="2" nz-button (click)="showModal()">手动添加</button>
+    <button nz-col [nzSpan]="2" nz-button (click)="showModal2()">手动添加</button>
   </div>
 </div>
 <div class="specialty_table">
@@ -73,7 +73,7 @@
           [nzCancelText]="'取消'"
           [nzContent]="editmodalContent"
           (nzOnCancel)="handleCancel($event)"
-          (nzOnOk)="editMajor($event)"
+          (nzOnOk)="editMajor()"
 >
   <ng-template #editmodalContent>
     <div>
@@ -90,7 +90,7 @@
           [nzCancelText]="'取消'"
           [nzContent]="modalContent1"
           (nzOnCancel)="handleCancel($event)"
-          (nzOnOk)="handleCancel()"
+          (nzOnOk)="handleCancel($event)"
 >
   <ng-template #modalContent1>
     <div>

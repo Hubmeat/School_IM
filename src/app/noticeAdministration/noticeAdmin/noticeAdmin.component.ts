@@ -15,18 +15,23 @@ export class NoticeAdminComponent implements OnInit  {
   _dataSet = [];
   options = [
     {
-      label: '全部'
+      label: '全部',
+      disabled: false
     },
     {
-      label: '显示'
+      label: '显示',
+      disabled: false
     },
     {
-      label: '隐藏'
+      label: '隐藏',
+      disabled: false
     }
   ]
   selectedOption = this.options[0]
   isVisible = false
   isVisible1= false
+  newUserName
+  disabled
   constructor(
     private router: Router
   ) {}

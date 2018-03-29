@@ -84,7 +84,7 @@
       </div>
     </div>
     <!-- 搜索 -->
-    <div class="search">    
+    <div class="search">
       <button nz-button (click) = 'handlerSearch()' [nzType]="'primary'">
         <span>搜索</span>
       </button>
@@ -95,7 +95,7 @@
   <!-- 表格 -->
   <div class="waitPending_table">
     <div class="table">
-        <nz-table #nzTable 
+        <nz-table #nzTable
           [nzDataSource]="data"
           [nzBordered] = "borderShow"
           [nzLoading] = "spinShow"
@@ -187,7 +187,7 @@
                 </li>
                 <li>
                   <span><b class="weight">目前所在地：</b></span>
-                  {{userInfo.province}} {{userInfo.city}} 
+                  {{userInfo.province}} {{userInfo.city}}
                 </li>
               </ul>
             </div>
@@ -239,7 +239,7 @@
   </nz-modal>
 
   <!-- 审核模态框 -->
-  <nz-modal [nzVisible]="auditVisible" [nzStyle]="modelStyle" [nzTitle]="'校友审核'" [nzContent]="AuditModalContent" [nzFooter]="AuditModalFooter" (nzOnCancel)="closeAuditModel($event)">
+  <nz-modal [nzVisible]="auditVisible" [nzStyle]="modelStyle" [nzTitle]="'校友审核'" [nzContent]="AuditModalContent" [nzFooter]="AuditModalFooter" (nzOnCancel)="closeAuditModel()">
       <ng-template #AuditModalContent>
         <div id="examineModel">
             <div class="examineModel_head">
@@ -262,7 +262,7 @@
                   </li>
                   <li>
                     <span><b class="weight">目前所在地：</b></span>
-                    {{userInfo.province}} {{userInfo.city}} 
+                    {{userInfo.province}} {{userInfo.city}}
                   </li>
                 </ul>
               </div>

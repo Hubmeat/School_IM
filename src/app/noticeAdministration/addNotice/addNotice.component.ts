@@ -26,6 +26,10 @@ export class AddNoticeComponent implements OnInit  {
   selectedOption = this.options[0]
   isVisible = false
   isVisible1= false
+  newUserName
+  radioValue
+  avatarUrl
+  beforeUpload
   ngOnInit() {
     for (let i = 0; i < 46; i++) {
       this._dataSet.push({
@@ -54,4 +58,7 @@ export class AddNoticeComponent implements OnInit  {
     this.isVisible = false;
     this.isVisible1 = false;
   }
+  goback(){}
+  previewSubmit(){}
+  handleChange(e){}
 }

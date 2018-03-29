@@ -98,7 +98,7 @@ export class WaitPendingComponent implements OnInit {
                 console.log('this is 订阅的数据', res)
                 if (res.error_code === 0) {
                     this.data = res.result;
-                    this.totalPage = res.total_count;                    
+                    this.totalPage = res.total_count;
                 } else {
                     this.data = [];
                     this.totalPage = 0;
@@ -157,7 +157,7 @@ export class WaitPendingComponent implements OnInit {
         this.inforVisible = true;
     }
 
-    closeInforModel = () => {
+    closeInforModel = (e) => {
         this.inforVisible = false;
     }
 
@@ -188,8 +188,8 @@ export class WaitPendingComponent implements OnInit {
                 }
             }
         )
-    }    
-    
+    }
+
     handerReject(data):void {
         this.rejectLoading = true;
         this.alumniMgService.handerAudit(this.userInfo.id, '2');
@@ -200,7 +200,7 @@ export class WaitPendingComponent implements OnInit {
                     setTimeout( () => {
                         this.rejectLoading = false;
                         this.auditVisible = false;
-                        
+
                         this.loadData()
                     }, 500);
                 } else {

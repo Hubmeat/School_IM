@@ -13,6 +13,9 @@ import {NzMessageService} from 'ng-zorro-antd';
 export class ForgetPasswordComponent implements OnInit {
   username: '';
   validateCode: '';
+  isPasswordTrue
+  _isSpinning
+  isUserTrue
   constructor(
     private router: Router,
     private _message: NzMessageService
@@ -20,6 +23,8 @@ export class ForgetPasswordComponent implements OnInit {
   ngOnInit() {
 
   }
+  focusPass() {}
+  focusUser(){}
   submit() {
     this.router.navigate(['/login'])
     this._message.success(`重置成功!`);

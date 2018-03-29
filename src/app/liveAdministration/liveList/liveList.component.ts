@@ -14,6 +14,9 @@ export class LiveListComponent implements OnInit  {
   _dataSet = [];
   isVisible = false
   isVisible1= false
+  newUserName
+  selectedOption
+  options
   ngOnInit() {
     for (let i = 0; i < 46; i++) {
       this._dataSet.push({

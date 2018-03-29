@@ -24,6 +24,7 @@ export class SpecialtyComponent implements OnInit {
   editMajorName: string = '';
   editId;
   msg: string = '';
+  fileList
   constructor(
     private service: DataSettingService,
     private router: Router,
@@ -134,6 +135,7 @@ export class SpecialtyComponent implements OnInit {
   showModal1 = () => {
     this.isVisible1 = true;
   }
+  showModal2 = () => {}
 
   handleCancel = (e) => {
     console.log(e);

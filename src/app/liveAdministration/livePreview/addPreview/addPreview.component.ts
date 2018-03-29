@@ -16,6 +16,10 @@ export class AddPreviewComponent implements OnInit  {
   _dataSet = [];
   isVisible = false
   isVisible1= false
+  newUserName
+  avatarUrl
+  beforeUpload
+  radioValue
   constructor(
     private router: Router,
     private _message: NzMessageService
@@ -57,4 +61,5 @@ export class AddPreviewComponent implements OnInit  {
     this.isVisible = false;
     this.isVisible1 = false;
   }
+  handleChange = (e) => {}
 }

@@ -141,4 +141,7 @@ export class SchoolfellowListCom implements OnInit {
     handleFreeze (data) {
 
     }
+  closeAuditModel = () => {
+
+  }
 }

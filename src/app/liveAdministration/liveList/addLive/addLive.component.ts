@@ -14,6 +14,10 @@ export class AddLiveComponent implements OnInit  {
   _dataSet = [];
   isVisible = false
   isVisible1= false
+  newUserName
+  avatarUrl
+  radioValue
+  beforeUpload
   ngOnInit() {
     for (let i = 0; i < 46; i++) {
       this._dataSet.push({
@@ -41,5 +45,8 @@ export class AddLiveComponent implements OnInit  {
     console.log(e);
     this.isVisible = false;
     this.isVisible1 = false;
+  }
+  handleChange = (e) => {
+
   }
 }
