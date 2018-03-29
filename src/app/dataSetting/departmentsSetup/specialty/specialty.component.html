@@ -9,13 +9,13 @@
       <nz-input
         style="width: 80%;"
         [(ngModel)]="majorName"
-        [nzPlaceHolder]="'Basic usage'"
+        [nzPlaceHolder]="'请输入专业名'"
       >
       </nz-input>
     </div>
-    <button nz-col [nzSpan]="2" nz-button>搜索</button>
+    <button nz-col [nzSpan]="2" nz-button (click)="search()">搜索</button>
     <button nz-col [nzSpan]="2" nz-button (click)="showModal1()">批量导入</button>
-    <button nz-col [nzSpan]="2" nz-button (click)="showModal2()">手动添加</button>
+    <button nz-col [nzSpan]="2" nz-button (click)="addshowModal()">手动添加</button>
   </div>
 </div>
 <div class="specialty_table">
@@ -34,7 +34,7 @@
       </td>
       <td nz-td>{{data.age}}</td>
       <td nz-td>
-        <a class="a-click" (click)="showModal(data.major_name, data.id)">编辑</a>
+        <a class="a-click" (click)="editshowModal(data.major_name, data.id)">编辑</a>
         <a class="a-click">
           <nz-popconfirm [nzTitle]="'确定删除专业'"
                          [nzOkText]="'确定'"
@@ -50,7 +50,7 @@
   </nz-table>
 </div>
 <!--add-->
-<nz-modal [nzVisible]="isVisible"
+<nz-modal [nzVisible]="isAddVisible"
           [nzTitle]="'手动添加'"
           [nzOkText]="'提交'"
           [nzCancelText]="'取消'"

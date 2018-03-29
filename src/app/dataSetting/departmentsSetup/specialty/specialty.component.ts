@@ -14,11 +14,10 @@ import {Router} from '@angular/router';
 export class SpecialtyComponent implements OnInit {
   dataList = [];
   majorName = '';
-  isVisible = false;
+  isAddVisible = false;
   isVisible1= false;
   isEditVisible= false;
   page: 1;
-  searchParam: '';
 
   addMajorName: string = ''; // 学院名
   editMajorName: string = '';
@@ -43,7 +42,7 @@ export class SpecialtyComponent implements OnInit {
     const academy_id = this.service.academy_id;
     this.service.getSpecialtyList(
       this.page,
-      this.searchParam,
+      this.majorName,
       academy_id
     );
     this.service.SpecialtySetupSubject.subscribe(res => {
@@ -71,14 +70,14 @@ export class SpecialtyComponent implements OnInit {
        }
        if (res.addmsg.error_code === 0) {
          this._message.success('添加成功');
-         this.isVisible = false;
+         this.isAddVisible = false;
          this.isVisible1 = false;
          this.search()
        } else {
          this._message.warning('添加失败');
        }
     })
-    this.isVisible = false;
+    this.isAddVisible = false;
     this.isVisible1 = false;
   }
 
@@ -126,7 +125,7 @@ export class SpecialtyComponent implements OnInit {
   goback() {
     this.router.navigate(['/index/departmentsSetup']);
   }
-  showModal = (major_name, id) => {
+  editshowModal = (major_name, id) => {
     this.msg = '';
     this.editMajorName = major_name;
     this.editId = id;
@@ -135,11 +134,14 @@ export class SpecialtyComponent implements OnInit {
   showModal1 = () => {
     this.isVisible1 = true;
   }
-  showModal2 = () => {}
+  addshowModal = () => {
+    this.isAddVisible = true;
+    this.addMajorName = '';
+  }
 
   handleCancel = (e) => {
     console.log(e);
-    this.isVisible = false;
+    this.isAddVisible = false;
     this.isVisible1 = false;
     this.isEditVisible = false;
   }
