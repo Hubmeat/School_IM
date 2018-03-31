@@ -1,0 +1,11 @@
+<div id="contactAdmin" nz-row>
+  <div class="contact-list" nz-col [nzSpan]="8">
+    <ul>
+      <li>系统管理员</li>
+      <li *ngFor="let i of dataList">
+        {{i}}
+      </li>
+    </ul>
+  </div>
+  <div  nz-col [nzSpan]="16">详细窗口</div>
+</div>
