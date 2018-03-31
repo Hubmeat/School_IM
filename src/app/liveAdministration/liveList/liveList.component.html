@@ -54,15 +54,13 @@
       </thead>
       <tbody nz-tbody>
       <tr nz-tbody-tr *ngFor="let data of nzTable.data">
-        <td nz-td>
-          <a>{{data.name}}</a>
-        </td>
-        <td nz-td>{{data.age}}</td>
-        <td nz-td (click)="showModal()">{{data.address}}</td>
-        <td nz-td>{{data.age}}</td>
-        <td nz-td>{{data.age}}</td>
-        <td nz-td>{{data.age}}</td>
-        <td nz-td>{{data.age}}</td>
+        <td nz-td>{{data.created_at}}</td>
+        <td nz-td>{{data.live_title}}</td>
+        <td nz-td (click)="showModal()">{{data.live_pic}}</td>
+        <td nz-td>{{data.video_url}}</td>
+        <td nz-td>{{data.live_person}}</td>
+        <td nz-td>{{data.video_type}}</td>
+        <td nz-td>{{data.live_state}}</td>
         <td nz-td>
           <a class="a-click">编辑</a>
           <a class="a-click">隐藏</a>

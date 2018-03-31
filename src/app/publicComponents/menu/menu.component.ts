@@ -43,7 +43,7 @@ export class MenuComponent implements OnInit, OnChanges  {
     contactAdmin: any = [
       {
         name: '消息管理',
-        url: '/index/',
+        url: '/index/contactAdmin',
         active: false
       }
     ];

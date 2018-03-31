@@ -12,6 +12,7 @@ import {DataSettingModule} from '../dataSetting/dataSetting.module';
 import {LiveAdministrationModule} from '../liveAdministration/liveAdministration.module';
 import {ForgetPasswordComponent} from '../login/forgetPassword/forgetPassword.component';
 import {NoticeAdministrationModule} from '../noticeAdministration/noticeAdministration.module';
+import {ContactAdminModule} from '../contactAdmin/contactAdmin.module';
 
 
 export const appRoutes = [
@@ -43,6 +44,10 @@ export const appRoutes = [
             {
               path: '',
               loadChildren: './noticeAdministration/noticeAdministration.module#NoticeAdministrationModule'
+            },
+            {
+              path: '',
+              loadChildren: './contactAdmin/contactAdmin.module#ContactAdminModule'
             }
         ]
     },
