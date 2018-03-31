@@ -58,7 +58,7 @@ export class SystemSetupService {
         this.$http
           .post(this.$HOST.host + '/a/user/adminlist', formData)
           .subscribe(res => {
-             this.SystemListDataSubject.next(res)
+             this.SystemListDataSubject.next({dataList: res})
           })
     }
 

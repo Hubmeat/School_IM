@@ -4,7 +4,7 @@
       <span>姓名</span>
       <nz-input
         style="width: 150px;"
-        [(ngModel)]="UserName"
+        [(ngModel)]="user_name"
         [nzPlaceHolder]="'Basic usage'"
       >
       </nz-input>
@@ -13,7 +13,7 @@
       <span>手机</span>
       <nz-input
         style="width: 150px;"
-        [(ngModel)]="newUserName"
+        [(ngModel)]="contact_phone"
         [nzPlaceHolder]="'Basic usage'"
       >
       </nz-input>
@@ -21,14 +21,14 @@
     <div nz-col>
       <span>账号状态</span>
       <nz-select style="width: 150px;"
-                 [(ngModel)]="selectedOption"
+                 [(ngModel)]="a_data_state"
                  [nzPlaceHolder]="'choose option'"
                  nzAllowClear
       >
         <nz-option
           *ngFor="let option of options"
           [nzLabel]="option.label"
-          [nzValue]="option"
+          [nzValue]="option.value"
           [nzDisabled]="option.disabled">
         </nz-option>
       </nz-select>
@@ -39,7 +39,7 @@
 </div>
 
 <div class="accountM_table">
-  <nz-table *ngIf="isShowTable;else nzTable" #nzTable [nzDataSource]="dataList.total_count" [nzPageSize]="10" nzShowSizeChanger>
+  <nz-table #nzTable [nzDataSource]="dataList" [nzPageIndex]="page" [nzPageSize]="10" nzShowSizeChanger>
     <thead nz-thead>
     <tr>
       <th nz-th><span>姓名</span></th>
@@ -50,7 +50,7 @@
     </tr>
     </thead>
     <tbody nz-tbody>
-    <tr nz-tbody-tr *ngFor="let data of dataList.result">
+    <tr nz-tbody-tr *ngFor="let data of dataList">
       <td nz-td>
         <a>{{data.user_name}}</a>
       </td>
@@ -59,8 +59,8 @@
       <td nz-td>{{data.a_data_state === 1 ? "正常" : '已停用'}}</td>
       <td nz-td>
         <a class="a-click" (click)="showModal(data.user_name, data.id)">重置密码</a>
-        <a class="a-click" (click)="editData(data.id,data.user_name, data.a_data_state)">编辑资料</a>
-        <a class="a-click" (click)="toggle(data.id, data.a_data_state)">停用/启用</a>
+        <a class="a-click" (click)="editShowModal(data.id,data.user_name, data.a_data_state)">编辑资料</a>
+        <a class="a-click" (click)="toggle(data.id, data.a_data_state)">{{data.a_data_state === 1 ? '停用' : '启用'}}</a>
       </td>
     </tr>
     </tbody>
@@ -77,6 +77,35 @@
 >
   <ng-template #modalContent>
     <div id="template">
+      <div>
+        <nz-input [(ngModel)]="UserName" [nzDisabled]="true" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)">
+          <ng-template #addOnBefore>姓名</ng-template>
+        </nz-input>
+      </div>
+      <div>
+        <nz-input [(ngModel)]="newUserPassword" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)">
+          <ng-template #addOnBefore>密码</ng-template>
+        </nz-input>
+      </div>
+      <div>
+        <nz-input [(ngModel)]="repeatPassword" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)">
+          <ng-template #addOnBefore>确认密码</ng-template>
+        </nz-input>
+      </div>
+    </div>
+  </ng-template>
+</nz-modal>
+
+<nz-modal [nzVisible]="isEditVisible"
+          [nzTitle]="'编辑资料'"
+          [nzOkText]="'确定'"
+          [nzCancelText]="'取消'"
+          [nzContent]="modalContent1"
+          (nzOnCancel)="handleCancel($event)"
+          (nzOnOk)="editData()"
+>
+  <ng-template #modalContent1>
+    <div id="template1">
       <div>
         <nz-input [(ngModel)]="UserName" [nzDisabled]="true" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)">
           <ng-template #addOnBefore>姓名</ng-template>
