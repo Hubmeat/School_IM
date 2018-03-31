@@ -82,7 +82,7 @@
                   </nz-select>
                 </div>
                 <div class="education">
-                  <span>
+                  <span style="width: 60px;">
                       账号状态：
                   </span>
                   <nz-select  class="selectInput" class="" style="width: 100px;" [(ngModel)]="accountSelected" [nzPlaceHolder]="'请选择状态'" nzAllowClear>
@@ -98,19 +98,19 @@
                   <span>
                       所在地：
                   </span>
-                  <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="accountSelected" [nzPlaceHolder]="'请选择状态'" nzAllowClear>
+                  <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="provinceSelected" (ngModelChange) = 'provinceChange($event)' [nzPlaceHolder]="'请选择省份'" nzAllowClear>
                       <nz-option
-                        *ngFor="let item of accountOptions"
-                        [nzLabel]="item.label"
-                        [nzValue]="item.value"
+                        *ngFor="let item of provinceOptions"
+                        [nzLabel]="item.name"
+                        [nzValue]="item.code"
                         [nzDisabled]="item.disabled">
                       </nz-option>
                   </nz-select>
-                  <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="accountSelected" [nzPlaceHolder]="'请选择状态'" nzAllowClear>
+                  <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="citySelectde" [nzPlaceHolder]="'请选择城市'" nzAllowClear>
                       <nz-option
-                        *ngFor="let item of accountOptions"
-                        [nzLabel]="item.label"
-                        [nzValue]="item.value"
+                        *ngFor="let item of cityOptions"
+                        [nzLabel]="item.name"
+                        [nzValue]="item.code"
                         [nzDisabled]="item.disabled">
                       </nz-option>
                   </nz-select>
@@ -190,7 +190,7 @@
                 <td nz-td>
                   {{data.c_data_state}}
                 </td>
-                <td nz-td (click)='handleFreeze(data)'>
+                <td nz-td (click)='handleFreeze(data)' style="color: blue; cursor: pointer;">
                   {{data.c_data_state === 1?'冻结':'解冻'}}
                 </td>
               </tr>

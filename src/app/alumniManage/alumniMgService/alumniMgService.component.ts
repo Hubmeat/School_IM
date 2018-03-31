@@ -15,6 +15,44 @@ export class AMService {
     ) {
         
     }
+    /**
+     * 校友公共功能接口
+     */
+    public provinceCodeSubject = new Subject<any>();
+
+    public getProvinceList ():void {
+        var formData = {
+            "type": "province"
+        }
+        this.$http
+            .post(this.$HOST.host + '/util/location/get', formData)
+            .subscribe(
+                res => {
+                    this.provinceCodeSubject.next({province: res});
+                },
+                err => {
+                    this.provinceCodeSubject.next({province: err});
+                }
+            )
+    }
+
+    // public cityCodeSubject = new Subject<any>();
+    public getCityList (code):void {
+        var formData = {
+            "type": "city",
+            "code": code
+        }
+        this.$http
+            .post(this.$HOST.host + '/util/location/get', formData)
+            .subscribe(
+                res => {
+                    this.provinceCodeSubject.next({city: res});
+                },
+                err => {
+                    this.provinceCodeSubject.next({city: err});
+                }
+            )   
+    }
 
     /**
      * 校友管理模块
@@ -130,22 +168,37 @@ export class AMService {
     public schoolFWSubject = new Subject<any>();
 
     // 获取校友列表表
-    public getSchoolFwData():void {
+    public getSchoolFwData(
+        education,
+        page,
+        marjorId,
+        collegeId,
+        registerBeginTime,
+        registerEndrTime,
+        joinBeginTime,
+        joinEndrTime,
+        userName,
+        IDcard,
+        phone,
+        status,
+        provinceCode,
+        cityCode
+    ):void {
         var formData = {
-            "education": "专科",
-            "page": 1,
-            "profession_id": 1705616188964869,
-            "academy_id": 1705577148383233,
-            "registe_start": 1521724069159,
-            "registe_end": 1521724069159,
-            "academic_start": 1521705972777,
-            "academic_end": 1521705972777,
-            "user_name": "小明",
-            "id_number": "140332122333233321",
-            "contact_phone": "18333608366",
-            "c_data_state":1,
-            "province_code":"11",
-            "city_code":"1101"
+            "education": education,
+            "page": page,
+            "profession_id": marjorId,
+            "academy_id": collegeId,
+            "registe_start": registerBeginTime === null?'':moment(registerBeginTime).valueOf(),
+            "registe_end": registerEndrTime === null?'':moment(registerEndrTime).valueOf(),
+            "academic_start": joinBeginTime === null?'':moment(joinBeginTime).valueOf(),
+            "academic_end": joinEndrTime === null?'':moment(joinEndrTime).valueOf(),
+            "user_name": userName,
+            "id_number": IDcard,
+            "contact_phone": phone,
+            "c_data_state":  status,
+            "province_code": provinceCode,
+            "city_code": cityCode
         }
         
         this.$http
@@ -170,7 +223,7 @@ export class AMService {
         };
 
         this.$http
-        .post(this.$HOST.host + '/a/user/clientlist', formData)
+        .post(this.$HOST.host + '/a/freeze_state/change', formData)
         .subscribe(
             res => {
                 this.handleFreezeSubject.next(res)

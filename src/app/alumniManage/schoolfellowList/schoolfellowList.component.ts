@@ -50,6 +50,16 @@ export class SchoolfellowListCom implements OnInit {
     ];
     accountSelected = this.accountOptions[0].value;
 
+    // 省市下拉框
+    provinceOptions = [];
+    provinceSelected = '';
+
+    cityOptions = [];
+    citySelectde = '';
+
+    areaOptions = [];
+    areaSelected = '';
+
     // 表格数据
     data = [];
     spinShow:boolean = false;
@@ -77,10 +87,34 @@ export class SchoolfellowListCom implements OnInit {
 
     loadData() {
         this.spinShow = true;
-        console.log("'joinBeginTime", this.joinBeginTime);
-        console.log("'joinBeginTime", this.joinBeginTime === null);
-        console.log("'joinBeginTime", this.joinBeginTime === 'null');
-        console.log("'joinEndrTime", this.joinEndrTime);
+        this.alumniMgService.getSchoolFwData(
+            this.educationSelected,
+            this.currentPage,
+            this.majorSelected,
+            this.collegeSelected,
+            this.registerBeginTime,
+            this.registeEndrTime,
+            this.joinBeginTime,
+            this.joinEndrTime,
+            this.userName,
+            this.IDcard,
+            this.phone,
+            this.accountSelected,
+            this.provinceSelected,
+            this.citySelectde
+        );
+        this.alumniMgService.schoolFWSubject.subscribe(
+            res => {
+                console.log('scres', res);
+                this.spinShow = false;
+                if (res.error_code === 0) {
+                    this.data = res.result;
+                    this.totalPage = res.total_count;
+                } else {
+                    this.data = [];
+                }
+            }
+        )
     }
 
     // 获取下拉列表数据
@@ -93,6 +127,27 @@ export class SchoolfellowListCom implements OnInit {
                     if (res.college.error_code === 0) {
                         this.collegeOptions = res.college.result;
                     }
+                }
+            }
+        )
+
+        // 获取省市区列表内
+        this.alumniMgService.getProvinceList();
+        this.alumniMgService.provinceCodeSubject.subscribe(
+            res => {
+                if (res.province) {
+                    this.provinceOptions = res.province.result;
+                }
+            }
+        )
+    }
+
+    provinceChange(provinceCode) {
+        this.alumniMgService.getCityList(provinceCode);
+        this.alumniMgService.provinceCodeSubject.subscribe(
+            res => {
+                if (res.city) {
+                    this.cityOptions = res.city.result;
                 }
             }
         )
@@ -139,6 +194,28 @@ export class SchoolfellowListCom implements OnInit {
 
     // 处理解冻与冻结
     handleFreeze (data) {
+        if (data.c_data_state === 1) {
+            this.alumniMgService.dealFreeze(data.id, 0);
+            this.alumniMgService.handleFreezeSubject.subscribe(
+                res => {
+                    if (res.error_code === 0) {
+                        this._message.success('账号冻结修改成功！');
+                        this.loadData();
+                    }
+                }
+            )
+        } else {
+            this.alumniMgService.dealFreeze(data.id, 1);
+            this.alumniMgService.handleFreezeSubject.subscribe(
+                res => {
+                    if (res.error_code === 0) {
+                        this._message.success('账号解冻成功！');
+                        this.loadData();
+                    }
+                }
+            )
+
+        }
 
     }
   closeAuditModel = () => {
