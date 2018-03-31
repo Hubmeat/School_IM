@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {SystemSetupService} from '../systemSetupService/systemSetup.service';
 import {NzMessageService} from 'ng-zorro-antd';
+import {Subscription} from 'rxjs/Subscription'
 @Component({
   selector: 'accountManagement-component',
   templateUrl: './accountManagement.component.html',
@@ -15,8 +16,8 @@ export class AccountManagementComponent implements OnInit {
   newUserPassword: string = '';
   repeatPassword: string = '';
 
-  dataList = {};
-  isShowTable: boolean = false;
+  dataList = [];
+  isShowTable: boolean = true;
 
   state: number;
 
@@ -27,22 +28,34 @@ export class AccountManagementComponent implements OnInit {
   selectedOption;
   newUserName
   uid
+  stateSubscription: Subscription;
+
+  page: 1;
+  user_name: string;
+  contact_phone: string;
+  a_data_state;
+
+  editId;
+  editUsername;
+  editState;
 
 
-  _dataSet: any = [];
   options: any = [
     {
       label: '可用',
+      value: 1,
       option: true,
       disabled: false
     },
     {
       label: '不可用',
+      value: 2,
       option: false,
       disabled: false
     }
   ]
   isVisible = false;
+  isEditVisible = false;
 
   constructor(
     private service: SystemSetupService,
@@ -50,42 +63,45 @@ export class AccountManagementComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    for (let i = 0; i < 46; i++) {
-      this._dataSet.push({
-        key    : i,
-        name   : `Edward King ${i}`,
-        age    : 32,
-        address: `London, Park Lane no. ${i}`,
-      });
-    }
-    const page = 1;
-    const user_name = '小';
-    const contact_phone = '18333608367';
-    const a_data_state = 1;
-
-    this.service.getListData(
-      page,
-      user_name,
-      contact_phone,
-      a_data_state
-    )
-    this.service.SystemListDataSubject.subscribe(res => {
-        console.log(res);
-        this.dataList = res;
-        /*if (this.dataList.total_count === 0 || this.dataList.result.length < 1) {
-          this.isShowTable = false;
-        }else {
-          this.isShowTable = true;
-        }*/
-    })
+    this.locdData();
   }
 
+  locdData() {
+    this.service.getListData(
+      this.page,
+      this.user_name,
+      this.contact_phone,
+      this.a_data_state
+    )
+    this.service.SystemListDataSubject.subscribe(res => {
+      console.log(res);
+      if (res.dataList === undefined) {
+        return;
+      }
+      if (res.dataList.error_code === 0) {
+        this.dataList = res.dataList.result;
+      } else {
+        this.dataList = [];
+      }
 
+      /*if (this.dataList.total_count === 0 || this.dataList.result.length < 1) {
+        this.isShowTable = false;
+      }else {
+        this.isShowTable = true;
+      }*/
+    })
+  }
 
   showModal = (username, uid) => {
     this.UserName = username;
     this.uid = uid;
     this.isVisible = true;
+  }
+  editShowModal(id, username, state) {
+    this.isEditVisible = true;
+    this.editId = id;
+    this.editUsername = username;
+    this.editState = state;
   }
   // 重置密码
   handleOk = (e) => {
@@ -104,20 +120,30 @@ export class AccountManagementComponent implements OnInit {
   // 切换帐号状态
   toggle(id, state) {
     this.state = state;
+    this.state = this.state === 1 ? 2 : 1;
+    console.log(state, this.state);
     this.service.toggleAccounts(id, this.state);
-    this.service.SystemListDataSubject.subscribe(res => {
+    this.stateSubscription = this.service.SystemListDataSubject.subscribe(res => {
       console.log(res);
+      if (res.state === undefined) {
+        return;
+      }
+      if (res.state.error_code === 0) {
+        this.locdData();
+        window.alert('21313');
+        this.stateSubscription.unsubscribe();
+      }
       // this.state = res.result.a_data_state;
     })
   }
 
   // 编辑
-  editData(id, username, state) {
+  editData() {
     this.service.userUpData(
-      id,
-      username,
-      state
-    )
+      this.editId,
+      this.editUsername,
+      this.editState
+    );
     this.service.SystemUpDataSubject.subscribe(res => {
        console.log(res);
        if (res.error_code === 0) {
@@ -129,6 +155,7 @@ export class AccountManagementComponent implements OnInit {
   handleCancel = (e) => {
     console.log(e);
     this.isVisible = false;
+    this.isEditVisible = false;
   }
   _console() {
     // ..
