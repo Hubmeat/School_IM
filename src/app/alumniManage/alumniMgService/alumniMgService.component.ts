@@ -235,4 +235,74 @@ export class AMService {
     }
 
     // 校友列表编辑
+
+    // 批量导出
+    public exportSubject = new Subject<any>();
+
+    public exportData (
+        education,
+        page,
+        marjorId,
+        collegeId,
+        registerBeginTime,
+        registerEndrTime,
+        joinBeginTime,
+        joinEndrTime,
+        userName,
+        IDcard,
+        phone,
+        status,
+        provinceCode,
+        cityCode
+        ) {
+        var formData = {
+            "education": education,
+            "page": page,
+            "profession_id": marjorId,
+            "academy_id": collegeId,
+            "registe_start": registerBeginTime === null?'':moment(registerBeginTime).valueOf(),
+            "registe_end": registerEndrTime === null?'':moment(registerEndrTime).valueOf(),
+            "academic_start": joinBeginTime === null?'':moment(joinBeginTime).valueOf(),
+            "academic_end": joinEndrTime === null?'':moment(joinEndrTime).valueOf(),
+            "user_name": userName,
+            "id_number": IDcard,
+            "contact_phone": phone,
+            "c_data_state":  status,
+            "province_code": provinceCode,
+            "city_code": cityCode
+        }
+
+        this.$http
+        .post(this.$HOST.host + '/a/user_info/export', formData)
+        .subscribe(
+            res => {
+                this.exportSubject.next(res)
+            },
+            err => {
+                this.exportSubject.next(err)
+            }
+        )       
+    }
+
+    // 批量上传
+    public uploadSubject = new Subject<any>();
+
+    public uploadFileList (id, file) {
+        var formData = {
+            unique_identification: id,
+            header_index: 1,
+            file: file
+        }
+
+        this.$http
+        .post(this.$HOST.host + '/a/freeze_state/change', formData)
+        .subscribe(
+            res => {
+                this.uploadSubject.next(res)
+            },
+            err => {
+                this.uploadSubject.next(err)
+            }
+        )       
+    }
 }

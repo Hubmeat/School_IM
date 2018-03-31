@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AMService } from '../alumniMgService/alumniMgService.component';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService, UploadFile } from 'ng-zorro-antd';
+import {Subscription} from 'rxjs/Subscription'
 
 @Component({
     selector: 'schoolfellow-component',
@@ -77,6 +78,19 @@ export class SchoolfellowListCom implements OnInit {
     auditVisible:boolean = false;
     acceptLoading:boolean = false;
     rejectLoading:boolean = false;
+
+    // 下载model
+    uploadVisible:boolean = false;
+    downLoading:boolean = false;
+
+    handFreezeSubscription: Subscription;
+    exportSubscbscription: Subscription;
+
+    // 上传model
+    fileList: UploadFile[] = [];
+    progressFlag:boolean = false;
+
+    progressValue:number = 0;
 
     ngOnInit():any {
         // 初始化下拉列表数据与表格数据
@@ -196,20 +210,22 @@ export class SchoolfellowListCom implements OnInit {
     handleFreeze (data) {
         if (data.c_data_state === 1) {
             this.alumniMgService.dealFreeze(data.id, 0);
-            this.alumniMgService.handleFreezeSubject.subscribe(
+            this.handFreezeSubscription = this.alumniMgService.handleFreezeSubject.subscribe(
                 res => {
                     if (res.error_code === 0) {
-                        this._message.success('账号冻结修改成功！');
+                        this._message.success('账号冻结成功！');
+                        this.handFreezeSubscription.unsubscribe()
                         this.loadData();
                     }
                 }
             )
         } else {
             this.alumniMgService.dealFreeze(data.id, 1);
-            this.alumniMgService.handleFreezeSubject.subscribe(
+            this.handFreezeSubscription = this.alumniMgService.handleFreezeSubject.subscribe(
                 res => {
                     if (res.error_code === 0) {
                         this._message.success('账号解冻成功！');
+                        this.handFreezeSubscription.unsubscribe()
                         this.loadData();
                     }
                 }
@@ -218,7 +234,89 @@ export class SchoolfellowListCom implements OnInit {
         }
 
     }
-  closeAuditModel = () => {
+    closeAuditModel = () => {
 
-  }
+    }
+
+
+    downloadTemplate() {
+        
+    }
+
+    closeUploadModel() {
+        this.uploadVisible = false;
+    }
+
+    openUploadModel() {
+        this.uploadVisible = true;
+    } 
+
+    exportWay () {
+        this.alumniMgService.exportData(
+            this.educationSelected,
+            this.currentPage,
+            this.majorSelected,
+            this.collegeSelected,
+            this.registerBeginTime,
+            this.registeEndrTime,
+            this.joinBeginTime,
+            this.joinEndrTime,
+            this.userName,
+            this.IDcard,
+            this.phone,
+            this.accountSelected,
+            this.provinceSelected,
+            this.citySelectde
+        );
+        this.exportSubscbscription = this.alumniMgService.exportSubject.subscribe(
+            res => {
+                console.log('导出', res);
+                if (res.status === 200) {
+                    this._message.success('导出成功！')
+                    window.open(res.url);
+                    this.exportSubscbscription.unsubscribe()
+                } else {
+                    this._message.error('导出失败')
+                    this.exportSubscbscription.unsubscribe()
+                }
+            }
+        )
+    }
+
+    beforeUpload = (file: UploadFile): boolean => {
+        console.log('file', file);
+        this.fileList.push(file);
+        console.log('fileList', this.fileList)
+        return false;
+    }
+    
+    handleUpload() {
+        const formData = new FormData();
+        this.progressFlag = true;
+        this.fileList.forEach((file: any) => {
+            console.log('file', file);
+            this.alumniMgService.uploadFileList(this.fileList[0].uid, this.fileList[0]);
+            var timer = setInterval( () => {
+                this.progressValue += 5;
+                if (this.progressValue >= 100) {
+                    this.alumniMgService.uploadSubject.subscribe(
+                        res => {
+                            if (res.error_code) {
+
+                            }
+                        }
+                    )
+                    this.progressFlag = false;
+                    this.progressValue = 0;
+                    clearInterval(timer);
+                    this._message.success('上传成功！')
+                    this.fileList = [];
+                    setTimeout( () => {
+                        this.uploadVisible = false;
+                    }, 1500)
+                }
+            }, 50)
+            formData.append('files[]', file);
+        });
+    }
 }

@@ -129,8 +129,8 @@
         <!-- 表格 -->
         <div class="schoolfellow_table">
           <div class="export">
-              <button nz-button [nzType]="'default'">批量导入</button>
-              <button nz-button [nzType]="'default'">批量导出</button>
+              <button nz-button (click)='openUploadModel()' [nzType]="'default'">批量导入</button>
+              <button nz-button (click)='exportWay()' [nzType]="'default'">批量导出</button>
           </div>
           <div class="table">
             <nz-table #nzTable
@@ -361,4 +361,36 @@
           </div>
         </ng-template>
     </nz-modal>
+
+
+    <!-- 导入模态框 -->
+  <!-- 资料模态框 -->
+    <nz-modal [nzVisible]="uploadVisible" [nzStyle]="modelStyle" [nzTitle]="'批量导入校友'" [nzContent]="modalContent" [nzFooter]="modelFooter" (nzOnCancel)="closeUploadModel()">
+      <ng-template #modalContent>
+          <p>
+            <span>批量导入模板.exls</span>
+            <button [nzLoading]="downLoading" nz-button (click) = 'downloadTemplate($event)' [nzType]="'default'">
+                <span>下载模板</span>
+            </button>
+          </p>
+          <p>
+            <span>选择导入文件</span>
+            <nz-upload
+              [(nzFileList)]="fileList"
+              [nzBeforeUpload]="beforeUpload">
+              <button nz-button>
+                <i class="anticon anticon-upload"></i><span>Select File</span>
+              </button>
+            </nz-upload>
+            <button nz-button [nzType]="'primary'" (click)="handleUpload()" [disabled]="fileList.length == 0" style="margin-top: 16px">
+              点击上传
+            </button>
+  
+            <nz-progress *ngIf='progressFlag' [ngModel]="progressValue"></nz-progress>
+          </p>
+      </ng-template>
+      <ng-template  #modelFooter>
+
+      </ng-template>
+  </nz-modal>
 </div>
