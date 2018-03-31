@@ -5,7 +5,7 @@
       <nz-input
         style="width: 150px;"
         [(ngModel)]="user_name"
-        [nzPlaceHolder]="'Basic usage'"
+        [nzPlaceHolder]="'请输入姓名'"
       >
       </nz-input>
     </div>
@@ -14,7 +14,7 @@
       <nz-input
         style="width: 150px;"
         [(ngModel)]="contact_phone"
-        [nzPlaceHolder]="'Basic usage'"
+        [nzPlaceHolder]="'请输入手机号'"
       >
       </nz-input>
     </div>
@@ -22,7 +22,7 @@
       <span>账号状态</span>
       <nz-select style="width: 150px;"
                  [(ngModel)]="a_data_state"
-                 [nzPlaceHolder]="'choose option'"
+                 [nzPlaceHolder]="'请选择状态'"
                  nzAllowClear
       >
         <nz-option
@@ -33,7 +33,7 @@
         </nz-option>
       </nz-select>
     </div>
-    <button nz-col nz-button>查询</button>
+    <button nz-col nz-button (click)="locdData()">查询</button>
     <button nz-col nz-button routerLink="/index/addNewUser">创建账号</button>
   </div>
 </div>

@@ -130,7 +130,6 @@ export class AccountManagementComponent implements OnInit {
       }
       if (res.state.error_code === 0) {
         this.locdData();
-        window.alert('21313');
         this.stateSubscription.unsubscribe();
       }
       // this.state = res.result.a_data_state;

@@ -1,96 +1,93 @@
 <div id="waitPendingContent">
-  <div class="waitPending_head">
+  <div class="waitPending_head" >
     <!-- 查询时间段 -->
-    <div class="timeSelect_area">
-        <div class="register">
+    <div nz-row style="width: 100%;">
+      <div nz-col [nzXs]="2" [nzSm]="4" [nzMd]="6" [nzLg]="10" [nzXl]="6">
             <span>
                 注册时间：
             </span>
-            <nz-datepicker [(ngModel)]="registerBeginTime" nzShowTime [nzPlaceHolder]="'选择开始时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
-            <span>至</span>
-            <nz-datepicker [(ngModel)]="registeEndrTime" nzShowTime [nzPlaceHolder]="'选择结束时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
-        </div>
-        <div class="joinSchool">
-            <span>
-                入学时间：
-            </span>
-            <nz-datepicker [(ngModel)]="joinBeginTime" nzShowTime [nzPlaceHolder]="'选择开始时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
-            <span>至</span>
-            <nz-datepicker [(ngModel)]="joinEndrTime" nzShowTime [nzPlaceHolder]="'选择结束时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
-        </div>
-    </div>
-    <!-- 查询条件、下拉框 -->
-    <div class="conditionSelect_area">
-      <div class="top">
-          <div class="name">
+        <nz-datepicker [(ngModel)]="registerBeginTime" nzShowTime [nzPlaceHolder]="'选择开始时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+        <span>至</span>
+        <nz-datepicker [(ngModel)]="registeEndrTime" nzShowTime [nzPlaceHolder]="'选择结束时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+      </div>
+      <!-- 查询条件、下拉框 -->
+      <div nz-col [nzXs]="2" [nzSm]="4" [nzMd]="6" [nzLg]="4" [nzXl]="4">
             <span>
                 姓名：
             </span>
-            <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="userName" [nzPlaceHolder]="'Basic usage'" ></nz-input>
-          </div>
-          <div class="ID_card">
+        <nz-input class="selectInput" style="width: 120px;" [(ngModel)]="userName" [nzPlaceHolder]="'Basic usage'" ></nz-input>
+      </div>
+      <div nz-col [nzXs]="2" [nzSm]="4" [nzMd]="6" [nzLg]="4" [nzXl]="4">
             <span>
                 身份证：
             </span>
-            <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="IDcard" [nzPlaceHolder]="'Basic usage'" ></nz-input>
-          </div>
-          <div class="phone">
+        <nz-input class="selectInput" style="width: 120px;" [(ngModel)]="IDcard" [nzPlaceHolder]="'Basic usage'" ></nz-input>
+      </div>
+      <div nz-col [nzXs]="2" [nzSm]="4" [nzMd]="6" [nzLg]="4" [nzXl]="4">
             <span>
                 手机：
             </span>
-            <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="phone" [nzPlaceHolder]="'Basic usage'" ></nz-input>
-          </div>
+        <nz-input class="selectInput" style="width: 120px;" [(ngModel)]="phone" [nzPlaceHolder]="'Basic usage'" ></nz-input>
       </div>
-      <div class="bottom">
-          <div class="college">
+    </div>
+
+    <div nz-row>
+      <div nz-col [nzXs]="2" [nzSm]="4" [nzMd]="6" [nzLg]="10" [nzXl]="6">
+            <span>
+                入学时间：
+            </span>
+        <nz-datepicker [(ngModel)]="joinBeginTime" nzShowTime [nzPlaceHolder]="'选择开始时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+        <span>至</span>
+        <nz-datepicker [(ngModel)]="joinEndrTime" nzShowTime [nzPlaceHolder]="'选择结束时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+      </div>
+      <div nz-col [nzXs]="2" [nzSm]="4" [nzMd]="6" [nzLg]="4" [nzXl]="4">
             <span>
                 学院：
             </span>
-            <nz-select  class="selectInput" style="width: 150px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
-                <nz-option
-                  *ngFor="let item of collegeOptions"
-                  [nzLabel]="item.academy_name"
-                  [nzValue]="item.id"
-                  [nzDisabled]="item.disabled">
-                </nz-option>
-            </nz-select>
-          </div>
-          <div class="major">
+        <nz-select  class="selectInput" style="width: 120px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+          <nz-option
+            *ngFor="let item of collegeOptions"
+            [nzLabel]="item.academy_name"
+            [nzValue]="item.id"
+            [nzDisabled]="item.disabled">
+          </nz-option>
+        </nz-select>
+      </div>
+      <div nz-col [nzXs]="2" [nzSm]="4" [nzMd]="6" [nzLg]="4" [nzXl]="4">
             <span>
                 专业：
             </span>
-            <nz-select  class="selectInput" style="width: 150px;" [(ngModel)]="majorSelected" [nzPlaceHolder]="'请选择学历'" nzAllowClear>
-                <nz-option
-                  *ngFor="let item of majorOptions"
-                  [nzLabel]="item.major_name"
-                  [nzValue]="item.id"
-                  [nzDisabled]="item.disabled">
-                </nz-option>
-            </nz-select>
-          </div>
-          <div class="education">
+        <nz-select  class="selectInput" style="width: 120px;" [(ngModel)]="majorSelected" [nzPlaceHolder]="'请选择学历'" nzAllowClear>
+          <nz-option
+            *ngFor="let item of majorOptions"
+            [nzLabel]="item.major_name"
+            [nzValue]="item.id"
+            [nzDisabled]="item.disabled">
+          </nz-option>
+        </nz-select>
+      </div>
+      <div nz-col [nzXs]="2" [nzSm]="4" [nzMd]="6" [nzLg]="4" [nzXl]="4">
             <span>
                 学历：
             </span>
-            <nz-select  class="selectInput" class="" style="width: 150px;" [(ngModel)]="educationSelected" [nzPlaceHolder]="'请选择学历'" nzAllowClear>
-                <nz-option
-                  *ngFor="let item of educationOptions"
-                  [nzLabel]="item.label"
-                  [nzValue]="item.value"
-                  [nzDisabled]="item.disabled">
-                </nz-option>
-            </nz-select>
-          </div>
+        <nz-select  class="selectInput" class="" style="width: 120px;" [(ngModel)]="educationSelected" [nzPlaceHolder]="'请选择学历'" nzAllowClear>
+          <nz-option
+            *ngFor="let item of educationOptions"
+            [nzLabel]="item.label"
+            [nzValue]="item.value"
+            [nzDisabled]="item.disabled">
+          </nz-option>
+        </nz-select>
       </div>
     </div>
-    <!-- 搜索 -->
+
     <div class="search">
       <button nz-button (click) = 'handlerSearch()' [nzType]="'primary'">
         <span>搜索</span>
       </button>
     </div>
-
   </div>
+</div>
 
   <!-- 表格 -->
   <div class="waitPending_table">
@@ -315,4 +312,3 @@
         </div>
       </ng-template>
   </nz-modal>
-</div>
