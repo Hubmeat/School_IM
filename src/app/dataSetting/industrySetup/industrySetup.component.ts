@@ -63,6 +63,9 @@ export class IndustrySetupComponent implements OnInit {
     )
     this.service.IndustrySetupSubject.subscribe(res => {
       console.log(res);
+      if (res.addmsg === undefined) {
+        return;
+      }
       if (res !== undefined && res.addmsg.error_code === 0) {
         this._message.success('添加成功');
         this.addindustry_name = '';
@@ -88,13 +91,16 @@ export class IndustrySetupComponent implements OnInit {
     )
     this.service.IndustrySetupSubject.subscribe(res => {
       console.log(res);
+      if (res.editmsg === undefined) {
+        return;
+      }
       res = res.editmsg;
       if (res !== undefined && res.error_code === 0) {
         this._message.success('更改成功');
         this.editVisible = false;
         this.getDataList()
       }else {
-        this._message.warning(res.error_msg || '更改失败');
+        this._message.warning(res.error_msg !== undefined ? res.error_msg : '更改失败');
       }
     })
   }
@@ -106,6 +112,9 @@ export class IndustrySetupComponent implements OnInit {
     )
     this.service.IndustrySetupSubject.subscribe(res => {
       console.log(res);
+      if (res.delmsg === undefined) {
+        return;
+      }
       res = res.delmsg;
       if (res !== undefined && res.error_code === 0) {
         this._message.success('更改成功');
