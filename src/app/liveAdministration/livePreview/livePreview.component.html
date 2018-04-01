@@ -4,7 +4,7 @@
       <span>直播标题</span>
       <nz-input
         style="width: 75%;"
-        [(ngModel)]="newUserName"
+        [(ngModel)]="live_title"
         [nzPlaceHolder]="'Basic usage'"
       >
       </nz-input>
@@ -13,12 +13,12 @@
       <span>直播人</span>
       <nz-input
         style="width: 75%"
-        [(ngModel)]="newUserName"
+        [(ngModel)]="searchParam"
         [nzPlaceHolder]="'Basic usage'"
       >
       </nz-input>
     </div>
-    <button nz-col [nzSpan]="2" nz-button>搜索</button>
+    <button nz-col [nzSpan]="2" nz-button (click)="loadData()">搜索</button>
     <button nz-col [nzSpan]="2" nz-button routerLink="/index/addPreview">添加直播预告</button>
   </div>
 </div>
@@ -38,27 +38,34 @@
       </tr>
       </thead>
       <tbody nz-tbody>
-      <tr nz-tbody-tr *ngFor="let data of nzTable.data">
-        <td nz-td>{{data.time}}</td>
-        <td nz-td>{{data.name}}</td>
-        <td nz-td (click)="showModal()">
-          <a>{{data.address}}</a>
+      <tr nz-tbody-tr *ngFor="let data of nzTable.data;let index = index">
+        <td nz-td>{{data.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td nz-td>{{data.publish_person}}</td>
+        <td nz-td (click)="showDetailsModal(data.id, index)">
+          <a>{{data.live_title}}</a>
         </td>
-        <td nz-td><img [src]="data.age" alt=""></td>
-        <td nz-td><img [src]="data.age" alt=""><span>{{data.age}}</span></td>
-        <td nz-td>{{data.time}}</td>
-        <td nz-td>{{data.state}}</td>
+        <td nz-td><img src="{{data.live_pic}}" alt="" style="width: 60px;height: 60px;"></td>
+        <td nz-td>{{data.live_person}}</td>
+        <td nz-td>{{data.live_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
         <td nz-td>
           <a class="a-click" (click)="getEdit(data)">编辑</a>
-          <a class="a-click">{{data.state == 'show'? "隐藏": "显示"}}</a>
-          <a class="a-click">删除</a>
+          <a class="a-click" (click)="toggleState(data.state,data.id)">{{data.state === 2 ? "隐藏": "显示"}}</a>
+          <a class="a-click" >
+            <nz-popconfirm [nzTitle]="'确定删除专业'"
+                           [nzOkText]="'确定'"
+                           [nzCancelText]="'取消'"
+                           (nzOnConfirm)="deleteLive(data.id)"
+                           (nzOnCancel)="deleteLivecancel()"
+            >
+              <a nz-popconfirm>删除</a>
+            </nz-popconfirm></a>
         </td>
       </tr>
       </tbody>
     </nz-table>
   </div>
 
-<nz-modal [nzVisible]="isVisible"
+<nz-modal [nzVisible]="isDetailsModal"
           [nzTitle]="'查看详情'"
           [nzCancelText]="'关闭'"
           [nzContent]="modalContent"
@@ -67,22 +74,25 @@
 >
   <ng-template #modalContent>
     <div nz-row class="details-template">
-      <div nz-col [nzSpan]="10" class="user-heard-img"><img src="" alt=""></div>
+      <div nz-col [nzSpan]="10" class="user-heard-img"><img class="user-heard-img" src="{{detailData.live_pic}}" alt=""></div>
       <div nz-col [nzSpan]="10">
-        <h2>直播题目title</h2>
-        <p>直播时间</p>
-        <div class="user-sm-img">
+        <h2>{{detailData.live_title}}</h2>
+        <p>直播时间:{{detailData.live_time | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+        <!--<div class="user-sm-img">
 
-        </div>
-        <div class="user-sm-name">name</div>
+        </div>-->
+        <div class="user-sm-name">{{detailData.live_person}}</div>
       </div>
     </div>
 
     <hr>
     <div class="margin-top-15">直播简介</div>
     <div class="margin-top-15">
-      <p>132123123123123123123123123132132</p>
+      <p>{{detailData.foreshow_intro}}</p>
     </div>
-    <div class="margin-top-15">预告状态：<span>显示</span></div>
+    <div class="margin-top-15">
+      预告状态：
+      <span>{{detailData.live_state === 1 ? '显示': '隐藏'}}</span>
+    </div>
   </ng-template>
 </nz-modal>
