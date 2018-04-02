@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import {NoticeAdminService} from '../noticeAdministrationService/noticeAdmin.service';
+import {NzMessageService} from 'ng-zorro-antd';
+import {Subscription} from 'rxjs/Subscription'
 
 
 
@@ -13,17 +16,31 @@ import {Router} from '@angular/router';
 
 export class NoticeAdminComponent implements OnInit  {
   _dataSet = [];
+  page: number = 1;
+  affiche_state: string = '';
+  affiche_title: string = '';
+  dataSubscription: Subscription;
+  delSubscription: Subscription;
+  showDetailsSubscription: Subscription;
+  dataDetails: any = {
+    affiche_pic: '',
+    affiche_title: '',
+    article_content: ''
+  };
   options = [
     {
       label: '全部',
+      state: '',
       disabled: false
     },
     {
       label: '显示',
+      state: '1',
       disabled: false
     },
     {
       label: '隐藏',
+      state: '2',
       disabled: false
     }
   ]
@@ -33,24 +50,67 @@ export class NoticeAdminComponent implements OnInit  {
   newUserName
   disabled
   constructor(
-    private router: Router
+    private router: Router,
+    private service: NoticeAdminService,
+    private _message: NzMessageService
   ) {}
   ngOnInit() {
-    for (let i = 0; i < 46; i++) {
-      this._dataSet.push({
-        key    : i,
-        name   : `Edward King ${i}`,
-        age    : 32,
-        address: `London, Park Lane no. ${i}`,
-      });
-    }
+    this.loadData();
   }
+  loadData() {
+    this.service.getNoticeList(
+      this.page,
+      this.affiche_state,
+      this.affiche_title
+    );
+    this.dataSubscription = this.service.NoticeAdminSubject.subscribe(res => {
+      if (res.dataList === undefined) {
+        return;
+      }
+      if (res.dataList.error_code === 0) {
+        this._dataSet = res.dataList.result;
+        this.dataSubscription.unsubscribe();
+      }
+    })
+  }
+  deleteNot(id) {
+    this.service.deleteNotice(id);
+    this.delSubscription = this.service.NoticeAdminSubject.subscribe(res => {
+      if (res.delmsg === undefined) {
+        return;
+      }
+      if (res.delmsg.error_code === 0) {
+        this._message.success('删除成功');
+        this.delSubscription.unsubscribe();
+        this.loadData();
+      }
+    })
+  }
+  toggleState() {
+    // this.service.
+  }
+  deleteNotcancel() {
 
+  }
   addNewNotice(): void {
     this.router.navigate(['/index/addNotice'])
   }
-  showModal = () => {
+  editNot() {
+
+  }
+  // 详情
+  showDetailsModal = (id) => {
     this.isVisible = true;
+    this.service.getNoticedetail(id);
+    this.showDetailsSubscription = this.service.NoticeAdminSubject.subscribe(res => {
+      if (res.detailmsg === undefined) {
+        return;
+      }
+      if (res.detailmsg.error_code === 0) {
+        this.dataDetails = res.detailmsg.result[0];
+        this.showDetailsSubscription.unsubscribe();
+      }
+    })
   }
   showModal1 = () => {
     this.isVisible1 = true;

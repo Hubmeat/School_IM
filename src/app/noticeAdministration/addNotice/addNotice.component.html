@@ -1,6 +1,3 @@
-<p>
-  tianjia
-</p>
 <div id="addList">
   <div nz-row class="addList_head">
     <button nz-button
@@ -16,8 +13,8 @@
       <span class="text-padd-span">公告标题</span>
       <nz-input
         style="width: 75%;"
-        [(ngModel)]="newUserName"
-        [nzPlaceHolder]="'Basic usage'"
+        [(ngModel)]="affiche_title"
+        [nzPlaceHolder]="'请输入公告标题'"
       >
       </nz-input>
     </div>
@@ -37,11 +34,11 @@
     </div>
     <div>
       <span class="text-padd-span">公告内容</span>
-      <nz-radio-group [(ngModel)]="radioValue" style="width: 75%;">
-        <label nz-radio [nzValue]="'A'">
+      <nz-radio-group [(ngModel)]="affiche_type" style="width: 75%;">
+        <label nz-radio [nzValue]="'1'">
           <span>添加链接</span>
         </label>
-        <label nz-radio [nzValue]="'B'">
+        <label nz-radio [nzValue]="'2 '">
           <span>编辑文章</span>
         </label>
       </nz-radio-group>
@@ -50,25 +47,25 @@
       <span class="text-padd-span">文章链接地址</span>
       <nz-input
         style="width: 75%;"
-        [(ngModel)]="newUserName"
-        [nzPlaceHolder]="'Basic usage'"
+        [(ngModel)]="article_url"
+        [nzPlaceHolder]="'请输入文章链接'"
       >
       </nz-input>
     </div>
     <div>
       <span class="text-padd-span">文章状态</span>
-      <nz-radio-group [(ngModel)]="radioValue" style="width: 75%;">
-        <label nz-radio [nzValue]="'A'">
+      <nz-radio-group [(ngModel)]="affiche_state" style="width: 75%;">
+        <label nz-radio [nzValue]="'1'">
           <span>显示</span>
         </label>
-        <label nz-radio [nzValue]="'B'">
+        <label nz-radio [nzValue]="'2'">
           <span>隐藏</span>
         </label>
       </nz-radio-group>
     </div>
     <div nz-row class="foot-buts">
       <button nz-col [nzSpan]="5" [nzPush]="5" nz-button (click)="goback()">取消</button>
-      <button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="previewSubmit()">提交</button>
+      <button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="addNoticeSubmit()">提交</button>
     </div>
 
   </div>

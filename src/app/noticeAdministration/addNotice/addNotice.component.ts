@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
+import {Router} from '@angular/router';
+import {NoticeAdminService} from '../noticeAdministrationService/noticeAdmin.service';
+import {NzMessageService} from 'ng-zorro-antd';
+import {Subscription} from 'rxjs/Subscription'
 
 
 @Component({
@@ -11,7 +14,13 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class AddNoticeComponent implements OnInit  {
-  _dataSet = [];
+  affiche_title: string = '';
+  affiche_pic
+  affiche_type: string = '1';
+  affiche_state: string = '1';
+  article_url
+  article_intr
+  article_content
   options = [
     {
       label: '全部'
@@ -30,21 +39,41 @@ export class AddNoticeComponent implements OnInit  {
   radioValue
   avatarUrl
   beforeUpload
+  addSubscription: Subscription;
+  constructor(
+    private router: Router,
+    private service: NoticeAdminService,
+    private _message: NzMessageService
+  ) {}
   ngOnInit() {
-    for (let i = 0; i < 46; i++) {
-      this._dataSet.push({
-        key    : i,
-        name   : `Edward King ${i}`,
-        age    : 32,
-        address: `London, Park Lane no. ${i}`,
-      });
-    }
+
   }
-  showModal = () => {
-    this.isVisible = true;
-  }
-  showModal1 = () => {
-    this.isVisible1 = true;
+
+  addNoticeSubmit() {
+    const uid = window.localStorage.getItem('uid');
+    const user_name = window.localStorage.getItem('user_name');
+    this.service.addNotice(
+      uid,
+      user_name,
+      this.affiche_title,
+      this.affiche_pic,
+      this.affiche_type,
+      this.affiche_state,
+      this.article_url,
+      this.article_intr,
+      this.article_content
+    );
+    this.addSubscription = this.service.NoticeAdminSubject.subscribe(res => {
+      if (res.addmsg === undefined) {
+        return;
+      }
+      if (res.addmsg.error_code === 0) {
+        this._message.success('添加成功');
+        this.addSubscription.unsubscribe();
+        this.router.navigate(['/index/noticeAdmin']);
+      }
+    })
+
   }
 
   handleOk = (e) => {
@@ -58,7 +87,9 @@ export class AddNoticeComponent implements OnInit  {
     this.isVisible = false;
     this.isVisible1 = false;
   }
-  goback(){}
+  goback() {
+    this.router.navigate(['/index/noticeAdmin']);
+  }
   previewSubmit(){}
   handleChange(e){}
 }
