@@ -20,14 +20,11 @@
     </div>
     <div>
       <span class="text-padd-span">上传缩略图</span>
-      <nz-upload
-        style="width: 75%;"
-        class="avatar-uploader"
-        nzAction="https://jsonplaceholder.typicode.com/posts/"
-        nzName="avatar"
-        [nzShowUploadList]="false"
-        [nzBeforeUpload]="beforeUpload"
-        (nzChange)="handleChange($event)">
+      <nz-upload class="avatar-uploader"
+                 nzName="avatar"
+                 [nzShowUploadList]="false"
+                 [nzBeforeUpload]="beforeUpload"
+                 (nzChange)="handleChange($event)">
         <i *ngIf="!avatarUrl" class="anticon anticon-plus avatar-uploader-trigger"></i>
         <img *ngIf="avatarUrl" [src]="avatarUrl" class="avatar">
       </nz-upload>
@@ -38,12 +35,12 @@
         <label nz-radio [nzValue]="'1'">
           <span>添加链接</span>
         </label>
-        <label nz-radio [nzValue]="'2 '">
+        <label nz-radio [nzValue]="'2'">
           <span>编辑文章</span>
         </label>
       </nz-radio-group>
     </div>
-    <div>
+    <div *ngIf="affiche_type === '1'">
       <span class="text-padd-span">文章链接地址</span>
       <nz-input
         style="width: 75%;"
@@ -51,6 +48,9 @@
         [nzPlaceHolder]="'请输入文章链接'"
       >
       </nz-input>
+    </div>
+    <div *ngIf="affiche_type === '2'">
+
     </div>
     <div>
       <span class="text-padd-span">文章状态</span>

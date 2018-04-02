@@ -109,4 +109,17 @@ export class NoticeAdminService {
         })
     }
 
+    // 上传
+    public upFile(file, type) {
+      console.log(file);
+      const formData = {
+        file: file,
+        type: type
+      }
+      this.$http
+        .post(this.$HOST.host + '/util/qiniu/upload', formData)
+        .subscribe(res => {
+          this.NoticeAdminSubject.next({file: res})
+        })
+    }
 }
