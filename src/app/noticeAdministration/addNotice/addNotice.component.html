@@ -45,12 +45,14 @@
       <nz-input
         style="width: 75%;"
         [(ngModel)]="article_url"
-        [nzPlaceHolder]="'请输入文章链接'"
-      >
-      </nz-input>
+          [nzPlaceHolder]="'请输入文章链接'"
+          >
+          </nz-input>
     </div>
     <div *ngIf="affiche_type === '2'">
-
+        <textarea id="textarea1" style="width:100%;height:100px;max-height:200px;">
+          <p>请输入内容...</p>
+        </textarea>
     </div>
     <div>
       <span class="text-padd-span">文章状态</span>
