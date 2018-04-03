@@ -3,7 +3,10 @@ import {Router} from '@angular/router';
 import {NoticeAdminService} from '../noticeAdministrationService/noticeAdmin.service';
 import {NzMessageService, UploadFile} from 'ng-zorro-antd';
 import {Subscription} from 'rxjs/Subscription'
-import {type} from 'os';
+
+import * as $ from 'jquery';
+import * as wangEditor from 'wangEditor';
+
 
 
 @Component({
@@ -34,15 +37,19 @@ export class AddNoticeComponent implements OnInit  {
 
   beforeUploadUrl
   addSubscription: Subscription;
+  editor
+  a
   constructor(
     private router: Router,
     private service: NoticeAdminService,
-    private _message: NzMessageService
+    private _message: NzMessageService,
+    // private wangeditor: WangEditor
   ) {}
   ngOnInit() {
-
+    this.editor = wangEditor;
+    this.a = new this.editor('textarea1');
+    this.a.create();
   }
-
   addNoticeSubmit() {
     this.service.upFile(this.file, this.fileType);
     this.service.NoticeAdminSubject.subscribe(res => {
