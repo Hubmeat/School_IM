@@ -1,7 +1,7 @@
 <div id="waitPendingContent">
-  <div class="waitPending_head">
+  <div class="waitPending_head"  nz-row>
     <!-- 查询时间段 -->
-    <div class="timeSelect_area">
+    <div class="timeSelect_area" nz-col [nzSpan]='8'>
         <div class="register">
             <span>
                 注册时间：
@@ -20,7 +20,7 @@
         </div>
     </div>
     <!-- 查询条件、下拉框 -->
-    <div class="conditionSelect_area">
+    <div class="conditionSelect_area" nz-col [nzSpan]='14'>
       <div class="top">
           <div class="name">
             <span>
@@ -41,7 +41,7 @@
             <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="phone" [nzPlaceHolder]="'Basic usage'" ></nz-input>
           </div>
       </div>
-      <div class="bottom">
+      <div class="bottom" nz-col>
           <div class="college">
             <span>
                 学院：
@@ -84,7 +84,7 @@
       </div>
     </div>
     <!-- 搜索 -->
-    <div class="search">
+    <div class="search" nz-col [nzSpan]='2'>
       <button nz-button (click) = 'handlerSearch()' [nzType]="'primary'">
         <span>搜索</span>
       </button>
