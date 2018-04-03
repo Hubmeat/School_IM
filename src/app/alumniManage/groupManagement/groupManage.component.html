@@ -1,0 +1,65 @@
+<div id="groupContent">
+    <div class="search" nz-row  [nzType]="'flex'" [nzJustify]="'center'">
+        <div nz-col [nzSpan]="4" style="margin-right: 20px;">
+            <span>
+                群名称：
+            </span>
+            <nz-input style="width: 150px;" [(ngModel)]="groupName" [nzPlaceHolder]="'请输入群名称'" ></nz-input>
+        </div>
+        <div nz-col [nzSpan]="8">
+            <span>
+                创建时间：
+            </span>
+            <nz-datepicker [(ngModel)]="beginTime" nzShowTime [nzPlaceHolder]="'选择开始时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+            <span>至</span>
+            <nz-datepicker [(ngModel)]="endTime" nzShowTime [nzPlaceHolder]="'选择结束时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+        </div>
+        <div nz-col [nzSpan]="2">
+            <button nz-button (click) = 'handlerSearch()' [nzType]="'primary'">
+                <span>搜索</span>
+            </button>
+        </div>
+    </div>
+
+
+    <div class="tableContent">
+        <div class="add">
+            <button nz-button (click)='createGroup()' [nzType]="'default'">创建群</button>
+        </div>
+        <div class="table">
+            <nz-table #nzTable [nzDataSource]="data" [nzBordered]="borderShow" [nzLoading]="spinShow" [nzIsPagination]="false">
+                <thead nz-thead *ngIf="headerShow">
+                    <tr>
+                        <th nz-th>
+                            <span>注册时间</span>
+                        </th>
+                        <th nz-th>
+                            <span>姓名</span>
+                        </th>
+                        <th nz-th>
+                            <span>手机</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody nz-tbody>
+                    <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+                        <td nz-td>
+                            {{data.created_at}}
+                        </td>
+                        <td nz-td>
+                            {{data.user_name}}
+                        </td>
+                        <td nz-td>
+                            {{data.contact_phone}}
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+        <div class="page" *ngIf="data.length > 0">
+            <nz-pagination [nzPageIndex]="currentPage" [nzPageSize]='15' [nzTotal]="totalPage" (nzPageIndexClickChange)='currentPageChange($event)'
+                nzShowTotal>
+            </nz-pagination>
+        </div>
+    </div>
+</div>

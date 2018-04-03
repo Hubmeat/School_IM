@@ -12,6 +12,7 @@ import { AMService } from './alumniMgService/alumniMgService.component';
 import { WaitPendingComponent } from 'app/alumniManage/waitPending/waitPending.component';
 import { AuditRecordCom } from './auditRecord/auditRecord.component';
 import { SchoolfellowListCom } from './schoolfellowList/schoolfellowList.component';
+import { GroupManagementCom } from './groupManagement/groupManage.component';
 
 // 导入事件模块的服务
 
@@ -19,7 +20,8 @@ import { SchoolfellowListCom } from './schoolfellowList/schoolfellowList.compone
 const EventComponents = [
     WaitPendingComponent,
     AuditRecordCom,
-    SchoolfellowListCom
+    SchoolfellowListCom,
+    GroupManagementCom
 ];
 
 const EVENTROUTES: Routes = [
@@ -32,6 +34,9 @@ const EVENTROUTES: Routes = [
     }, {
         path: 'schoolfellow',
         component: SchoolfellowListCom
+    },  {
+        path: 'groupManagement',
+        component: GroupManagementCom
     }, 
 ]
 

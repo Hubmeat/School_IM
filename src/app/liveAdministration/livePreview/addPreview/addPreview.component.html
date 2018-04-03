@@ -13,8 +13,8 @@
       <span class="text-padd-span">公告标题</span>
       <nz-input
         style="width: 75%;"
-        [(ngModel)]="newUserName"
-        [nzPlaceHolder]="'Basic usage'"
+        [(ngModel)]="live_title"
+        [nzPlaceHolder]="'请输入公告标题'"
       >
       </nz-input>
     </div>
@@ -33,41 +33,41 @@
       </nz-upload>
     </div>
     <div>
-      <span class="text-padd-span">视频地址</span>
+      <span class="text-padd-span">直播时间</span>
       <nz-input
         style="width: 75%;"
-        [(ngModel)]="newUserName"
-        [nzPlaceHolder]="'Basic usage'"
+        [(ngModel)]="live_time"
+        [nzPlaceHolder]="'请输入直播时间'"
       >
       </nz-input>
-    </div>
-    <div>
-      <span class="text-padd-span">视频类型</span>
-      <nz-radio-group [(ngModel)]="radioValue" style="width: 75%;">
-        <label nz-radio [nzValue]="'A'">
-          <span>直播</span>
-        </label>
-        <label nz-radio [nzValue]="'B'">
-          <span>回放</span>
-        </label>
-      </nz-radio-group>
     </div>
     <div>
       <span class="text-padd-span">直播人</span>
       <nz-input
         style="width: 75%;"
-        [(ngModel)]="newUserName"
-        [nzPlaceHolder]="'Basic usage'"
+        [(ngModel)]="live_person"
+        [nzPlaceHolder]="'请输入直播人'"
       >
       </nz-input>
     </div>
     <div>
-      <span class="text-padd-span">视频状态</span>
-      <nz-radio-group [(ngModel)]="radioValue" style="width: 75%;">
-        <label nz-radio [nzValue]="'A'">
+      <span class="text-padd-span">预告介绍</span>
+      <nz-input
+        style="width: 75%;"
+        [nzType]="'textarea'"
+        [nzRows]="'4'"
+        [(ngModel)]="foreshow_intro"
+        [nzPlaceHolder]="'请输入预告介绍'"
+      >
+      </nz-input>
+    </div>
+    <div>
+      <span class="text-padd-span">预告状态</span>
+      <nz-radio-group [(ngModel)]="live_state" style="width: 75%;">
+        <label nz-radio [nzValue]="'1'">
           <span>显示</span>
         </label>
-        <label nz-radio [nzValue]="'B'">
+        <label nz-radio [nzValue]="'2'">
           <span>隐藏</span>
         </label>
       </nz-radio-group>

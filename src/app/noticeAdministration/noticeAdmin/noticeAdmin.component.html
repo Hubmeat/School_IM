@@ -4,26 +4,26 @@
       <span>公告标题</span>
       <nz-input
         style="width: 75%;"
-        [(ngModel)]="newUserName"
-        [nzPlaceHolder]="'Basic usage'"
+        [(ngModel)]="affiche_title"
+        [nzPlaceHolder]="'请输入公告标题'"
       >
       </nz-input>
     </div>
     <div nz-col [nzSpan]="6">
       <span>公告状态</span>
       <nz-select style="width: 75%;"
-                 [(ngModel)]="selectedOption"
+                 [(ngModel)]="affiche_state"
                  nzAllowClear
       >
         <nz-option
           *ngFor="let option of options"
           [nzLabel]="option.label"
-          [nzValue]="option"
+          [nzValue]="option.state"
           [nzDisabled]="option.disabled">
         </nz-option>
       </nz-select>
     </div>
-    <button nz-col [nzSpan]="2" nz-button>搜索</button>
+    <button nz-col [nzSpan]="2" nz-button (click)="loadData()">搜索</button>
     <button nz-col [nzSpan]="2" nz-button (click)="addNewNotice()">添加公告</button>
   </div>
 </div>
@@ -44,19 +44,25 @@
     </thead>
     <tbody nz-tbody>
     <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+      <td nz-td>{{data.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+      <td nz-td>{{data.user_name}}</td>
+      <td nz-td (click)="showDetailsModal(data.id)"><a>{{data.affiche_title}}</a></td>
+      <td nz-td><img src="{{data.affiche_pic}}" alt="" style="width: 60px; height: 60px;"></td>
+      <td nz-td style="width: 260px;"><a href="{{data.article_url}}">{{data.article_url}}</a></td>
+      <td nz-td></td>
+      <td nz-td>{{data.affiche_state === 1 ? '显示' : '隐藏'}}</td>
       <td nz-td>
-        <a>{{data.name}}</a>
-      </td>
-      <td nz-td>{{data.age}}</td>
-      <td nz-td (click)="showModal()">{{data.address}}</td>
-      <td nz-td>{{data.age}}</td>
-      <td nz-td>{{data.age}}</td>
-      <td nz-td>{{data.age}}</td>
-      <td nz-td>{{data.age}}</td>
-      <td nz-td>
-        <a class="a-click">编辑</a>
-        <a class="a-click">隐藏</a>
-        <a class="a-click">删除</a>
+        <a class="a-click" (click)="editNot()">编辑</a>
+        <a class="a-click" (click)="toggleState(data.id)">隐藏</a>
+        <a class="a-click" >
+          <nz-popconfirm [nzTitle]="'确定删除专业'"
+                         [nzOkText]="'确定'"
+                         [nzCancelText]="'取消'"
+                         (nzOnConfirm)="deleteNot(data.id)"
+                         (nzOnCancel)="deleteNotcancel()"
+          >
+            <a nz-popconfirm>删除</a>
+          </nz-popconfirm></a>
       </td>
     </tr>
     </tbody>
@@ -71,8 +77,11 @@
           (nzOnOk)="handleOk($event)"
 >
   <ng-template #modalContent>
-    <div><img src="" alt=""></div>
-    <p>123213</p>
+    <h2 style="padding: 15px;text-align: center">{{dataDetails.affiche_title}}</h2>
+    <div><img src="{{dataDetails.affiche_pic}}" alt="" style="width: 100%;margin-bottom: 15px;"></div>
+    <p>
+      {{dataDetails.article_content}}
+    </p>
   </ng-template>
 </nz-modal>
 

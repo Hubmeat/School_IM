@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {NzMessageService} from 'ng-zorro-antd';
-
+import {LiveAdministrationService} from '../../liveAdministrationService/liveAdministration.service';
+import {Subscription} from 'rxjs/Subscription'
 
 
 @Component({
@@ -12,54 +13,58 @@ import {NzMessageService} from 'ng-zorro-antd';
   ]
 })
 
-export class AddPreviewComponent implements OnInit  {
-  _dataSet = [];
-  isVisible = false
-  isVisible1= false
-  newUserName
+export class AddPreviewComponent implements OnInit {
+  live_title: string = '';
+  live_pic
+  live_time
+  live_person
+  foreshow_intro
+  live_state: string = '1'; // 默认显示
+  live_person_id
+  live_person_gender
+  addSubscription: Subscription;
+
   avatarUrl
   beforeUpload
   radioValue
-  constructor(
-    private router: Router,
-    private _message: NzMessageService
-  ) {
+
+  constructor(private service: LiveAdministrationService,
+              private _message: NzMessageService,
+              private router: Router) {
 
   }
+
   ngOnInit() {
-    for (let i = 0; i < 46; i++) {
-      this._dataSet.push({
-        key    : i,
-        name   : `Edward King ${i}`,
-        age    : 32,
-        address: `London, Park Lane no. ${i}`,
-      });
-    }
+
   }
+
   goback(): void {
     this.router.navigate(['/index/livePreview'])
   }
+
   previewSubmit(): void {
-    this.router.navigate(['/index/livePreview'])
-    this._message.success(`创建成功!`);
+    const uid = window.localStorage.getItem('uid');
+    this.service.addLivePre(
+      uid,
+      this.live_title,
+      this.live_pic,
+      this.live_time,
+      this.live_person_id,
+      this.live_person,
+      this.live_person_gender,
+      this.foreshow_intro,
+      this.live_state
+    )
+    this.addSubscription = this.service.LivePreSubject.subscribe(res => {
+      console.log(res)
+      if (res.addmsg === undefined) {
+        return;
+      }
+      if (res.addmsg.error_code === 0) {
+        this._message.success(`创建成功!`);
+        this.router.navigate(['/index/livePreview']);
+        this.addSubscription.unsubscribe();
+      }
+    })
   }
-  showModal = () => {
-    this.isVisible = true;
-  }
-  showModal1 = () => {
-    this.isVisible1 = true;
-  }
-
-  handleOk = (e) => {
-    console.log('点击了确定');
-    this.isVisible = false;
-    this.isVisible1 = false;
-  }
-
-  handleCancel = (e) => {
-    console.log(e);
-    this.isVisible = false;
-    this.isVisible1 = false;
-  }
-  handleChange = (e) => {}
 }
