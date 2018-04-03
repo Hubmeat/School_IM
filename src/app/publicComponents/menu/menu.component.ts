@@ -35,7 +35,7 @@ export class MenuComponent implements OnInit, OnChanges  {
       },
       {
         name: '群组管理',
-        url: '/index/',
+        url: '/index/groupManagement',
         active: false
       },
     ];
