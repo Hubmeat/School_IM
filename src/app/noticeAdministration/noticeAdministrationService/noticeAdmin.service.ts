@@ -69,6 +69,8 @@ export class NoticeAdminService {
         })
     }
 
+    editFlag: boolean;
+    editData: any;
     // 编辑
     public editNotice(
       id,
@@ -106,6 +108,18 @@ export class NoticeAdminService {
         .post(this.$HOST.host + '/a/affiche/remove', formData)
         .subscribe(res => {
           this.NoticeAdminSubject.next({delmsg: res})
+        })
+    }
+
+    public toggleState(id, affiche_state) {
+      const formData = {
+        id: id,
+        affiche_state: affiche_state
+      };
+      this.$http
+        .post(this.$HOST.host + '/a/affiche_state/change', formData)
+        .subscribe(res => {
+          this.NoticeAdminSubject.next({togglemsg: res})
         })
     }
 

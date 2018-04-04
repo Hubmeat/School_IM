@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {LiveAdministrationService} from '../liveAdministrationService/liveAdministration.service';
 import {NzMessageService} from 'ng-zorro-antd';
 import {Subscription} from 'rxjs/Subscription'
+import {Router} from '@angular/router';
 
 
 
@@ -56,9 +57,11 @@ export class LiveListComponent implements OnInit  {
   constructor(
     private service: LiveAdministrationService,
     private _message: NzMessageService,
+    private router: Router
   ) {}
 
   ngOnInit() {
+    this.service.editFlag = true;
     this.loadData();
   }
 
@@ -127,6 +130,12 @@ export class LiveListComponent implements OnInit  {
         this.loadData();
       }
     })
+  }
+
+  getEdit(data) {
+    this.service.editFlag = false;
+    this.service.editData = data;
+    this.router.navigate(['/index/addList'])
   }
 
   handleOk = (e) => {

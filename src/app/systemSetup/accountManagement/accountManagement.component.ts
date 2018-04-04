@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {SystemSetupService} from '../systemSetupService/systemSetup.service';
 import {NzMessageService} from 'ng-zorro-antd';
+import {Subscription} from 'rxjs/Subscription'
+
+
 @Component({
   selector: 'accountManagement-component',
   templateUrl: './accountManagement.component.html',
@@ -15,8 +18,15 @@ export class AccountManagementComponent implements OnInit {
   newUserPassword: string = '';
   repeatPassword: string = '';
 
+  page = 1;
+  user_name = '';
+  contact_phone = '';
+  a_data_state = '';
+
+  stateSubscription: Subscription;
+  editPassWordSubscription: Subscription;
   dataList = {};
-  isShowTable: boolean = false;
+  isShowTable: boolean = true;
 
   state: number;
 
@@ -32,13 +42,21 @@ export class AccountManagementComponent implements OnInit {
   _dataSet: any = [];
   options: any = [
     {
+      label: '全部',
+      option: false,
+      a_data_state: '',
+      disabled: false
+    },
+    {
       label: '可用',
       option: true,
+      a_data_state: 1,
       disabled: false
     },
     {
       label: '不可用',
       option: false,
+      a_data_state: 2,
       disabled: false
     }
   ]
@@ -50,64 +68,78 @@ export class AccountManagementComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    for (let i = 0; i < 46; i++) {
-      this._dataSet.push({
-        key    : i,
-        name   : `Edward King ${i}`,
-        age    : 32,
-        address: `London, Park Lane no. ${i}`,
-      });
-    }
-    const page = 1;
-    const user_name = '小';
-    const contact_phone = '18333608367';
-    const a_data_state = 1;
-
+    this.loadData()
+  }
+  loadData() {
     this.service.getListData(
-      page,
-      user_name,
-      contact_phone,
-      a_data_state
+      this.page,
+      this.user_name,
+      this.contact_phone,
+      this.selectedOption
     )
     this.service.SystemListDataSubject.subscribe(res => {
-        console.log(res);
-        this.dataList = res;
-        /*if (this.dataList.total_count === 0 || this.dataList.result.length < 1) {
+      console.log(res);
+      if (res.dataList === undefined) {
+        return;
+      }
+      if (res.dataList.error_code === 0) {
+        this._dataSet = res.dataList.result;
+        if (this._dataSet.length < 1) {
           this.isShowTable = false;
-        }else {
-          this.isShowTable = true;
-        }*/
+        }
+      }
     })
   }
-
 
 
   showModal = (username, uid) => {
     this.UserName = username;
     this.uid = uid;
     this.isVisible = true;
+
   }
   // 重置密码
-  handleOk = (e) => {
+  handleOk = () => {
+    if (this.newUserPassword === '' || this.newUserPassword === '') {
+      this._message.warning('密码不能为空');
+    }
+    if (this.newUserPassword === this.repeatPassword) {
+      this._message.warning('新旧密码重复');
+      return;
+    }
     this.service.resetPassword(
       this.uid,
       this.newUserPassword,
       this.repeatPassword
     )
-    this.service.SystemResetPasswordSubject.subscribe(res => {
-        console.log(res);
+    this.editPassWordSubscription = this.service.SystemResetPasswordSubject.subscribe(res => {
+        if (res.editpassword === undefined) {
+          return;
+        }
+        if (res.editpassword.error_code === 0) {
+          this._message.success('修改成功');
+          this.isVisible = false;
+          this.editPassWordSubscription.unsubscribe();
+        }else {
+          this._message.warning(res.editpassword.error_msg);
+          this.editPassWordSubscription.unsubscribe();
+        }
     })
-    console.log('点击了确定');
-    this.isVisible = false;
   }
 
   // 切换帐号状态
   toggle(id, state) {
-    this.state = state;
+    this.state = state === 1 ? 2 : 1;
     this.service.toggleAccounts(id, this.state);
-    this.service.SystemListDataSubject.subscribe(res => {
+    this.stateSubscription = this.service.SystemListDataSubject.subscribe(res => {
       console.log(res);
-      // this.state = res.result.a_data_state;
+      if (res.state === undefined) {
+        return;
+      }
+      if (res.state.error_code === 0) {
+        this.stateSubscription.unsubscribe();
+        this.loadData()
+      }
     })
   }
 
@@ -124,6 +156,12 @@ export class AccountManagementComponent implements OnInit {
          this._message.success('编辑完成');
        }
     })
+  }
+
+  pageChange(page) {
+    console.log(page)
+    this.page = page;
+    this.loadData();
   }
 
   handleCancel = (e) => {

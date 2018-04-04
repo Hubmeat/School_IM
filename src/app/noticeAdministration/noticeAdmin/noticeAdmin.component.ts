@@ -17,11 +17,12 @@ import {Subscription} from 'rxjs/Subscription'
 export class NoticeAdminComponent implements OnInit  {
   _dataSet = [];
   page: number = 1;
-  affiche_state: string = '';
-  affiche_title: string = '';
+  affiche_state: number;
+  affiche_title: number;
   dataSubscription: Subscription;
   delSubscription: Subscription;
   showDetailsSubscription: Subscription;
+  toggleDetailsSubscription: Subscription;
   dataDetails: any = {
     affiche_pic: '',
     affiche_title: '',
@@ -55,6 +56,7 @@ export class NoticeAdminComponent implements OnInit  {
     private _message: NzMessageService
   ) {}
   ngOnInit() {
+    this.service.editFlag = true;
     this.loadData();
   }
   loadData() {
@@ -86,8 +88,20 @@ export class NoticeAdminComponent implements OnInit  {
       }
     })
   }
-  toggleState() {
-    // this.service.
+  toggleState(id, state) {
+    state = state === 1 ? 2 : 1;
+    this.service.toggleState(id, state);
+    this.toggleDetailsSubscription = this.service.NoticeAdminSubject.subscribe(res => {
+      console.log(res)
+      if (res.togglemsg === undefined) {
+        return;
+      }
+      if (res.togglemsg.error_code === 0) {
+        this._message.success('状态修改成功');
+        this.toggleDetailsSubscription.unsubscribe();
+        this.loadData();
+      }
+    })
   }
   deleteNotcancel() {
 
@@ -95,8 +109,11 @@ export class NoticeAdminComponent implements OnInit  {
   addNewNotice(): void {
     this.router.navigate(['/index/addNotice'])
   }
-  editNot() {
-
+  editNot(data) {
+    console.log(data)
+    this.service.editFlag = false;
+    this.service.editData = data;
+    this.router.navigate(['/index/addNotice']);
   }
   // 详情
   showDetailsModal = (id) => {

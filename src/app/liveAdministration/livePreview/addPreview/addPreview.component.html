@@ -6,7 +6,9 @@
             (click)="goback()">
       返回
     </button>
-    <h2 nz-col [nzSpan]="20">添加直播/回放</h2>
+    <h2 nz-col [nzSpan]="20" *ngIf="editFlag ; else edit">添加直播/回放</h2>
+    <ng-template #edit><h2 nz-col [nzSpan]="20">编辑直播/回放</h2></ng-template>
+
   </div>
   <div nz-row class="addList_head">
     <div>
@@ -23,7 +25,6 @@
       <nz-upload
         style="width: 75%;"
         class="avatar-uploader"
-        nzAction="https://jsonplaceholder.typicode.com/posts/"
         nzName="avatar"
         [nzShowUploadList]="false"
         [nzBeforeUpload]="beforeUpload"
@@ -64,17 +65,18 @@
     <div>
       <span class="text-padd-span">预告状态</span>
       <nz-radio-group [(ngModel)]="live_state" style="width: 75%;">
-        <label nz-radio [nzValue]="'1'">
+        <label nz-radio [nzValue]="1">
           <span>显示</span>
         </label>
-        <label nz-radio [nzValue]="'2'">
+        <label nz-radio [nzValue]="2">
           <span>隐藏</span>
         </label>
       </nz-radio-group>
     </div>
     <div nz-row class="foot-buts">
       <button nz-col [nzSpan]="5" [nzPush]="5" nz-button (click)="goback()">取消</button>
-      <button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="previewSubmit()">提交</button>
+      <button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="previewSubmit()"  *ngIf="editFlag ; else editSubmitFlag">提交</button>
+      <ng-template #editSubmitFlag><button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="editSubmit()">提交</button></ng-template>
     </div>
 
   </div>

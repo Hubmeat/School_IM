@@ -229,4 +229,31 @@ export class DataSettingService {
         })
     }
 
+    // 上传文件
+    public uploadFileList(
+      unique_identification,
+      uid,
+      file
+    ) {
+      const formData = {
+        header_index: 1,
+        unique_identification: unique_identification,
+        uid: uid,
+        file: file
+      };
+      this.$http
+        .post(this.$HOST.host + '/a/industry_info/import', formData)
+        .subscribe(res => {
+          this.IndustrySetupSubject.next({updata: res})
+        })
+    }
+
+    public downTemplate() {
+      this.$http
+        .post(this.$HOST.host + '/a/industry_template/export', {})
+        .subscribe(res => {
+          this.IndustrySetupSubject.next({template: res})
+        })
+    }
+
 }

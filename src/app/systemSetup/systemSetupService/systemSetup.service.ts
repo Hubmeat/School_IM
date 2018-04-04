@@ -26,7 +26,7 @@ export class SystemSetupService {
       this.$http
         .post(this.$HOST.host + '/a/user/new', formData)
         .subscribe(res => {
-          this.SystemAddNewUserSubject.next(res);
+          this.SystemAddNewUserSubject.next({addUser: res});
         })
     }
 
@@ -34,14 +34,14 @@ export class SystemSetupService {
     public SystemResetPasswordSubject = new Subject<any>();
     public resetPassword(uid, old_password, new_password) {
       const formData = {
-        uid: 1705835349737499,
+        uid: uid,
         old_password: old_password,
         new_password: new_password
       }
       this.$http
         .post(this.$HOST.host + '/a/user/reset_password', formData)
         .subscribe(res => {
-            this.SystemResetPasswordSubject.next(res);
+            this.SystemResetPasswordSubject.next({editpassword: res});
         })
     }
 
@@ -58,7 +58,7 @@ export class SystemSetupService {
         this.$http
           .post(this.$HOST.host + '/a/user/adminlist', formData)
           .subscribe(res => {
-             this.SystemListDataSubject.next(res)
+             this.SystemListDataSubject.next({dataList: res})
           })
     }
 

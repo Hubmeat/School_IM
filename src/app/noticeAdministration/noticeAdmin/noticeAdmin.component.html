@@ -52,8 +52,8 @@
       <td nz-td></td>
       <td nz-td>{{data.affiche_state === 1 ? '显示' : '隐藏'}}</td>
       <td nz-td>
-        <a class="a-click" (click)="editNot()">编辑</a>
-        <a class="a-click" (click)="toggleState(data.id)">隐藏</a>
+        <a class="a-click" (click)="editNot(data)">编辑</a>
+        <a class="a-click" (click)="toggleState(data.id, data.affiche_state)">{{data.affiche_state === 1 ? '隐藏' : '显示'}}</a>
         <a class="a-click" >
           <nz-popconfirm [nzTitle]="'确定删除专业'"
                          [nzOkText]="'确定'"

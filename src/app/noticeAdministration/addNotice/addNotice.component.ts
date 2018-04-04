@@ -20,8 +20,8 @@ import * as wangEditor from 'wangEditor';
 export class AddNoticeComponent implements OnInit  {
   affiche_title: string = '';
   affiche_pic
-  affiche_type: string = '1';
-  affiche_state: string = '1';
+  affiche_type: number = 1;
+  affiche_state: number = 1;
   article_url
   article_intr
   article_content
@@ -37,6 +37,12 @@ export class AddNoticeComponent implements OnInit  {
 
   beforeUploadUrl
   addSubscription: Subscription;
+  editSubscription: Subscription;
+
+  id;
+  editFlag: boolean;
+  editData: any;
+
   editor
   a
   constructor(
@@ -46,6 +52,21 @@ export class AddNoticeComponent implements OnInit  {
     // private wangeditor: WangEditor
   ) {}
   ngOnInit() {
+    this.editFlag = this.service.editFlag;
+    if (!this.editFlag) {
+      this.editData = this.service.editData;
+        this.id = this.editData.id;
+        this.affiche_title = this.editData.affiche_title;
+        this.affiche_pic = this.editData.affiche_pic;
+        this.avatarUrl = this.editData.affiche_pic
+        this.affiche_type = this.editData.affiche_type;
+        this.affiche_state = this.editData.affiche_state;
+        this.article_url = this.editData.article_url;
+        this.article_intr = this.editData.article_intr;
+        this.article_content = this.editData.article_content;
+    }
+    console.log(this.editFlag, this.editData)
+
     this.editor = wangEditor;
     this.a = new this.editor('textarea1');
     this.a.create();
@@ -91,6 +112,29 @@ export class AddNoticeComponent implements OnInit  {
     console.log(e);
     this.isVisible = false;
     this.isVisible1 = false;
+  }
+  editSubmit() {
+    this.service.editNotice(
+      this.id,
+      this.affiche_title,
+      this.affiche_pic,
+      this.affiche_type,
+      this.affiche_state,
+      this.article_url,
+      this.article_intr,
+      this.article_content
+    )
+    this.editSubscription = this.service.NoticeAdminSubject.subscribe(res => {
+      if (res.editmsg) {
+        if (res.editmsg.error_code === 0) {
+          this._message.success('编辑成功');
+          this.router.navigate(['/index/liveList']);
+        } else {
+          this._message.warning('编辑失败');
+        }
+        this.editSubscription.unsubscribe();
+      }
+    })
   }
   goback() {
     this.router.navigate(['/index/noticeAdmin']);

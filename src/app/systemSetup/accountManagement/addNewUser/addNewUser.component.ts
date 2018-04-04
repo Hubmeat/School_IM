@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {NzMessageService} from 'ng-zorro-antd';
 import {SystemSetupService} from '../../systemSetupService/systemSetup.service';
-
+import {Subscription} from 'rxjs/Subscription';
 
 
 @Component({
@@ -20,6 +20,7 @@ export class AddNewUserComponent implements OnInit  {
   confirmPassword: string = '';
   radioValue: number;
   msg: string;
+  addSubscription: Subscription;
 
   constructor(
     private router: Router,
@@ -71,11 +72,20 @@ export class AddNewUserComponent implements OnInit  {
         this.UserName,
         this.radioValue
       )
-      this.servive.SystemAddNewUserSubject.subscribe(res => {
+      this.addSubscription = this.servive.SystemAddNewUserSubject.subscribe(res => {
         console.log(res);
+        if (res.addUser === undefined) {
+          return;
+        }
+        if (res.addUser.error_code === 0) {
+          this._message.success(`创建成功!`);
+          this.addSubscription.unsubscribe();
+          this.router.navigate(['/index/accountManagement'])
+        } else {
+          this._message.warning(res.addUser.error_msg);
+          this.addSubscription.unsubscribe();
+        }
       })
-      this.router.navigate(['/index/accountManagement'])
-      this._message.success(`创建成功!`);
     }
   }
 }

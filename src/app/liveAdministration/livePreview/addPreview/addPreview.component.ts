@@ -19,10 +19,18 @@ export class AddPreviewComponent implements OnInit {
   live_time
   live_person
   foreshow_intro
-  live_state: string = '1'; // 默认显示
+  live_state: number = 1; // 默认显示
   live_person_id
   live_person_gender
   addSubscription: Subscription;
+  editSubscription: Subscription;
+  video_url
+  video_type
+  id
+
+  editFlag: boolean = false;
+  editData: any;
+
 
   avatarUrl
   beforeUpload
@@ -35,7 +43,23 @@ export class AddPreviewComponent implements OnInit {
   }
 
   ngOnInit() {
+      this.editFlag = this.service.editFlag;
+      if (!this.editFlag) {
 
+        this.editData = this.service.editData;
+        console.log(this.editData)
+          this.id = this.editData.id
+          this.live_title = this.editData.live_title
+          this.live_pic = this.editData.live_pic
+          this.live_time = this.editData.live_time
+          this.live_person_id = this.editData.live_person_id
+          this.live_person = this.editData.live_person
+          this.live_person_gender = this.editData.live_person_gender
+          this.foreshow_intro = this.editData.foreshow_intro
+          this.live_state = this.editData.live_state
+          this.video_url = this.editData.video_url
+          this.video_type = this.editData.video_type
+      }
   }
 
   goback(): void {
@@ -64,6 +88,33 @@ export class AddPreviewComponent implements OnInit {
         this._message.success(`创建成功!`);
         this.router.navigate(['/index/livePreview']);
         this.addSubscription.unsubscribe();
+      }
+    })
+  }
+
+  editSubmit() {
+    this.service.editLivePre(
+      this.id,
+      this.live_title,
+      this.live_pic,
+      this.live_time,
+      this.live_person_id,
+      this.live_person,
+      this.live_person_gender,
+      this.foreshow_intro,
+      this.live_state,
+      this.video_url,
+      this.video_type,
+    )
+    this.editSubscription = this.service.LiveServiceSubject.subscribe(res => {
+      if (res.editmsg) {
+        if (res.editmsg.error_code === 0) {
+          this._message.success('编辑成功');
+          this.router.navigate(['/index/livePreview']);
+        } else {
+          this._message.warning('编辑失败');
+        }
+        this.editSubscription.unsubscribe();
       }
     })
   }

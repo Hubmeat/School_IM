@@ -118,6 +118,8 @@ export class LiveAdministrationService {
     }
 
     // 编辑
+    editData: any = {};
+    editFlag: boolean = true;
     public editLivePre(
       id,
       live_title,
@@ -147,7 +149,7 @@ export class LiveAdministrationService {
       this.$http
         .post(this.$HOST.host + '/a/live/update', formData)
         .subscribe(res => {
-          this.LiveServiceSubject.next({editmsg: res})
+            this.LiveServiceSubject.next({editmsg: res})
         })
     }
 

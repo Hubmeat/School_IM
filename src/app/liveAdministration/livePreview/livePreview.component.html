@@ -49,7 +49,7 @@
         <td nz-td>{{data.live_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
         <td nz-td>
           <a class="a-click" (click)="getEdit(data)">编辑</a>
-          <a class="a-click" (click)="toggleState(data.state,data.id)">{{data.state === 2 ? "隐藏": "显示"}}</a>
+          <a class="a-click" (click)="toggleState(data.live_state,data.id)">{{data.live_state === 1 ? "隐藏" : "显示"}}</a>
           <a class="a-click" >
             <nz-popconfirm [nzTitle]="'确定删除专业'"
                            [nzOkText]="'确定'"

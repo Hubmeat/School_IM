@@ -24,6 +24,11 @@ export class IndustrySetupComponent implements OnInit {
   dataList = [];
 
   fileList = [];
+  beforeUpload;
+  progressFlag;
+  progressValue:number = 0;
+  uploadVisible;
+  downLoading = false;
 
   constructor(
     private service: DataSettingService,
@@ -131,8 +136,43 @@ export class IndustrySetupComponent implements OnInit {
   showModal1 = () => {
     this.isVisible1 = true;
   }
+  // 下载
+  downloadTemplate() {
+    this.service.downTemplate()
+    this.service.IndustrySetupSubject.subscribe(res => {
+      // console.log(res);
+    })
+  }
+  // 上传
+  UploadSubmit() {
+    const formData = new FormData();
+    this.progressFlag = true;
+    this.fileList.forEach((file: any) => {
+      console.log('file', file);
+      this.service.uploadFileList(this.fileList[0].uid, this.uid, this.fileList[0]);
+      var timer = setInterval( () => {
+        this.progressValue += 5;
+        if (this.progressValue >= 100) {
+          this.service.IndustrySetupSubject.subscribe(res => {
+            console.log(res);
+              if (res.error_code) {
 
-
+              }
+            }
+          )
+          this.progressFlag = false;
+          this.progressValue = 0;
+          clearInterval(timer);
+          this._message.success('上传成功！')
+          this.fileList = [];
+          setTimeout( () => {
+            this.isVisible1 = false;
+          }, 1500)
+        }
+      }, 50)
+      formData.append('files[]', file);
+    });
+  }
 
   handleCancel = (e) => {
     console.log(e);

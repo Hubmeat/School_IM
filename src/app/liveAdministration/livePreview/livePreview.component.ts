@@ -48,6 +48,7 @@ export class LivePreviewComponent implements OnInit  {
 
   }
   ngOnInit() {
+    this.service.editFlag = true;
     this.loadData()
   }
   loadData = () => {
@@ -117,6 +118,10 @@ export class LivePreviewComponent implements OnInit  {
   }
 
   getEdit(data) {
+    console.log(data);
+    this.service.editFlag = false;
+    this.service.editData = data;
+    console.log(this.service.editData)
     this.router.navigate(['/index/addPreview']);
   }
   showModal = () => {
