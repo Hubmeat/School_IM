@@ -13,4 +13,19 @@ export class ContactAdminService {
     private $http: HttpClient
   ) {
   }
+
+  public chatDataSubject = new Subject<any>();
+
+  public getChatData():void {
+    this.$http
+    .post(this.$HOST.host + '/a/connect/manager', {})
+    .subscribe(
+        res => {
+            this.chatDataSubject.next(res)
+        },
+        err => {
+            this.chatDataSubject.next(err)
+        }
+    )
+  }
 }
