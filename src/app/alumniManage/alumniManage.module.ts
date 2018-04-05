@@ -13,6 +13,7 @@ import { WaitPendingComponent } from 'app/alumniManage/waitPending/waitPending.c
 import { AuditRecordCom } from './auditRecord/auditRecord.component';
 import { SchoolfellowListCom } from './schoolfellowList/schoolfellowList.component';
 import { GroupManagementCom } from './groupManagement/groupManage.component';
+import { AddGroupCom } from './groupManagement/addGroup/addGroup.component';
 
 // 导入事件模块的服务
 
@@ -21,7 +22,8 @@ const EventComponents = [
     WaitPendingComponent,
     AuditRecordCom,
     SchoolfellowListCom,
-    GroupManagementCom
+    GroupManagementCom,
+    AddGroupCom
 ];
 
 const EVENTROUTES: Routes = [
@@ -37,7 +39,10 @@ const EVENTROUTES: Routes = [
     },  {
         path: 'groupManagement',
         component: GroupManagementCom
-    }, 
+    },  {
+        path: 'addGroup',
+        component: AddGroupCom
+    }
 ]
 
 @NgModule({

@@ -20,6 +20,9 @@ export class ContactAdminComponent implements OnInit {
 
   academy_name : string = ''; // 学院名
   msg : string = '';
+  Nm:any;
+
+
   constructor(
     private service : ContactAdminService, 
     private _message : NzMessageService, 
@@ -69,13 +72,14 @@ export class ContactAdminComponent implements OnInit {
       ondisconnect: this.onDisconnect,
       onerror: this.onError
     });
+    this.Nm = nim;
     console.log('nim', nim)
-    nim.connect();
 debugger
     this.changeChatObject(account, token)
   }
   
   onConnect() {
+    this.Nm.connect();
     // debugger
     console.log('连接成功');
   }

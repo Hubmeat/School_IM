@@ -138,7 +138,7 @@
               [nzBordered] = "borderShow"
               [nzLoading] = "spinShow"
               [nzIsPagination]="false"
-            >
+             >
             <thead nz-thead>
               <tr>
                 <th nz-th><span>注册时间</span></th>
@@ -195,17 +195,17 @@
                 </td>
               </tr>
             </tbody>
-          </nz-table>
-        </div>
-        <div class="page" *ngIf="data.length > 0">
-          <nz-pagination
-              [nzPageIndex]="currentPage"
-              [nzPageSize] = '15'
-              [nzTotal]="totalPage"
-              (nzPageIndexClickChange) = 'currentPageChange($event)'
-              nzShowTotal>
-          </nz-pagination>
-        </div>
+            </nz-table>
+          </div>
+          <div class="page" *ngIf="data.length > 0">
+            <nz-pagination
+                [nzPageIndex]="currentPage"
+                [nzPageSize] = '15'
+                [nzTotal]="totalPage"
+                (nzPageIndexClickChange) = 'currentPageChange($event)'
+                nzShowTotal>
+            </nz-pagination>
+          </div>
 
         </div>
 

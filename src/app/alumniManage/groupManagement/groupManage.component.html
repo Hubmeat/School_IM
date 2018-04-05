@@ -31,26 +31,42 @@
                 <thead nz-thead *ngIf="headerShow">
                     <tr>
                         <th nz-th>
-                            <span>注册时间</span>
+                            <span>群信息</span>
                         </th>
                         <th nz-th>
-                            <span>姓名</span>
+                            <span>群介绍</span>
                         </th>
                         <th nz-th>
-                            <span>手机</span>
+                            <span>群备注</span>
+                        </th>
+                        <th nz-th>
+                            <span>操作</span>
                         </th>
                     </tr>
                 </thead>
                 <tbody nz-tbody>
                     <tr nz-tbody-tr *ngFor="let data of nzTable.data">
-                        <td nz-td>
-                            {{data.created_at}}
+                        <td nz-td (click)='openEditBox(data)'>
+                            <dl class="tableStyle">
+                                <dt>
+                                    <img src="{{data.icon}}" alt="{{data.tname}}">
+                                </dt>
+                                <dd>
+                                    <p>{{data.tname}}</p>
+                                    <p>{{data.person_count}}</p>
+                                    <p>{{data.created_at}}</p>
+                                </dd>
+                            </dl>
                         </td>
                         <td nz-td>
-                            {{data.user_name}}
+                            {{data.intro}}
                         </td>
                         <td nz-td>
-                            {{data.contact_phone}}
+                            {{data.custom}}
+                        </td>
+                        <td nz-td>
+                            <button nz-button (click)='createGroup()' [nzType]="'default'">解散群</button>
+                            <p style="color: #ccc;font-style: italic;">*仅群主可解散群</p>
                         </td>
                     </tr>
                 </tbody>
@@ -62,4 +78,70 @@
             </nz-pagination>
         </div>
     </div>
+
+    <!-- 编辑模态框 -->
+    <nz-modal [nzVisible]="editVisible" [nzStyle]="modelStyle" [nzFooter]="modelFooter" [nzTitle]="'群资料详情'" [nzContent]="modalContent" [nzContent]="modalContent" (nzOnCancel)="closeEditModel()">
+        <ng-template #modalContent>
+            <nz-tabset>  
+                <nz-tab>
+                    <ng-template #nzTabHeading>
+                        基本资料
+                    </ng-template>
+                    <div>  
+                        <button nz-button style="margin-bottom: 12px;" (click)='editWay()' [nzType]="'default'" *ngIf='isReadOnly; else editBtn'>
+                            <span>编辑</span>
+                        </button>
+                        <ng-template #editBtn>
+                            
+                        </ng-template>
+                        <div>
+                            <dl class="tableStyle">
+                                <dt>
+                                    <img src="{{editInfo.icon}}" alt="{{editInfo.tname}}">
+                                </dt>
+                                <dd>
+                                    <nz-input style="width: 150px; display: block;" [(ngModel)]="editInfo.tname" [nzReadonly]='isReadOnly'></nz-input>
+                                    <nz-input style="width: 150px; display: block;" [(ngModel)]="editInfo.person_count" [nzReadonly]='isReadOnly'></nz-input>
+                                    <nz-input style="width: 150px; display: block;" [(ngModel)]="editInfo.created_at" [nzReadonly]='isReadOnly'></nz-input>
+                                </dd>
+                            </dl>      
+                        </div>
+                        <div class="">
+                            <span>
+                                群介绍：
+                            </span>
+                            <nz-input [nzType]="'textarea'" [nzReadonly]="isReadOnly"[(ngModel)]='editInfo.intro'></nz-input>
+                        </div>
+                        <div class=''>
+                            <span>
+                                备注：
+                            </span>
+                            <nz-input [nzType]="'textarea'" [nzReadonly]="isReadOnly" [(ngModel)]='editInfo.custom'></nz-input>
+                        </div>
+                    </div>
+                </nz-tab>  
+                <nz-tab>
+                    <ng-template #nzTabHeading>
+                        成员管理
+                    </ng-template>
+                    <div>
+
+                    </div>
+                </nz-tab>
+            </nz-tabset>  
+        </ng-template>
+        <ng-template #modelFooter>
+            <button nz-button  (click)='closeEditModel()' [nzType]="'default'" *ngIf='isReadOnly; else btnOfEdit'>
+                <span>关闭</span>
+            </button>
+            <ng-template #btnOfEdit>
+                <button nz-button  (click)='cancelEdit()' [nzType]="'default'">
+                    <span>取消</span>
+                </button>
+                <button nz-button  (click)='saveEdit()' [nzType]="'default'">
+                    <span>保存</span>
+                </button>
+            </ng-template>
+        </ng-template>
+    </nz-modal>
 </div>

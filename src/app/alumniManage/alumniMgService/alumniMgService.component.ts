@@ -305,4 +305,60 @@ export class AMService {
             }
         )       
     }
+
+
+
+    /**
+     * 群组管理，解散群，新建群
+     */
+
+     public groupManageSubject = new Subject<any>();
+
+     public getGroupData(page, tname, start_time, end_time):void {
+        var formData = {
+            "page": page,
+            "tname": tname,
+            "start_time": start_time === null?'':moment(start_time).valueOf(),
+            "end_time": end_time === null?'':moment(end_time).valueOf()
+        }
+
+        this.$http
+        .post(this.$HOST.host + '/a/group/list', formData)
+        .subscribe(
+            res => {
+                this.groupManageSubject.next(res)
+            },
+            err => {
+                this.groupManageSubject.next(err)
+            }
+        )       
+     }
+
+    public updataGroupSubject = new Subject<any>();
+
+    public updataGroupInfo():void {
+        var formData = {
+            "members": [
+                1705948746940446
+            ],
+            "custom": "水电费了坚实的法律手段",
+            "tname": "小群",
+            "uid": 1705835349737499,
+            "id": 1714027278434305,
+            "tid":"396872733",
+            "intro": "群介绍",
+            "icon": "http://p218ibbvp.bkt.clouddn.com/2ca482e00bc211e8a4bb7b6a81e38cee.jpeg?imageView2"
+        }
+
+        this.$http
+        .post(this.$HOST.host + '/a/group/update', formData)
+        .subscribe(
+            res => {
+                this.updataGroupSubject.next(res)
+            },
+            err => {
+                this.updataGroupSubject.next(err)
+            }
+        )       
+    }
 }
