@@ -59,11 +59,11 @@ export const appRoutes = [
       path: 'forgetPassword',
       component: ForgetPasswordComponent
     },
-    // {
-    //     path: '',
-    //     redirectTo: '/login',
-    //     pathMatch: 'full'
-    // },
+    {
+        path: '',
+        redirectTo: '/login',
+        pathMatch: 'full'
+    },
     // {
     //     path: '**',
     //     component: NotFoundComponent

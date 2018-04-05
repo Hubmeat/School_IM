@@ -19,7 +19,7 @@ export class GroupManagementCom implements OnInit {
     endTime = null;
 
     // 表格数据
-    headerShow:boolean = false;    
+    headerShow:boolean = false;
     data = [];
     spinShow:boolean = false;
     borderShow:boolean = false;
@@ -96,12 +96,37 @@ export class GroupManagementCom implements OnInit {
     editWay():void {
         this.isReadOnly = false;
     }
-    
+
     cancelEdit():void {
         this.isReadOnly = true;
     }
 
     saveEdit():void {
-        
+
     }
+
+    // 提出群
+    deleteMenber() {
+      const menubar_id = '';
+      const tid = '';
+      const uid = '';
+      const id = '';
+      this.alumniService.deleteMember(
+        menubar_id,
+        tid,
+        uid,
+        id
+      )
+      this.alumniService.MemberServiceSubject.subscribe(res => {
+        if (res.delmsg === undefined) {
+          return;
+        }
+        if (res.delmsg.error_code === 0) {
+          alert('删除成功');
+          this.loadData()
+        }
+      })
+    }
+
+
 }

@@ -8,12 +8,12 @@ import * as moment from 'moment';
 
 @Injectable()
 
-export class AMService {    
+export class AMService {
     constructor (
         private $HOST: ApiModule,
         private $http: HttpClient
     ) {
-        
+
     }
     /**
      * 校友公共功能接口
@@ -51,7 +51,7 @@ export class AMService {
                 err => {
                     this.provinceCodeSubject.next({city: err});
                 }
-            )   
+            )
     }
 
     /**
@@ -63,7 +63,7 @@ export class AMService {
     public WaitPendingSubject = new Subject<any>();
 
     public getPendingData(
-        list_type, 
+        list_type,
         majorSelected,
         educationSelected,
         collegeSelected,
@@ -108,7 +108,7 @@ export class AMService {
     // 校友管理待审核，下拉框subject
     public waitPendingOfSelectSubject = new Subject<any>();
 
-    public getCollegeSelectData():void {        
+    public getCollegeSelectData():void {
         // 获取 学院 下拉框相关数据
         this.$http
             .post(this.$HOST.host + '/util/academy/dropbox', {})
@@ -148,7 +148,7 @@ export class AMService {
             "examine_state": status,
             "examine_user": window.localStorage.getItem('userName')
         }
-        
+
         this.$http
         .post(this.$HOST.host + '/a/examine_state/change', formData)
         .subscribe(
@@ -158,7 +158,7 @@ export class AMService {
             err => {
                 this.pendingAuditSubject.next(err)
             }
-        )       
+        )
     }
 
     /**
@@ -200,7 +200,7 @@ export class AMService {
             "province_code": provinceCode,
             "city_code": cityCode
         }
-        
+
         this.$http
         .post(this.$HOST.host + '/a/user/clientlist', formData)
         .subscribe(
@@ -210,7 +210,7 @@ export class AMService {
             err => {
                 this.schoolFWSubject.next(err)
             }
-        )       
+        )
     }
 
     // 处理解冻 / 冻结
@@ -231,7 +231,7 @@ export class AMService {
             err => {
                 this.handleFreezeSubject.next(err)
             }
-        )       
+        )
     }
 
     // 校友列表编辑
@@ -281,7 +281,7 @@ export class AMService {
             err => {
                 this.exportSubject.next(err)
             }
-        )       
+        )
     }
 
     // 批量上传
@@ -303,7 +303,7 @@ export class AMService {
             err => {
                 this.uploadSubject.next(err)
             }
-        )       
+        )
     }
 
 
@@ -313,7 +313,7 @@ export class AMService {
      */
 
      public groupManageSubject = new Subject<any>();
-
+     // list
      public getGroupData(page, tname, start_time, end_time):void {
         var formData = {
             "page": page,
@@ -331,11 +331,11 @@ export class AMService {
             err => {
                 this.groupManageSubject.next(err)
             }
-        )       
+        )
      }
 
     public updataGroupSubject = new Subject<any>();
-
+    // 编辑
     public updataGroupInfo():void {
         var formData = {
             "members": [
@@ -359,6 +359,23 @@ export class AMService {
             err => {
                 this.updataGroupSubject.next(err)
             }
-        )       
+        )
+    }
+
+
+    public MemberServiceSubject = new Subject<any>();
+    // 踢出群
+    public deleteMember(member_id, tid, uid, id) {
+      const formData = {
+        member_id: member_id,
+        tid: tid,
+        uid: uid,
+        id: id
+      }
+      this.$http
+        .post(this.$HOST.host + '/a/group/kickuser', formData)
+        .subscribe(res => {
+          this.MemberServiceSubject.next({delmsg: res})
+        })
     }
 }

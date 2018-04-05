@@ -14,6 +14,7 @@ import { AuditRecordCom } from './auditRecord/auditRecord.component';
 import { SchoolfellowListCom } from './schoolfellowList/schoolfellowList.component';
 import { GroupManagementCom } from './groupManagement/groupManage.component';
 import { AddGroupCom } from './groupManagement/addGroup/addGroup.component';
+import {AddMemberComponent} from './groupManagement/addMember/addMember.component';
 
 // 导入事件模块的服务
 
@@ -23,7 +24,8 @@ const EventComponents = [
     AuditRecordCom,
     SchoolfellowListCom,
     GroupManagementCom,
-    AddGroupCom
+    AddGroupCom,
+    AddMemberComponent
 ];
 
 const EVENTROUTES: Routes = [
@@ -42,6 +44,9 @@ const EVENTROUTES: Routes = [
     },  {
         path: 'addGroup',
         component: AddGroupCom
+    },  {
+        path: 'addMember',
+        component: AddMemberComponent
     }
 ]
 

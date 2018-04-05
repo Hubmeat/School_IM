@@ -118,4 +118,5 @@ export class AddPreviewComponent implements OnInit {
       }
     })
   }
+  handleChange = (e) => {}
 }

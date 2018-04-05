@@ -28,6 +28,7 @@ export class AddLiveComponent implements OnInit  {
   id;
   live_time;
   foreshow_intro;
+  beforeUpload
 
   editFlag;
   editData;
@@ -113,4 +114,5 @@ export class AddLiveComponent implements OnInit  {
       }
     })
   }
+  handleChange = (e) => {}
 }

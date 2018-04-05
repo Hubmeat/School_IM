@@ -3,6 +3,7 @@ import { AMService } from '../../alumniMgService/alumniMgService.component';
 import { NzMessageService, UploadFile } from 'ng-zorro-antd';
 import { Subscription } from 'rxjs/Subscription';
 import * as $ from 'jquery';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'addGroup-component',
@@ -88,16 +89,17 @@ export class AddGroupCom implements OnInit {
     _indeterminate = false;
     _displayData = [];
 
-    
+
     constructor(
         private alumniMgService: AMService,
+        private router: Router,
         private msg: NzMessageService
     ) {}
 
     ngOnInit():void {
         // $('.two_step').hide()
     }
-  
+
     beforeUpload = (file: File) => {
       const isJPG = file.type === 'image/jpeg';
       if (!isJPG) {
@@ -109,13 +111,13 @@ export class AddGroupCom implements OnInit {
       }
       return isJPG && isLt2M;
     }
-  
+
     private getBase64(img: File, callback: (img: any) => void) {
       const reader = new FileReader();
       reader.addEventListener('load', () => callback(reader.result));
       reader.readAsDataURL(img);
     }
-  
+
     handleChange(info: { file: UploadFile }) {
       if (info.file.status === 'uploading') {
         return;
@@ -138,7 +140,7 @@ export class AddGroupCom implements OnInit {
     }
 
     completeAdd():void {
-        
+
     }
 
     /**
@@ -218,14 +220,14 @@ export class AddGroupCom implements OnInit {
         this._displayData = $event;
         this._refreshStatus();
       }
-    
+
     _refreshStatus() {
     const allChecked = this._displayData.every(value => value.checked === true);
     const allUnChecked = this._displayData.every(value => !value.checked);
     this._allChecked = allChecked;
     this._indeterminate = (!allChecked) && (!allUnChecked);
     }
-    
+
     _checkAll(value) {
         if (value) {
             this._displayData.forEach(data => {
@@ -237,5 +239,8 @@ export class AddGroupCom implements OnInit {
             });
         }
         this._refreshStatus();
+    }
+    goback() {
+        this.router.navigate(['/index/groupManagement']);
     }
 }

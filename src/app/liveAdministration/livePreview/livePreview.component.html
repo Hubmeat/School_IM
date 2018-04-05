@@ -47,6 +47,7 @@
         <td nz-td><img src="{{data.live_pic}}" alt="" style="width: 60px;height: 60px;"></td>
         <td nz-td>{{data.live_person}}</td>
         <td nz-td>{{data.live_time | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td nz-td>{{data.live_state === 1 ? "显示" : "隐藏"}}</td>
         <td nz-td>
           <a class="a-click" (click)="getEdit(data)">编辑</a>
           <a class="a-click" (click)="toggleState(data.live_state,data.id)">{{data.live_state === 1 ? "隐藏" : "显示"}}</a>
