@@ -1,0 +1,159 @@
+<div id="addGroup_content">
+  <div nz-row class="addList_head">
+    <button nz-button nz-col [nzSpan]="3" style="margin-right: 20px;" (click)="goback()">返回</button>
+    <h2 nz-col [nzSpan]="20">添加群成员</h2>
+    <div>
+      <p>群名称: </p>
+      <p>当前人数: </p>
+    </div>
+    <div>
+      <div class="joinSchool">
+            <span>
+                入学时间：
+            </span>
+        <nz-datepicker [(ngModel)]="joinBeginTime" nzShowTime [nzPlaceHolder]="'选择开始时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+        <span>至</span>
+        <nz-datepicker [(ngModel)]="joinEndrTime" nzShowTime [nzPlaceHolder]="'选择结束时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+      </div>
+      <div>
+        <span>姓名：</span>
+        <nz-input style="width: 150px;" [(ngModel)]="groupName" [nzPlaceHolder]="''" ></nz-input>
+      </div>
+      <div>
+        <span>手机：</span>
+        <nz-input style="width: 150px;" [(ngModel)]="groupName" [nzPlaceHolder]="''" ></nz-input>
+      </div>
+      <div>
+        <span>性别：</span>
+        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+          <nz-option
+            *ngFor="let item of collegeOptions"
+            [nzLabel]="item.academy_name"
+            [nzValue]="item.id"
+            [nzDisabled]="item.disabled">
+          </nz-option>
+        </nz-select>
+      </div>
+      <div>
+        <span>民族：</span>
+        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+          <nz-option
+            *ngFor="let item of collegeOptions"
+            [nzLabel]="item.academy_name"
+            [nzValue]="item.id"
+            [nzDisabled]="item.disabled">
+          </nz-option>
+        </nz-select>
+      </div>
+      <div>
+        <span>学院：</span>
+        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+          <nz-option
+            *ngFor="let item of collegeOptions"
+            [nzLabel]="item.academy_name"
+            [nzValue]="item.id"
+            [nzDisabled]="item.disabled">
+          </nz-option>
+        </nz-select>
+      </div>
+      <div>
+        <span>专业：</span>
+        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+          <nz-option
+            *ngFor="let item of collegeOptions"
+            [nzLabel]="item.academy_name"
+            [nzValue]="item.id"
+            [nzDisabled]="item.disabled">
+          </nz-option>
+        </nz-select>
+      </div>
+      <div>
+        <span>学历：</span>
+        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+          <nz-option
+            *ngFor="let item of collegeOptions"
+            [nzLabel]="item.academy_name"
+            [nzValue]="item.id"
+            [nzDisabled]="item.disabled">
+          </nz-option>
+        </nz-select>
+      </div>
+      <div>
+        <span>所在地：</span>
+        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+          <nz-option
+            *ngFor="let item of collegeOptions"
+            [nzLabel]="item.academy_name"
+            [nzValue]="item.id"
+            [nzDisabled]="item.disabled">
+          </nz-option>
+        </nz-select>
+        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+          <nz-option
+            *ngFor="let item of collegeOptions"
+            [nzLabel]="item.academy_name"
+            [nzValue]="item.id"
+            [nzDisabled]="item.disabled">
+          </nz-option>
+        </nz-select>
+      </div>
+      <div>
+        <span>所属行业：</span>
+        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+          <nz-option
+            *ngFor="let item of collegeOptions"
+            [nzLabel]="item.academy_name"
+            [nzValue]="item.id"
+            [nzDisabled]="item.disabled">
+          </nz-option>
+        </nz-select>
+      </div>
+    </div>
+    <div>
+      <nz-table #nzTable [nzDataSource]="data" [nzPageSize]="10" (nzDataChange)="_displayDataChange($event)" (nzPageIndexChange)="_refreshStatus()" (nzPageSizeChange)="_refreshStatus()">
+        <thead nz-thead>
+        <tr>
+          <th nz-th nzCheckbox>
+            <label nz-checkbox [(ngModel)]="_allChecked" [nzIndeterminate]="_indeterminate" (ngModelChange)="_checkAll($event)">
+            </label>
+          </th>
+          <th nz-th><span>注册时间</span></th>
+          <th nz-th><span>姓名</span></th>
+          <th nz-th><span>手机</span></th>
+          <th nz-th><span>性别</span></th>
+          <th nz-th><span>入学时间</span></th>
+          <th nz-th><span>学院</span></th>
+          <th nz-th><span>专业</span></th>
+          <th nz-th><span>学历</span></th>
+          <th nz-th><span>所在地</span></th>
+        </tr>
+        </thead>
+        <tbody nz-tbody>
+        <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+          <td nz-td nzCheckbox>
+            <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="_refreshStatus($event)">
+            </label>
+          </td>
+          <td nz-td>{{data.name}}</td>
+          <td nz-td>{{data.age}}</td>
+          <td nz-td>{{data.address}}</td>
+          <td nz-td>{{data.address}}</td>
+          <td nz-td>{{data.address}}</td>
+          <td nz-td>{{data.address}}</td>
+          <td nz-td>{{data.address}}</td>
+          <td nz-td>{{data.address}}</td>
+          <td nz-td>{{data.address}}</td>
+        </tr>
+        </tbody>
+      </nz-table>
+      <div>
+        list
+      </div>
+    </div>
+    <div>
+      <button>取消</button>
+      <button>完成</button>
+    </div>
+  </div>
+
+</div>
