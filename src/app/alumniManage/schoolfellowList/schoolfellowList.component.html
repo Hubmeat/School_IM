@@ -285,7 +285,7 @@
     </nz-modal>
 
     <!-- 审核模态框 -->
-    <nz-modal [nzVisible]="auditVisible" [nzStyle]="modelStyle" [nzTitle]="'校友审核'" [nzContent]="AuditModalContent" [nzFooter]="AuditModalFooter" (nzOnCancel)="closeAuditModel()">
+    <nz-modal [nzVisible]="auditVisible" [nzStyle]="modelStyle" [nzTitle]="'校友资料'" [nzContent]="AuditModalContent" [nzFooter]="AuditModalFooter" (nzOnCancel)="closeInforModel()">
         <ng-template #AuditModalContent>
           <div id="examineModel">
               <div class="examineModel_head">
@@ -295,16 +295,31 @@
                 <div>
                   <ul>
                     <li>
-                      <span><b class="weight">姓名：</b> {{userInfo.user_name}}</span>
-                      <span  style="margin-left: 10px;"><b class="weight">性别：</b>{{userInfo.gender === 1?'男':[userInfo.gender === '2'?'女':'未知']}}</span>
+                      <span>
+                        <b class="weight">姓名：</b> 
+                        <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="userInfo.user_name" [nzPlaceHolder]="'Basic usage'"></nz-input>
+                      </span>
+                      <span  style="margin-left: 10px;">
+                        <b class="weight">性别：</b>{{userInfo.gender === 1?'男':[userInfo.gender === '2'?'女':'未知']}}
+                      </span>
+                      <span  style="margin-left: 10px;">
+                        <b class="weight">出生年月：</b>1999-99-99
+                      </span>
+                      <span  style="margin-left: 10px;">
+                        <b class="weight">民族：</b>汉族
+                      </span>
                     </li>
                     <li>
-                      <span><b class="weight">手机：</b></span>
-                      {{userInfo.contact_phone}}
+                      <span><b class="weight">手机：</b></span>{{userInfo.contact_phone}}
+                      <span><b class="weight">邮箱：</b></span>670330222@qq.com
                     </li>
                     <li>
-                      <span><b class="weight">身份证：</b></span>
-                      {{userInfo.id_number}}
+                      <span><b class="weight">身份证：</b></span>{{userInfo.id_number}}
+                      <span><b class="weight">政治面貌：</b></span>国民党
+                    </li>
+                    <li>
+                      <span><b class="weight">微信：</b></span>tlssssss
+                      <span><b class="weight">QQ：</b></span>78789798
                     </li>
                     <li>
                       <span><b class="weight">目前所在地：</b></span>
@@ -326,6 +341,18 @@
                   </li>
                   <li>
                     <b class="weight">学历：</b>{{userInfo.education}}
+                  </li>
+                  <li>
+                    <b class="weight">毕业时间：</b>2010年
+                  </li>
+                  <li>
+                    <b class="weight">班号：</b>7788
+                  </li>
+                  <li>
+                    <b class="weight">学号：</b>121233123123
+                  </li>
+                  <li>
+                    <b class="weight">班主任：</b>刘天然
                   </li>
                 </ul>
               </div>
@@ -352,11 +379,8 @@
         </ng-template>
         <ng-template  #AuditModalFooter>
           <div class="examineModel_control">
-            <button [nzLoading]="acceptLoading" nz-button (click) = 'handerAccept($event)' [nzType]="'default'">
-                <span>审核通过</span>
-            </button>
-            <button [nzLoading]="rejectLoading" nz-button (click) = 'handerReject($event)' [nzType]="'danger'">
-                <span>审核不通过</span>
+            <button nz-button (click)='closeInforModel()' [nzType]="'default'">
+                <span>关闭</span>
             </button>
           </div>
         </ng-template>

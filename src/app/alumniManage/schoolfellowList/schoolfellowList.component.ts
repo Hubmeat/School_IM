@@ -72,7 +72,7 @@ export class SchoolfellowListCom implements OnInit {
     inforVisible:boolean = false;
     userInfo:any = {};
     modelStyle:any = {
-        width: '600px'
+        width: '700px'
     }
     // 审核model
     auditVisible:boolean = false;
@@ -199,11 +199,11 @@ export class SchoolfellowListCom implements OnInit {
     showInfoModal = (data) => {
         console.log('data', data)
         this.userInfo = Object.assign({}, data);
-        this.inforVisible = true;
+        this.auditVisible = true;
     }
 
     closeInforModel = () => {
-        this.inforVisible = false;
+        this.auditVisible = false;
     }
 
     // 处理解冻与冻结
