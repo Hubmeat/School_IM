@@ -44,7 +44,7 @@ export class AuditRecordCom implements OnInit {
     educationSelected = '';
     // 审核状态下拉框
     auditStatusOptions = [
-        { value: '0', label: '全部'},
+        { value: '', label: '全部'},
         { value: '1', label: '审核通过'},
         { value: '2', label: '审核不通过'}
     ];
