@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AMService } from '../alumniMgService/alumniMgService.component';
 import { NzMessageService, UploadFile } from 'ng-zorro-antd';
 import {Subscription} from 'rxjs/Subscription'
+import { ResponseContentType } from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
     selector: 'schoolfellow-component',
@@ -19,7 +21,8 @@ export class SchoolfellowListCom implements OnInit {
 
     constructor(
         private alumniMgService: AMService,
-        private _message: NzMessageService
+        private _message: NzMessageService,
+        private http: HttpClient
     ) {
     }
 
@@ -240,7 +243,7 @@ export class SchoolfellowListCom implements OnInit {
 
 
     downloadTemplate() {
-        
+
     }
 
     closeUploadModel() {
@@ -249,7 +252,7 @@ export class SchoolfellowListCom implements OnInit {
 
     openUploadModel() {
         this.uploadVisible = true;
-    } 
+    }
 
     exportWay () {
         this.alumniMgService.exportData(
@@ -289,7 +292,7 @@ export class SchoolfellowListCom implements OnInit {
         console.log('fileList', this.fileList)
         return false;
     }
-    
+
     handleUpload() {
         const formData = new FormData();
         this.progressFlag = true;

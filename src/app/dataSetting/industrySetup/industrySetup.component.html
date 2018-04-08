@@ -90,7 +90,7 @@
   <ng-template #modalContent1>
     <div>
       <span><a>导入模板.exls</a></span>
-      <button nz-button [nzLoading]="downLoading" (click)='downloadTemplate()'>下载模板</button>
+      <button nz-button [nzLoading]="downLoading"><a href="{{api}}" download="{{api}}">下载模板</a></button>
     </div>
     <div>
       <span>选择上传文件</span>
@@ -105,7 +105,6 @@
           <i class="anticon anticon-upload"></i><span>点击上传</span>
         </button>
         <nz-progress *ngIf='progressFlag' [ngModel]="progressValue"></nz-progress>
-
     </div>
   </ng-template>
 </nz-modal>

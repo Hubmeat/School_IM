@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NzMessageService} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 import {ContactAdminService} from '../contactAdminService/contactAdmin.service';
-import {Md5} from "ts-md5/dist/md5";
+import {Md5} from 'ts-md5/dist/md5';
 // import Chatroom from '../../../assets/NIM_Web_Chatroom_v5.0.0';
 
 @Component({selector: 'contactAdmin-component', templateUrl: './contactAdmin.component.html', styleUrls: ['./contactAdmin.component.less']})
@@ -24,8 +24,8 @@ export class ContactAdminComponent implements OnInit {
 
 
   constructor(
-    private service : ContactAdminService, 
-    private _message : NzMessageService, 
+    private service : ContactAdminService,
+    private _message : NzMessageService,
     private router : Router) {}
   ngOnInit() {
     this.dataList = [
@@ -44,7 +44,7 @@ export class ContactAdminComponent implements OnInit {
   }
   loadData () {
     this.service.getChatData();
-    this.service.chatDataSubject.subscribe( 
+    this.service.chatDataSubject.subscribe(
     res => {
       console.log('res', res)
       var token = Md5.hashStr(res.result.id);
@@ -52,7 +52,7 @@ export class ContactAdminComponent implements OnInit {
       console.log('account', account);
       console.log('token', token);
       this.initChat(account, token);
-      
+
     })
   }
 
@@ -77,7 +77,7 @@ export class ContactAdminComponent implements OnInit {
 debugger
     this.changeChatObject(account, token)
   }
-  
+
   onConnect() {
     this.Nm.connect();
     // debugger
