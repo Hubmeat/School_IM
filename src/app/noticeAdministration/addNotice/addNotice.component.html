@@ -43,18 +43,29 @@
       </nz-radio-group>
     </div>
     <div *ngIf="affiche_type === 1">
-      <span class="text-padd-span">文章链接地址</span>
-      <nz-input
-        style="width: 75%;"
-        [(ngModel)]="article_url"
+      <div>
+        <span class="text-padd-span">文章链接地址</span>
+        <nz-input
+          style="width: 75%;"
+          [(ngModel)]="article_url"
           [nzPlaceHolder]="'请输入文章链接'"
-          >
-          </nz-input>
+        >
+        </nz-input>
+      </div>
+      <div>
+        <span class="text-padd-span">文章引言</span>
+        <nz-input
+          style="width: 75%;resize:none"
+          [nzType]="'textarea'"
+          [(ngModel)]="article_intr"
+          [nzPlaceHolder]="'请输入文章文章引言'"
+        >
+        </nz-input>
+      </div>
+
     </div>
     <div *ngIf="affiche_type === 2">
-        <textarea id="textarea1" style="width:100%;height:100px;max-height:200px;">
-          <p [aria-placeholder]="'请输入内容...'" [()]></p>
-        </textarea>
+      <ckeditor-outlet [fromFatherValue]="article_content" (fromChild)="contentChange($event)"></ckeditor-outlet>
     </div>
     <div>
       <span class="text-padd-span">文章状态</span>

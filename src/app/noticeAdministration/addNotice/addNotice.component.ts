@@ -5,7 +5,8 @@ import {NzMessageService, UploadFile} from 'ng-zorro-antd';
 import {Subscription} from 'rxjs/Subscription'
 
 import * as $ from 'jquery';
-import * as wangEditor from 'wangEditor';
+
+import {CKEditorModule} from 'ng2-ckeditor';
 
 
 
@@ -45,6 +46,11 @@ export class AddNoticeComponent implements OnInit  {
 
   editor
   a
+  ckeditorContent: string = ''
+  config = {
+    filebrowserBrowseUrl: '&&&&&',
+    filebrowserUploadUrl: '&&&'
+  };
   constructor(
     private router: Router,
     private service: NoticeAdminService,
@@ -53,7 +59,7 @@ export class AddNoticeComponent implements OnInit  {
   ) {}
   ngOnInit() {
     this.editFlag = this.service.editFlag;
-    if (!this.editFlag) {
+    if (!this.editFlag && this.editFlag !== undefined) {
       this.editData = this.service.editData;
         this.id = this.editData.id;
         this.affiche_title = this.editData.affiche_title;
@@ -65,11 +71,6 @@ export class AddNoticeComponent implements OnInit  {
         this.article_intr = this.editData.article_intr;
         this.article_content = this.editData.article_content;
     }
-    console.log(this.editFlag, this.editData)
-
-    this.editor = wangEditor;
-    this.a = new this.editor('textarea1');
-    this.a.create();
   }
   addNoticeSubmit() {
     this.service.upFile(this.file, this.fileType);
@@ -77,7 +78,7 @@ export class AddNoticeComponent implements OnInit  {
       console.log(res);
     })
     const uid = window.localStorage.getItem('uid');
-    const user_name = window.localStorage.getItem('user_name');
+    const user_name = window.localStorage.getItem('userName');
     this.service.addNotice(
       uid,
       user_name,
@@ -213,5 +214,10 @@ export class AddNoticeComponent implements OnInit  {
       this.loading = false;
       this.avatarUrl = img;
     });
+  }
+
+  contentChange(e) {
+      console.log(e);
+      this.article_content = e;
   }
 }

@@ -11,13 +11,15 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import {NoticeAdminService} from './noticeAdministrationService/noticeAdmin.service';
 import {NoticeAdminComponent} from './noticeAdmin/noticeAdmin.component';
 import {AddNoticeComponent} from './addNotice/addNotice.component';
+import {CkeditorComponent} from './addNotice/ckeditor/ckeditor';
 
 // 导入事件模块的服务
 
 
 const EventComponents = [
     NoticeAdminComponent,
-    AddNoticeComponent
+    AddNoticeComponent,
+    CkeditorComponent
 ];
 
 const EVENTROUTES: Routes = [

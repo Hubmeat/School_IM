@@ -12,6 +12,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
  * 第三方插件引入
  */
 import * as $ from 'jquery';
+import {CKEditorModule} from 'ng2-ckeditor';
 
 
 /**
@@ -60,6 +61,7 @@ import { publicService } from 'app/publicService/publicService.component';
   ],
   imports: [
     // EventAnalysisModule,
+    CKEditorModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,
