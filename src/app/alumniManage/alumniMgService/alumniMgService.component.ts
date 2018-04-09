@@ -234,7 +234,25 @@ export class AMService {
         )
     }
 
-    // 校友列表编辑
+    // 校友编辑, 详情页
+    public schoolFwDeatilSubject = new Subject<any>();
+
+    public getSchoolFwDetail (id) {
+        var formData = {
+            "id": id
+        };
+
+        this.$http
+            .post(this.$HOST.host + '/a/user/clientdetail', formData)
+            .subscribe(
+                res => {
+                    this.schoolFwDeatilSubject.next(res)
+                },
+                err => {
+                    this.schoolFwDeatilSubject.next(err)
+                }
+            )
+    }
 
     // 批量导出
     public exportSubject = new Subject<any>();

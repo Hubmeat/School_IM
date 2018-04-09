@@ -19,6 +19,7 @@ export class SchoolfellowListCom implements OnInit {
     joinBeginTime = null;
     joinEndrTime = null;
 
+<<<<<<< HEAD
     constructor(
         private alumniMgService: AMService,
         private _message: NzMessageService,
@@ -26,6 +27,8 @@ export class SchoolfellowListCom implements OnInit {
     ) {
     }
 
+=======
+>>>>>>> 3d049e968a7bf0126eb8c87244ed309e1ec9ca32
     // 搜索数据
     userName:string = '';
     IDcard:string = '';
@@ -72,13 +75,8 @@ export class SchoolfellowListCom implements OnInit {
     totalPage = 0;
 
     // 用户资料model
-    inforVisible:boolean = false;
-    userInfo:any = {};
-    modelStyle:any = {
-        width: '700px'
-    }
-    // 审核model
-    auditVisible:boolean = false;
+    userInfo = {};
+    userInfoVisible:boolean = false;
     acceptLoading:boolean = false;
     rejectLoading:boolean = false;
 
@@ -94,6 +92,32 @@ export class SchoolfellowListCom implements OnInit {
     progressFlag:boolean = false;
 
     progressValue:number = 0;
+
+    // 编辑功能模块
+    modelStyle:any = {
+        width: '800px'
+    }
+    editFlag:boolean = false;
+    sexOptions = [
+        {
+            label: '全部',
+            value: 0
+        }, {
+            label: '男',
+            value: 1
+        }, {
+            label: '女',
+            value: 2
+        }
+    ];
+    sexSelected = '';
+    editCityOptions = [];
+
+    constructor(
+        private alumniMgService: AMService,
+        private _message: NzMessageService
+    ) {
+    }
 
     ngOnInit():any {
         // 初始化下拉列表数据与表格数据
@@ -200,13 +224,22 @@ export class SchoolfellowListCom implements OnInit {
 
     // 审核资料展示 方法
     showInfoModal = (data) => {
-        console.log('data', data)
-        this.userInfo = Object.assign({}, data);
-        this.auditVisible = true;
+        var id = data.id;
+        this.alumniMgService.getSchoolFwDetail(id);
+        this.alumniMgService.schoolFwDeatilSubject.subscribe(
+            res => {
+                if (res.error_code === 0) {
+                    console.log('detail res', res)
+                    this.userInfo = res.result;
+                    
+                    this.userInfoVisible = true;
+                }
+            }
+        )
     }
 
     closeInforModel = () => {
-        this.auditVisible = false;
+        this.userInfoVisible = false;
     }
 
     // 处理解冻与冻结
@@ -321,5 +354,29 @@ export class SchoolfellowListCom implements OnInit {
             }, 50)
             formData.append('files[]', file);
         });
+    }
+
+    // 编辑功能
+    openEdit ():void {
+        this.editFlag = true;
+    }
+
+    cancelEdit ():void {
+        this.editFlag = false;
+    }
+
+    saveEdit ():void {
+        this.editFlag = true;
+    }
+
+    editProvinceChange (id):void {
+        this.alumniMgService.getCityList(id);
+        this.alumniMgService.provinceCodeSubject.subscribe(
+            res => {
+                if (res.city) {
+                    this.editCityOptions = res.city.result;
+                }
+            }
+        )
     }
 }
