@@ -209,86 +209,17 @@
 
         </div>
 
-  <!-- 资料模态框 -->
-  <nz-modal [nzVisible]="inforVisible" [nzStyle]="modelStyle" [nzTitle]="'校友资料'" [nzContent]="modalContent" [nzFooter]="modelFooter" (nzOnCancel)="closeInforModel()">
-      <ng-template #modalContent>
-        <div id="examineModel">
-            <div class="examineModel_head">
-              <div>
-                <img class="headImg" src="{{userInfo.avatar}}" />
-              </div>
-              <div>
-                <ul>
-                  <li>
-                    <span><b class="weight">姓名：</b> {{userInfo.user_name}}</span>
-                    <span  style="margin-left: 10px;"><b class="weight">性别：</b>{{userInfo.gender === 1?'男':[userInfo.gender === '2'?'女':'未知']}}</span>
-                  </li>
-                  <li>
-                    <span><b class="weight">手机：</b></span>
-                    {{userInfo.contact_phone}}
-                  </li>
-                  <li>
-                    <span><b class="weight">身份证：</b></span>
-                    {{userInfo.id_number}}
-                  </li>
-                  <li>
-                    <span><b class="weight">目前所在地：</b></span>
-                    {{userInfo.province}} {{userInfo.city}}
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="examineModel_middle">
-              <ul>
-                <li>
-                  <b class="weight">入学时间：</b>{{userInfo.academic_starts}}
-                </li>
-                <li>
-                  <b class="weight">学院：</b>{{userInfo.academy}}
-                </li>
-                <li>
-                  <b class="weight">专业：</b>{{userInfo.profession}}
-                </li>
-                <li>
-                  <b class="weight">学历：</b>{{userInfo.education}}
-                </li>
-              </ul>
-            </div>
-            <div class="examineModel_bottom">
-              <ul>
-                <li>
-                  <b class="weight">公司名称：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch.company_name}}
-                </li>
-                <li>
-                  <b class="weight">职位名称：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch.job_title}}
-                </li>
-                <li>
-                  <b class="weight">所属行业：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch.industry_involved}}
-                </li>
-              </ul>
-              <p>
-                <b class="weight">一句话介绍：</b>
-              </p>
-              <p>
-                {{userInfo.a_word_introduce}}
-              </p>
-            </div>
-        </div>
-      </ng-template>
-      <ng-template  #modelFooter>
-        <div class="examineModel_control">
-          <button nz-button (click) = 'closeInforModel($event)' [nzType]="'default'">
-              <span>关 闭</span>
-          </button>
-        </div>
-      </ng-template>
-    </nz-modal>
-
     <!-- 审核模态框 -->
-    <nz-modal [nzVisible]="auditVisible" [nzStyle]="modelStyle" [nzTitle]="'校友资料'" [nzContent]="AuditModalContent" [nzFooter]="AuditModalFooter" (nzOnCancel)="closeInforModel()">
+    <nz-modal [nzVisible]="userInfoVisible" [nzStyle]="modelStyle" [nzTitle]="'校友资料'" [nzContent]="AuditModalContent" [nzFooter]="AuditModalFooter" (nzOnCancel)="closeInforModel()">
         <ng-template #AuditModalContent>
           <div id="examineModel">
               <div class="examineModel_head">
+                <button nz-button (click)='openEdit()' [nzType]="'default'" *ngIf='!editFlag; else noEditBtnBox'>
+                    <span>编辑</span>
+                </button>
+                <ng-template #noEditBtnBox>
+
+                </ng-template>
                 <div>
                   <img class="headImg" src="{{userInfo.avatar}}" />
                 </div>
@@ -297,32 +228,63 @@
                     <li>
                       <span>
                         <b class="weight">姓名：</b> 
-                        <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="userInfo.user_name" [nzPlaceHolder]="'Basic usage'"></nz-input>
+                        <nz-input class="selectInput" style="width: 80px;" [(ngModel)]="userInfo.user_name" [nzReadonly]='!editFlag'></nz-input>
                       </span>
                       <span  style="margin-left: 10px;">
-                        <b class="weight">性别：</b>{{userInfo.gender === 1?'男':[userInfo.gender === '2'?'女':'未知']}}
+                        <b class="weight">性别：</b>    
+                        <nz-select style="width: 80px;" [(ngModel)]="userInfo.gender" [nzPlaceHolder]="'choose option'" [nzDisabled]='!editFlag'>
+                          <nz-option
+                            *ngFor="let item of sexOptions"
+                            [nzLabel]="item.label"
+                            [nzValue]="item.value">
+                          </nz-option>
+                        </nz-select>
                       </span>
                       <span  style="margin-left: 10px;">
-                        <b class="weight">出生年月：</b>1999-99-99
+                        <b class="weight">出生年月：</b>
+                        <nz-input class="selectInput" style="width: 80px;" [(ngModel)]="userInfo.birthday" [nzReadonly]='!editFlag'></nz-input>
                       </span>
                       <span  style="margin-left: 10px;">
-                        <b class="weight">民族：</b>汉族
+                        <b class="weight">民族：</b>
+                        <nz-input class="selectInput" style="width: 80px;" [(ngModel)]="userInfo.nation" [nzReadonly]='!editFlag'></nz-input>
                       </span>
                     </li>
                     <li>
-                      <span><b class="weight">手机：</b></span>{{userInfo.contact_phone}}
-                      <span><b class="weight">邮箱：</b></span>670330222@qq.com
+                      <span><b class="weight">手机：</b></span>
+                      <nz-input class="selectInput" style="width: 80px;" [(ngModel)]="userInfo.contact_phone" [nzReadonly]='!editFlag'></nz-input>
+                      <span><b class="weight">邮箱：</b></span>
+                      <nz-input class="selectInput" style="width: 80px;" [(ngModel)]="userInfo.private_email" [nzReadonly]='!editFlag'></nz-input>
                     </li>
                     <li>
-                      <span><b class="weight">身份证：</b></span>{{userInfo.id_number}}
-                      <span><b class="weight">政治面貌：</b></span>国民党
+                      <span><b class="weight">身份证：</b></span>
+                      <nz-input class="selectInput" style="width: 80px;" [(ngModel)]="userInfo.id_number" [nzReadonly]='!editFlag'></nz-input>
+                      <span><b class="weight">政治面貌：</b></span>
+                      <nz-input class="selectInput" style="width: 80px;" [(ngModel)]="userInfo.politics_status" [nzReadonly]='!editFlag'></nz-input>
                     </li>
                     <li>
-                      <span><b class="weight">微信：</b></span>tlssssss
-                      <span><b class="weight">QQ：</b></span>78789798
+                      <span><b class="weight">微信：</b></span>
+                      <nz-input class="selectInput" style="width: 80px;" [(ngModel)]="userInfo.wechat_number" [nzReadonly]='!editFlag'></nz-input>
+                      <span><b class="weight">QQ：</b></span>
+                      <nz-input class="selectInput" style="width: 80px;" [(ngModel)]="userInfo.qq_number" [nzReadonly]='!editFlag'></nz-input>
                     </li>
                     <li>
                       <span><b class="weight">目前所在地：</b></span>
+                      <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.province_code" (ngModelChange) = 'editProvinceChange(userInfo.province_code)'>
+                          <nz-option
+                            *ngFor="let item of provinceOptions"
+                            [nzLabel]="item.name"
+                            [nzValue]="item.code"
+                            [nzDisabled]="item.disabled">
+                          </nz-option>
+                      </nz-select>
+                      <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.city_code">
+                          <nz-option
+                            *ngFor="let item of editCityOptions"
+                            [nzLabel]="item.name"
+                            [nzValue]="item.code"
+                            [nzDisabled]="item.disabled">
+                          </nz-option>
+                      </nz-select>
                       {{userInfo.province}} {{userInfo.city}}
                     </li>
                   </ul>
@@ -343,51 +305,51 @@
                     <b class="weight">学历：</b>{{userInfo.education}}
                   </li>
                   <li>
-                    <b class="weight">毕业时间：</b>2010年
+                    <b class="weight">毕业时间：</b>{{userInfo.graduate_time}}
                   </li>
                   <li>
-                    <b class="weight">班号：</b>7788
+                    <b class="weight">班号：</b>{{userInfo.class_number}}
                   </li>
                   <li>
-                    <b class="weight">学号：</b>121233123123
+                    <b class="weight">学号：</b>{{userInfo.student_number}}
                   </li>
                   <li>
-                    <b class="weight">班主任：</b>刘天然
+                    <b class="weight">班主任：</b>{{userInfo.charge_class}}
                   </li>
                 </ul>
               </div>
               <div class="examineModel_bottom">
                 <ul>
                   <li>
-                    <b class="weight">公司名称：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch.company_name}}
+                    <b class="weight">公司名称：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].company_name}}
                   </li>
                   <li>
-                    <b class="weight">职位名称：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch.job_title}}
+                    <b class="weight">职位名称：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].job_title}}
                   </li>
                   <li>
-                    <b class="weight">所属行业：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch.industry_involved}}
+                    <b class="weight">所属行业：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].industry_involved}}
                   </li>
                   <li>
-                    <b class="weight">企业人数：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch.industry_involved}}
+                    <b class="weight">企业人数：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].person_number}}
                   </li>
                   <li>
-                    <b class="weight">上一年度资产总值：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch.industry_involved}}
+                    <b class="weight">上一年度资产总值：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].last_total_assets}}
                   </li>
                   <li>
-                    <b class="weight">公司地址：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch.industry_involved}}
+                    <b class="weight">公司地址：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].address}}
                   </li>
                   <li>
-                    <b class="weight">公司简介：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch.industry_involved}}
+                    <b class="weight">公司简介：</b> {{userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].company_introduce}}
                   </li>
                 </ul>
                 <p>
-                  <b class="weight">企业家简介：我的的的的的</b>
+                  <b class="weight">企业家简介： {{userInfo.entrepreneur_introduce}}</b>
                 </p>
                 <p>
-                  <b class="weight">企业家兴趣爱好：我的的的的的</b>
+                  <b class="weight">企业家兴趣爱好： {{userInfo.entrepreneur_hobby}}</b>
                 </p>
                 <p>
-                  <b class="weight">企业家动态：我的的的的的</b>
+                  <b class="weight">企业家动态： {{userInfo.entrepreneur_dynamic}}</b>
                 </p>
                 <p>
                   <b class="weight">一句话介绍：</b>
@@ -400,16 +362,22 @@
         </ng-template>
         <ng-template  #AuditModalFooter>
           <div class="examineModel_control">
-            <button nz-button (click)='closeInforModel()' [nzType]="'default'">
+            <button nz-button (click)='closeInforModel()' [nzType]="'default'" *ngIf='!editFlag; else noEditControlBtnBox'>
                 <span>关闭</span>
             </button>
+            <ng-template #noEditControlBtnBox>
+              <button nz-button (click)='cancelEdit()' [nzType]="'default'">
+                  <span>取消</span>
+              </button>
+              <button nz-button (click)='saveEdit()' [nzType]="'default'">
+                  <span>保存</span>
+              </button>
+            </ng-template>
           </div>
         </ng-template>
     </nz-modal>
 
-
-    <!-- 导入模态框 -->
-  <!-- 资料模态框 -->
+  <!-- 导入模态框 -->
     <nz-modal [nzVisible]="uploadVisible" [nzStyle]="modelStyle" [nzTitle]="'批量导入校友'" [nzContent]="modalContent" [nzFooter]="modelFooter" (nzOnCancel)="closeUploadModel()">
       <ng-template #modalContent>
           <p>
