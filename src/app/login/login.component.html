@@ -33,7 +33,7 @@
                             <div><a routerLink="/forgetPassword">忘记密码</a></div>
                         </div>
 
-                            <div class="mb2"><button class="act-but submit" style="color: #FFFFFF" (click)='login()'> 登录</button></div>
+                            <div class="mb2"><button class="act-but submit" style="color: #FFFFFF" (click)='login()' (keyup.enter)='login()'> 登录</button></div>
                     </div>
                 </div>
                 <nz-spin class="spin" [nzTip]="'Please wait...'"[nzSize]="'large'" *ngIf="_isSpinning"></nz-spin>
