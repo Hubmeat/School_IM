@@ -69,7 +69,7 @@
       </nz-radio-group>
     </div>
     <div nz-row class="foot-buts">
-      <button nz-col [nzSpan]="5" [nzPush]="5" nz-button>取消</button>
+      <button nz-col [nzSpan]="5" [nzPush]="5" nz-button (click)="goback()">取消</button>
       <button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="submitLive()" *ngIf="editFlag ; else editSub">提交</button>
       <ng-template #editSub> <button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="editSubmit()">提交</button></ng-template>
 

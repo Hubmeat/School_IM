@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AMService } from '../alumniMgService/alumniMgService.component';
 import { NzMessageService, UploadFile } from 'ng-zorro-antd';
 import {Subscription} from 'rxjs/Subscription'
+import { ResponseContentType } from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
     selector: 'schoolfellow-component',
@@ -83,7 +85,7 @@ export class SchoolfellowListCom implements OnInit {
 
     // 编辑功能模块
     modelStyle:any = {
-        width: '800px'
+        width: '1000px'
     }
     editFlag:boolean = false;
     sexOptions = [
@@ -219,6 +221,10 @@ export class SchoolfellowListCom implements OnInit {
                 if (res.error_code === 0) {
                     console.log('detail res', res)
                     this.userInfo = res.result;
+                    // 开启调用city下拉框方法
+                    this.editProvinceChange(res.result.province_code);
+                    // 调用获取专业联动方法
+                    this.geMojorData(res.result.academy_id);
                     
                     this.userInfoVisible = true;
                 }
@@ -264,7 +270,7 @@ export class SchoolfellowListCom implements OnInit {
 
 
     downloadTemplate() {
-        
+
     }
 
     closeUploadModel() {
@@ -273,7 +279,7 @@ export class SchoolfellowListCom implements OnInit {
 
     openUploadModel() {
         this.uploadVisible = true;
-    } 
+    }
 
     exportWay () {
         this.alumniMgService.exportData(
@@ -313,7 +319,7 @@ export class SchoolfellowListCom implements OnInit {
         console.log('fileList', this.fileList)
         return false;
     }
-    
+
     handleUpload() {
         const formData = new FormData();
         this.progressFlag = true;
@@ -362,6 +368,7 @@ export class SchoolfellowListCom implements OnInit {
         this.alumniMgService.provinceCodeSubject.subscribe(
             res => {
                 if (res.city) {
+                    console.log('hhh res', res)
                     this.editCityOptions = res.city.result;
                 }
             }

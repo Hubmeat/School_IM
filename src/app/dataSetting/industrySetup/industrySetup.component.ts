@@ -29,12 +29,14 @@ export class IndustrySetupComponent implements OnInit {
   progressValue:number = 0;
   uploadVisible;
   downLoading = false;
+  api
 
   constructor(
     private service: DataSettingService,
     private _message: NzMessageService
   ) {}
   ngOnInit() {
+    this.api = this.service.industryApi;
     this.uid = window.localStorage.getItem('uid');
     this.getDataList()
   }
@@ -138,10 +140,8 @@ export class IndustrySetupComponent implements OnInit {
   }
   // 下载
   downloadTemplate() {
-    this.service.downTemplate()
-    this.service.IndustrySetupSubject.subscribe(res => {
-      // console.log(res);
-    })
+    // this.service.downTemplate()
+
   }
   // 上传
   UploadSubmit() {
@@ -150,7 +150,7 @@ export class IndustrySetupComponent implements OnInit {
     this.fileList.forEach((file: any) => {
       console.log('file', file);
       this.service.uploadFileList(this.fileList[0].uid, this.uid, this.fileList[0]);
-      var timer = setInterval( () => {
+      const timer = setInterval( () => {
         this.progressValue += 5;
         if (this.progressValue >= 100) {
           this.service.IndustrySetupSubject.subscribe(res => {

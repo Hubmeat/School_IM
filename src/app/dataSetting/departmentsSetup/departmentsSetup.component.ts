@@ -21,6 +21,7 @@ export class DepartmentsSetupComponent implements OnInit {
   searchParam:string = '';
   editName: '';
   editId: string = ''
+  api
 
   academy_name: string = ''; // 学院名
   msg: string = '';
@@ -30,6 +31,7 @@ export class DepartmentsSetupComponent implements OnInit {
     private router: Router
   ) {}
   ngOnInit() {
+    this.api = this.service.departmentsApi;
     this.search()
   }
 

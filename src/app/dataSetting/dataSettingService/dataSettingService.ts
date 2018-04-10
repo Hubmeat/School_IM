@@ -8,7 +8,16 @@ import {ApiModule} from '../../api/api';
 @Injectable()
 
 export class DataSettingService {
-    constructor(
+
+  /**
+   * 下载api
+   */
+  industryApi = this.$HOST.host + '/a/industry_template/export';
+  departmentsApi = this.$HOST.host + '/a/industry_template/export';
+  specialtyApi = this.$HOST.host + '/a/industry_template/export';
+
+
+  constructor(
       private $HOST: ApiModule,
       private $http: HttpClient
     ) {}
@@ -247,13 +256,4 @@ export class DataSettingService {
           this.IndustrySetupSubject.next({updata: res})
         })
     }
-
-    public downTemplate() {
-      this.$http
-        .post(this.$HOST.host + '/a/industry_template/export', {})
-        .subscribe(res => {
-          this.IndustrySetupSubject.next({template: res})
-        })
-    }
-
 }

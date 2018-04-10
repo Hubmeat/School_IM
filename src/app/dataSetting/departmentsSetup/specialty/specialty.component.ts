@@ -24,12 +24,14 @@ export class SpecialtyComponent implements OnInit {
   editId;
   msg: string = '';
   fileList
+  api
   constructor(
     private service: DataSettingService,
     private router: Router,
     private _message: NzMessageService,
   ) {}
   ngOnInit() {
+    this.api = this.service.specialtyApi;
     if (this.service.academy_id === '') {
       this.goback();
     }
