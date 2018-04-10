@@ -254,6 +254,42 @@ export class AMService {
             )
     }
 
+    public schoolFwEditSubject = new Subject<any>();
+
+    public updatedSchoolFw (object) {
+        var formData = Object.assign({}, object, true);
+
+        this.$http
+            .post(this.$HOST.host + '/a/user/clientupdate', formData)
+            .subscribe(
+                res => {
+                    this.schoolFwEditSubject.next(res)
+                },
+                err => {
+                    this.schoolFwEditSubject.next(err)
+                }
+            )
+    }
+
+
+    // 获取行业列表
+    public industrySubject = new Subject<any>();
+
+    public getIndustryList () {
+        var formData = {};
+
+        this.$http
+            .post(this.$HOST.host + '/util/industry/dropbox', formData)
+            .subscribe(
+                res => {
+                    this.industrySubject.next(res)
+                },
+                err => {
+                    this.industrySubject.next(err)
+                }
+            )
+    }
+
     // 批量导出
     public exportSubject = new Subject<any>();
 

@@ -74,7 +74,6 @@ export class ContactAdminComponent implements OnInit {
     });
     this.Nm = nim;
     console.log('nim', nim)
-debugger
     this.changeChatObject(account, token)
   }
 
