@@ -339,33 +339,33 @@ export class SchoolfellowListCom implements OnInit {
     }
 
     handleUpload() {
-        const formData = new FormData();
+        const formData = [];
         this.progressFlag = true;
         this.fileList.forEach((file: any) => {
-            console.log('file', file);
-            this.alumniMgService.uploadFileList(this.fileList[0].uid, this.fileList[0]);
-            var timer = setInterval( () => {
-                this.progressValue += 5;
-                if (this.progressValue >= 100) {
-                    this.alumniMgService.uploadSubject.subscribe(
-                        res => {
-                            if (res.error_code) {
-
-                            }
-                        }
-                    )
-                    this.progressFlag = false;
-                    this.progressValue = 0;
-                    clearInterval(timer);
-                    this._message.success('上传成功！')
-                    this.fileList = [];
-                    setTimeout( () => {
-                        this.uploadVisible = false;
-                    }, 1500)
-                }
-            }, 50)
-            formData.append('files[]', file);
+            formData.push(file);
         });
+        console.log('formData', formData)
+        this.alumniMgService.uploadFileList(this.fileList[0].uid, formData[0].name);
+        var timer = setInterval( () => {
+            this.progressValue += 5;
+            if (this.progressValue >= 100) {
+                this.alumniMgService.uploadSubject.subscribe(
+                    res => {
+                        if (res.error_code) {
+
+                        }
+                    }
+                )
+                this.progressFlag = false;
+                this.progressValue = 0;
+                clearInterval(timer);
+                this._message.success('上传成功！')
+                this.fileList = [];
+                setTimeout( () => {
+                    this.uploadVisible = false;
+                }, 1500)
+            }
+        }, 50)
     }
 
     // 编辑功能

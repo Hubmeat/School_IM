@@ -349,7 +349,7 @@ export class AMService {
         }
 
         this.$http
-        .post(this.$HOST.host + '/a/freeze_state/change', formData)
+        .post(this.$HOST.host + '/a/user_info/import', formData)
         .subscribe(
             res => {
                 this.uploadSubject.next(res)
