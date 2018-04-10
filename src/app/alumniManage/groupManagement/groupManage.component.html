@@ -53,8 +53,8 @@
                                 </dt>
                                 <dd>
                                     <p>{{data.tname}}</p>
-                                    <p>{{data.person_count}}</p>
-                                    <p>{{data.created_at}}</p>
+                                    <p>{{data.person_count}}人</p>
+                                    <p>创建于:{{data.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</p>
                                 </dd>
                             </dl>
                         </td>
@@ -65,7 +65,16 @@
                             {{data.custom}}
                         </td>
                         <td nz-td>
-                            <button nz-button (click)='createGroup()' [nzType]="'default'">解散群</button>
+                            <button nz-button [nzType]="'default'">
+                              <nz-popconfirm [nzTitle]="'确定解散群?'"
+                                             [nzOkText]="'确定'"
+                                             [nzCancelText]="'取消'"
+                                             (nzOnConfirm)="groupDelete(data)"
+                                             (nzOnCancel)="cancel()"
+                              >
+                                <a nz-popconfirm>解散群</a>
+                              </nz-popconfirm>
+                            </button>
                             <p style="color: #ccc;font-style: italic;">*仅群主可解散群</p>
                         </td>
                     </tr>
@@ -101,8 +110,8 @@
                                 </dt>
                                 <dd>
                                     <nz-input style="width: 150px; display: block;" [(ngModel)]="editInfo.tname" [nzReadonly]='isReadOnly'></nz-input>
-                                    <nz-input style="width: 150px; display: block;" [(ngModel)]="editInfo.person_count" [nzReadonly]='isReadOnly'></nz-input>
-                                    <nz-input style="width: 150px; display: block;" [(ngModel)]="editInfo.created_at" [nzReadonly]='isReadOnly'></nz-input>
+                                    <p>创建于：{{editInfo.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+                                    <p>{{editInfo.person_count}}人</p>
                                 </dd>
                             </dl>
                         </div>
@@ -130,8 +139,8 @@
                             <span>姓名</span>
                             <nz-input
                               style="width: 75%;"
-                              [(ngModel)]="name"
-                              [nzPlaceHolder]="'请输入直播标题'"
+                              [(ngModel)]="membergroupName"
+                              [nzPlaceHolder]="'请输入姓名'"
                             >
                             </nz-input>
                           </div>
@@ -139,20 +148,20 @@
                             <span>手机</span>
                             <nz-input
                               style="width: 75%;"
-                              [(ngModel)]="live_title"
-                              [nzPlaceHolder]="'请输入直播标题'"
+                              [(ngModel)]="membergroupPhone"
+                              [nzPlaceHolder]="'请输入手机'"
                             >
                             </nz-input>
                           </div>
                           <div nz-col [nzSpan]="8">
                             <span>性别</span>
                             <nz-select style="width: 75%;"
-                                       [(ngModel)]="video_type"
+                                       [(ngModel)]="membersexSelected"
                                        [nzPlaceHolder]="'全部'"
                                        nzAllowClear
                             >
                               <nz-option
-                                *ngFor="let item of options"
+                                *ngFor="let item of sexOptions"
                                 [nzLabel]="item.label"
                                 [nzValue]="item.value"
                               >
@@ -162,12 +171,12 @@
                           <div nz-col [nzSpan]="8" class="margin-10">
                             <span>所在地</span>
                             <nz-select style="width: 75%;"
-                                       [(ngModel)]="video_type"
+                                       [(ngModel)]="memberprovinceSelected"
                                        [nzPlaceHolder]="'全部'"
                                        nzAllowClear
                             >
                               <nz-option
-                                *ngFor="let item of options"
+                                *ngFor="let item of provinceOptions"
                                 [nzLabel]="item.label"
                                 [nzValue]="item.value"
                               >
@@ -175,13 +184,27 @@
                             </nz-select>
                           </div>
                           <div nz-col [nzSpan]="6" class="margin-10">
+                          <nz-select style="width: 75%;"
+                                     [(ngModel)]="memberareaSelected"
+                                     [nzPlaceHolder]="'全部'"
+                                     nzAllowClear
+                          >
+                            <nz-option
+                              *ngFor="let item of cityOptions"
+                              [nzLabel]="item.label"
+                              [nzValue]="item.value"
+                            >
+                            </nz-option>
+                          </nz-select>
+                        </div>
+                          <div nz-col [nzSpan]="6" class="margin-10">
                             <nz-select style="width: 75%;"
-                                       [(ngModel)]="video_type"
+                                       [(ngModel)]="memberareaSelected"
                                        [nzPlaceHolder]="'全部'"
                                        nzAllowClear
                             >
                               <nz-option
-                                *ngFor="let item of options"
+                                *ngFor="let item of areaOptions"
                                 [nzLabel]="item.label"
                                 [nzValue]="item.value"
                               >
@@ -195,7 +218,7 @@
                           <div>
                             <button nz-button class="margin-10" routerLink="/index/addMember">添加成员</button>
 
-                            <nz-table #nzTable [nzDataSource]="_dataSet" [nzPageSize]="10" nzShowSizeChanger>
+                            <nz-table #nzTable [nzDataSource]="menubarList" [nzPageSize]="10" nzShowSizeChanger>
                               <thead nz-thead>
                               <tr>
                                 <th nz-th><span>成员</span></th>
@@ -208,19 +231,19 @@
                               </thead>
                               <tbody nz-tbody>
                               <tr nz-tbody-tr *ngFor="let data of nzTable.data;let index = index">
-                                <td nz-td>{{data.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                                <td nz-td (click)="showDetailsModal(data.id, index)"><a>{{data.live_title}}</a></td>
-                                <td nz-td><img src="{{data.live_pic}}" alt="" style="width: 60px;height: 60px;"></td>
-                                <td nz-td><a href="{{data.video_url}}">{{data.video_url}}</a></td>
-                                <td nz-td>{{data.live_person}}</td>
+                                <td nz-td><img src="{{data.avatar}}" alt="" style="width: 25px;height: 25px;vertical-align: middle;margin-right: 5px;">{{data.user_name}}</td>
+                                <td nz-td>{{data.nick}}</td>
+                                <td nz-td>{{data.contact_phone}}</td>
+                                <td nz-td>{{data.gender === 1 ? '男' : '女'}}</td>
+                                <td nz-td>{{data.province}}-{{data.city}}</td>
                                 <td nz-td>
-                                  <a class="a-click" (click)="getEdit(data)">查看资料</a>
+                                  <a class="a-click" (click)="getDetails(data)">查看资料</a>
                                   <a class="a-click" >
-                                    <nz-popconfirm [nzTitle]="'确定删除专业'"
+                                    <nz-popconfirm [nzTitle]="'确定踢出群'"
                                                    [nzOkText]="'确定'"
                                                    [nzCancelText]="'取消'"
-                                                   (nzOnConfirm)="deleteMenber()"
-                                                   (nzOnCancel)="deleteMenber()"
+                                                   (nzOnConfirm)="deleteMenber(data)"
+                                                   (nzOnCancel)="cancel()"
                                     >
                                       <a nz-popconfirm>踢出群</a>
                                     </nz-popconfirm></a>

@@ -2,12 +2,13 @@
   <div nz-row class="addList_head">
     <button nz-button nz-col [nzSpan]="3" style="margin-right: 20px;" (click)="goback()">返回</button>
     <h2 nz-col [nzSpan]="20">添加群成员</h2>
-    <div>
+    <div nz-col [nzSpan]="24" style="margin: 20px 0">
       <p>群名称: </p>
       <p>当前人数: </p>
     </div>
-    <div>
-      <div class="joinSchool">
+  </div>
+    <div nz-row>
+      <div class="joinSchool" nz-col [nzSpan]="8">
             <span>
                 入学时间：
             </span>
@@ -15,37 +16,37 @@
         <span>至</span>
         <nz-datepicker [(ngModel)]="joinEndrTime" nzShowTime [nzPlaceHolder]="'选择结束时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
       </div>
-      <div>
+      <div nz-col [nzSpan]="4">
         <span>姓名：</span>
-        <nz-input style="width: 150px;" [(ngModel)]="groupName" [nzPlaceHolder]="''" ></nz-input>
+        <nz-input style="width: 100px;" [(ngModel)]="groupName" [nzPlaceHolder]="''" ></nz-input>
       </div>
-      <div>
+      <div nz-col [nzSpan]="4">
         <span>手机：</span>
-        <nz-input style="width: 150px;" [(ngModel)]="groupName" [nzPlaceHolder]="''" ></nz-input>
+        <nz-input style="width: 100px;" [(ngModel)]="groupPhone" [nzPlaceHolder]="''" ></nz-input>
       </div>
-      <div>
+      <div nz-col [nzSpan]="4">
         <span>性别：</span>
-        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="sexSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择性别'" nzAllowClear>
           <nz-option
-            *ngFor="let item of collegeOptions"
-            [nzLabel]="item.academy_name"
-            [nzValue]="item.id"
-            [nzDisabled]="item.disabled">
+            *ngFor="let item of sexOptions"
+            [nzLabel]="item.label"
+            [nzValue]="item.value"
+          >
           </nz-option>
         </nz-select>
       </div>
-      <div>
+      <div nz-col [nzSpan]="4">
         <span>民族：</span>
-        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="nationSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择民族'" nzAllowClear>
           <nz-option
-            *ngFor="let item of collegeOptions"
+            *ngFor="let item of nationOptions"
             [nzLabel]="item.academy_name"
             [nzValue]="item.id"
             [nzDisabled]="item.disabled">
           </nz-option>
         </nz-select>
       </div>
-      <div>
+      <div nz-col [nzSpan]="4">
         <span>学院：</span>
         <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
           <nz-option
@@ -56,61 +57,64 @@
           </nz-option>
         </nz-select>
       </div>
-      <div>
+      <div nz-col [nzSpan]="4">
         <span>专业：</span>
-        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="majorSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择专业'" nzAllowClear>
           <nz-option
-            *ngFor="let item of collegeOptions"
+            *ngFor="let item of majorOptions"
             [nzLabel]="item.academy_name"
             [nzValue]="item.id"
             [nzDisabled]="item.disabled">
           </nz-option>
         </nz-select>
       </div>
-      <div>
+      <div nz-col [nzSpan]="4">
         <span>学历：</span>
-        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="educationSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学历'" nzAllowClear>
           <nz-option
-            *ngFor="let item of collegeOptions"
-            [nzLabel]="item.academy_name"
-            [nzValue]="item.id"
-            [nzDisabled]="item.disabled">
+            *ngFor="let item of educationOptions"
+            [nzLabel]="item.label"
+            [nzValue]="item.value"
+          >
           </nz-option>
         </nz-select>
       </div>
-      <div>
+      <div nz-col [nzSpan]="8">
         <span>所在地：</span>
-        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="provinceSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择省份'" nzAllowClear>
           <nz-option
-            *ngFor="let item of collegeOptions"
+            *ngFor="let item of provinceOptions"
             [nzLabel]="item.academy_name"
             [nzValue]="item.id"
             [nzDisabled]="item.disabled">
           </nz-option>
         </nz-select>
-        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="citySelectde" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择城市'" nzAllowClear>
           <nz-option
-            *ngFor="let item of collegeOptions"
+            *ngFor="let item of cityOptions"
             [nzLabel]="item.academy_name"
             [nzValue]="item.id"
             [nzDisabled]="item.disabled">
           </nz-option>
         </nz-select>
       </div>
-      <div>
+      <div nz-col [nzSpan]="4">
         <span>所属行业：</span>
-        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="industrySelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
           <nz-option
-            *ngFor="let item of collegeOptions"
+            *ngFor="let item of industryOptions"
             [nzLabel]="item.academy_name"
             [nzValue]="item.id"
             [nzDisabled]="item.disabled">
           </nz-option>
         </nz-select>
+      </div>
+      <div nz-col [nzSpan]="4">
+        <button nz-button (click)="getAddMemberList()">搜索</button>
       </div>
     </div>
-    <div>
-      <nz-table #nzTable [nzDataSource]="data" [nzPageSize]="10" (nzDataChange)="_displayDataChange($event)" (nzPageIndexChange)="_refreshStatus()" (nzPageSizeChange)="_refreshStatus()">
+    <div nz-row style="margin-top: 40px;">
+      <nz-table #nzTable [nzDataSource]="data" [nzPageSize]="10" (nzDataChange)="_displayDataChange($event)" (nzPageIndexChange)="_refreshStatus()" (nzPageSizeChange)="_refreshStatus()" nz-col [nzSpan]="20">
         <thead nz-thead>
         <tr>
           <th nz-th nzCheckbox>
@@ -146,14 +150,15 @@
         </tr>
         </tbody>
       </nz-table>
-      <div>
-        list
+      <div nz-col [nzSpan]="4" class="card_div">
+        <ul>
+          <li class="card-head">已选成员</li>
+          <li>12313212123123132123123123132</li>
+        </ul>
       </div>
     </div>
-    <div>
-      <button>取消</button>
-      <button>完成</button>
+    <div class="card-foot">
+      <button nz-button (click)="goback()">取消</button>
+      <button nz-button (click)="submitAddMember()">完成</button>
     </div>
-  </div>
-
 </div>

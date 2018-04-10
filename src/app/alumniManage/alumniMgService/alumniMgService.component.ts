@@ -329,8 +329,9 @@ export class AMService {
     /**
      * 群组管理，解散群，新建群
      */
-
+      tid: any; // 群id
      public groupManageSubject = new Subject<any>();
+
      // list
      public getGroupData(page, tname, start_time, end_time):void {
         var formData = {
@@ -394,6 +395,94 @@ export class AMService {
         .post(this.$HOST.host + '/a/group/kickuser', formData)
         .subscribe(res => {
           this.MemberServiceSubject.next({delmsg: res})
+        })
+    }
+
+    // 获取成员list
+    public getmemberList(
+      user_name,
+      contact_phone,
+      gender,
+      province_code,
+      city_code,
+      area_code,
+      page
+    ) {
+      const formData = {
+        tid: this.tid,
+        user_name: user_name,
+        contact_phone: contact_phone,
+        gender: gender,
+        province_code: province_code,
+        city_code: city_code,
+        area_code: area_code,
+        page: page
+      }
+      this.$http
+        .post(this.$HOST.host + '/a/group/userlist', formData)
+        .subscribe(res => {
+          this.MemberServiceSubject.next({dataList: res})
+        })
+    }
+
+    // 成员详情
+    public getMemberDetails() {
+
+    }
+
+    // 解散群
+    public groupRemove(uid, id, tid) {
+      const formData = {
+        uid: uid,
+        id: id,
+        tid: tid
+      }
+      this.$http
+        .post(this.$HOST.host + '/a/group/remove', formData)
+        .subscribe(res => {
+          this.MemberServiceSubject.next({removemsg: res})
+        })
+    }
+
+    // 获取可添加成员列表
+    public getAddMemberDataList(
+      tid,
+      education,
+      page,
+      profession_id,
+      academy_id,
+      academic_start,
+      academic_end,
+      user_name,
+      contact_phone,
+      province_code,
+      city_code,
+      area_code,
+      gender,
+      nation,
+      industry_involved_id
+    ) {
+      const formData = {
+        tid: tid,
+        education: education,
+        page: page,
+        profession_id: profession_id,
+        academy_id: academy_id,
+        academic_start: academic_start,
+        academic_end: academic_end,
+        user_name: user_name,
+        contact_phone: contact_phone,
+        province_code: province_code,
+        city_code: city_code,
+        area_code: area_code,
+        gender: gender,
+        nation: nation,
+        industry_involved_id: industry_involved_id
+      }
+      this.$http
+        .post(this.$HOST.host + '/a/group/adduserlist', formData)
+        .subscribe(res => {
+          this.MemberServiceSubject.next({addDataList: res})
         })
     }
 }

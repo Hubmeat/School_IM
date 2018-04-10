@@ -17,6 +17,7 @@ export class GroupManagementCom implements OnInit {
     beginTime = null;
     editVisible:boolean = false;
     endTime = null;
+    tid: any; // 群ID
 
     // 表格数据
     headerShow:boolean = false;
@@ -36,11 +37,37 @@ export class GroupManagementCom implements OnInit {
     editInfo = {
 
     }
+
+    // 成员管理
+
+    // 性别下拉列表
+    sexOptions = [
+      { value: '0', label: '全部'},
+      { value: '1', label: '男'},
+      { value: '2', label: '女'}
+    ]
+    // 省市下拉框
+    provinceOptions = [];
+
+    cityOptions = [];
+    areaOptions = [];
+    membergroupName: any = '';
+    membergroupPhone: any = '';
+    membersexSelected: number = 0;
+    memberprovinceSelected: any = '';
+    membercitySelected: any = '';
+    memberareaSelected: any = '';
+    membercurrentPage: any = 1;
+
+    menubarList: any = []; // 成员列表
+
+    // deleteSubscription = Subscription;
     isReadOnly:boolean = true;
 
     constructor(
         private router: Router,
-        private alumniService: AMService
+        private alumniService: AMService,
+        private _message: NzMessageService
     ) {}
 
     ngOnInit():void {
@@ -83,9 +110,11 @@ export class GroupManagementCom implements OnInit {
         this.loadData();
     }
 
-    openEditBox(data):void  {
+    openEditBox(data): void  {
         this.editVisible = true;
         this.editInfo = Object.assign({}, data);
+        this.alumniService.tid = data.tid;
+        this.getMemberList();
         console.log('this.editInfo ', this.editInfo )
     }
 
@@ -104,13 +133,15 @@ export class GroupManagementCom implements OnInit {
     saveEdit():void {
 
     }
+    cancel = () => {}
 
     // 提出群
-    deleteMenber() {
-      const menubar_id = '';
-      const tid = '';
-      const uid = '';
-      const id = '';
+    deleteMenber(data) {
+      console.log(data);
+      const menubar_id = data.id;
+      const tid = this.alumniService.tid;
+      const uid = ''; // 群主id
+      const id = '';  // 数据id
       this.alumniService.deleteMember(
         menubar_id,
         tid,
@@ -123,6 +154,52 @@ export class GroupManagementCom implements OnInit {
         }
         if (res.delmsg.error_code === 0) {
           alert('删除成功');
+          this.loadData()
+        }
+      })
+    }
+
+    getMemberList() {
+      this.alumniService.getmemberList(
+        this.membergroupName,
+        this.membergroupPhone,
+        this.membersexSelected,
+        this.memberprovinceSelected,
+        this.membercitySelected,
+        this.memberareaSelected,
+        this.membercurrentPage
+      )
+      this.alumniService.MemberServiceSubject.subscribe(res => {
+        if (res.dataList === undefined) {
+          return;
+        }
+        console.log(res);
+        this.menubarList = res.dataList.result
+      })
+    }
+
+    // 查看成员详情
+    getDetails(data) {
+      this.alumniService.getMemberDetails();
+    }
+
+    // 解散群
+    groupDelete(data) {
+      console.log(data);
+      const uid = window.localStorage.getItem('uid');
+      this.alumniService.groupRemove(
+        uid,
+        data.id,
+        data.tid
+      )
+      this.alumniService.MemberServiceSubject.subscribe(res => {
+        if (res.removemsg === undefined) {
+          return;
+        }
+        if (res.removemsg.error_code === 0) {
+          console.log(res);
+          this._message.success('解散群成功');
+          // this.deleteSubscription.unsubscribe();
           this.loadData()
         }
       })

@@ -17,7 +17,8 @@ export class AddMemberComponent implements OnInit {
     current = 0;
     current2 = 1;
     avatarUrl: string;
-    groupName: string = '';
+    groupName: string = ''; // 姓名
+    groupPhone: string = ''; // 手机
     groupIntro:string = '';
     groupRemark:string = '';
     nextStepFlag:boolean = true;
@@ -35,10 +36,10 @@ export class AddMemberComponent implements OnInit {
 
     // 学院选项框
     collegeOptions = [];
-    collegeSelected = '';
-    // 学院选项框
+    collegeSelected: any;
+    // 专业选项框
     majorOptions = [];
-    majorSelected = '';
+    majorSelected: any;
     // 学历选项框
     educationOptions = [
         { value: '全部', label: '全部' },
@@ -48,13 +49,13 @@ export class AddMemberComponent implements OnInit {
         { value: '博士', label: '博士'}
     ];
     educationSelected = '';
-    // 审核状态下拉框
+    /*// 审核状态下拉框
     industryOptions= [
         { value: '0', label: '全部'},
         { value: '1', label: '正常'},
         { value: '2', label: '已冻结'}
-    ];
-    industrySelected = this.industryOptions[0].value;
+    ];*/
+    // industrySelected = this.industryOptions[0].value;
 
     // 性别下拉框
     sexOptions = [
@@ -66,7 +67,7 @@ export class AddMemberComponent implements OnInit {
 
     // 民族下拉框
     nationOptions = [];
-    nationSelected = '';
+    nationSelected: any;
 
     // 省市下拉框
     provinceOptions = [];
@@ -77,6 +78,10 @@ export class AddMemberComponent implements OnInit {
 
     areaOptions = [];
     areaSelected = '';
+
+    // 行业下拉框
+    industryOptions = [];
+    industrySelected: any;
 
     // 表格数据
     data = [];
@@ -98,6 +103,7 @@ export class AddMemberComponent implements OnInit {
 
     ngOnInit():void {
         // $('.two_step').hide()
+      this.getAddMemberList();
     }
 
     beforeUpload = (file: File) => {
@@ -244,5 +250,37 @@ export class AddMemberComponent implements OnInit {
     }
     goback() {
         this.router.navigate(['/index/groupManagement']);
+    }
+
+    // 添加提交
+    submitAddMember() {
+
+    }
+
+    // 获取可添加成员列表
+    getAddMemberList() {
+      this.alumniMgService.getAddMemberDataList(
+        this.alumniMgService.tid,
+        this.educationSelected,
+        this.currentPage,
+        this.majorSelected,
+        this.collegeSelected,
+        this.joinBeginTime,
+        this.joinEndrTime,
+        this.groupName,
+        this.groupPhone,
+        this.provinceSelected,
+        this.citySelectde,
+        this.areaSelected,
+        this.sexSelected,
+        this.nationSelected,
+        this.industrySelected
+      )
+      this.alumniMgService.MemberServiceSubject.subscribe(res => {
+        if (res.addDataList) {
+          console.log(res);
+        }
+
+      })
     }
 }
