@@ -353,22 +353,57 @@ export class AMService {
         )
      }
 
+    // 创建群
+    public AddGroupSubject = new Subject<any>();
+
+    public postAddGroup(
+      members,
+      custom,
+      tname,
+      uid,
+      intro,
+      icon
+    ) {
+      const formData = {
+        members: [
+          1705948746940446
+        ],
+        // members: members,
+        custom: custom,
+        tname: tname,
+        uid: uid,
+        intro: intro,
+        icon: icon
+      }
+      this.$http
+        .post(this.$HOST.host + '/a/group/new', formData)
+        .subscribe(res => {
+          this.AddGroupSubject.next(res);
+        })
+    }
+
     public updataGroupSubject = new Subject<any>();
     // 编辑
-    public updataGroupInfo():void {
-        var formData = {
-            "members": [
-                1705948746940446
-            ],
-            "custom": "水电费了坚实的法律手段",
-            "tname": "小群",
-            "uid": 1705835349737499,
-            "id": 1714027278434305,
-            "tid":"396872733",
-            "intro": "群介绍",
-            "icon": "http://p218ibbvp.bkt.clouddn.com/2ca482e00bc211e8a4bb7b6a81e38cee.jpeg?imageView2"
+    public updataGroupInfo(
+      members,
+      custom,
+      tname,
+      uid,
+      id,
+      tid,
+      intro,
+      icon
+    ): void {
+        const formData = {
+          members: members,
+          custom: custom,
+          tname: tname,
+          uid: uid,
+          id: id,
+          tid: tid,
+          intro: intro,
+          icon: icon
         }
-
         this.$http
         .post(this.$HOST.host + '/a/group/update', formData)
         .subscribe(

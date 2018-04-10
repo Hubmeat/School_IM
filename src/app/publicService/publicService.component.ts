@@ -52,6 +52,21 @@ export class publicService {
         console.log('this signOut', this)
         this.LoginSubject = new Subject<any>();
     }
+
+    public EditPasswordSubject = new Subject<any>();
+
+    public editPassword(uid, old_password, new_password) {
+      const formData = {
+        uid: uid,
+        old_password: old_password,
+        new_password: new_password,
+      }
+      this.$http
+        .post(this.$HOST.host + '/a/user/reset_password', formData)
+        .subscribe(res => {
+          this.EditPasswordSubject.next(res);
+        })
+    }
 }
 
 

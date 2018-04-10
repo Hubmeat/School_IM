@@ -18,6 +18,9 @@ export class GroupManagementCom implements OnInit {
     editVisible:boolean = false;
     endTime = null;
     tid: any; // 群ID
+    uid: any = window.localStorage.getItem('uid'); // 当前登录ID
+    groupDataId: any; // 群数据ID
+    groupAdminId: any; // 群主id
 
     // 表格数据
     headerShow:boolean = false;
@@ -35,7 +38,12 @@ export class GroupManagementCom implements OnInit {
     remarkInfo:string = '';
 
     editInfo = {
-
+      custom: '',
+      intro: '',
+      icon: '',
+      tname: '',
+      created_at: '',
+      person_count: ''
     }
 
     // 成员管理
@@ -61,7 +69,9 @@ export class GroupManagementCom implements OnInit {
 
     menubarList: any = []; // 成员列表
 
-    // deleteSubscription = Subscription;
+    delSubscription: Subscription;
+    editSubscription: Subscription;
+    delMemberSubscription: Subscription;
     isReadOnly:boolean = true;
 
     constructor(
@@ -111,6 +121,9 @@ export class GroupManagementCom implements OnInit {
     }
 
     openEditBox(data): void  {
+        console.log(data);
+        this.groupDataId = data.id;
+        this.groupAdminId = data.uid;
         this.editVisible = true;
         this.editInfo = Object.assign({}, data);
         this.alumniService.tid = data.tid;
@@ -130,35 +143,57 @@ export class GroupManagementCom implements OnInit {
         this.isReadOnly = true;
     }
 
-    saveEdit():void {
-
+    saveEdit(): void {
+      const members = [];
+      this.alumniService.updataGroupInfo(
+        members,
+        this.editInfo.custom,
+        this.editInfo.tname,
+        this.uid,
+        this.groupDataId,
+        this.tid,
+        this.editInfo.intro,
+        this.editInfo.icon
+      )
+      this.editSubscription = this.alumniService.updataGroupSubject.subscribe(res => {
+        console.log(res);
+        if (res.error_code === 0) {
+          this._message.success('修改成功');
+          this.isReadOnly = true;
+        } else {
+          this._message.warning(res.error_msg || '修改失败');
+        }
+        this.editSubscription.unsubscribe();
+      })
     }
     cancel = () => {}
 
     // 提出群
     deleteMenber(data) {
       console.log(data);
-      const menubar_id = data.id;
-      const tid = this.alumniService.tid;
-      const uid = ''; // 群主id
-      const id = '';  // 数据id
+      const menubar_id = data.id; // 被踢人id
+      const tid = this.alumniService.tid; // 群id
+      const uid = this.groupAdminId; // 群主id
+      const id = this.groupDataId;  // 群数据id
       this.alumniService.deleteMember(
         menubar_id,
         tid,
         uid,
         id
       )
-      this.alumniService.MemberServiceSubject.subscribe(res => {
+      this.delMemberSubscription = this.alumniService.MemberServiceSubject.subscribe(res => {
         if (res.delmsg === undefined) {
           return;
         }
         if (res.delmsg.error_code === 0) {
-          alert('删除成功');
+          this._message.success('删除成功');
           this.loadData()
         }
+        this.delMemberSubscription.unsubscribe();
       })
     }
 
+    // 获取成员列表
     getMemberList() {
       this.alumniService.getmemberList(
         this.membergroupName,
@@ -192,18 +227,22 @@ export class GroupManagementCom implements OnInit {
         data.id,
         data.tid
       )
-      this.alumniService.MemberServiceSubject.subscribe(res => {
+      this.delSubscription = this.alumniService.MemberServiceSubject.subscribe(res => {
         if (res.removemsg === undefined) {
           return;
         }
         if (res.removemsg.error_code === 0) {
           console.log(res);
           this._message.success('解散群成功');
-          // this.deleteSubscription.unsubscribe();
           this.loadData()
+        } else {
+          this._message.warning(res.removemsg.error_msg);
         }
+        this.delSubscription.unsubscribe();
       })
     }
 
-
+    goAddMember() {
+      this.router.navigate(['/index/addMember']);
+    }
 }

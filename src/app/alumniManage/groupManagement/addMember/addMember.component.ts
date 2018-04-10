@@ -26,8 +26,8 @@ export class AddMemberComponent implements OnInit {
     // nextStep data
     registerBeginTime = null;
     registeEndrTime = null;
-    joinBeginTime = null;
-    joinEndrTime = null;
+    joinBeginTime = '';
+    joinEndrTime = '';
 
     // 搜索数据
     userName:string = '';

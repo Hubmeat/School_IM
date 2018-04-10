@@ -21,6 +21,8 @@ export class AddGroupCom implements OnInit {
     groupIntro:string = '';
     groupRemark:string = '';
     nextStepFlag:boolean = true;
+    uid: any = window.localStorage.getItem('uid');
+    members: any = []; // 添加成员列表
 
     // nextStep data
     registerBeginTime = null;
@@ -89,6 +91,11 @@ export class AddGroupCom implements OnInit {
     _indeterminate = false;
     _displayData = [];
 
+    file: any;
+    fileType: any = 'image';
+
+    addSubscription: Subscription;
+
 
     constructor(
         private alumniMgService: AMService,
@@ -101,7 +108,13 @@ export class AddGroupCom implements OnInit {
     }
 
     beforeUpload = (file: File) => {
+      this.file = file;
       const isJPG = file.type === 'image/jpeg';
+      if (isJPG) {
+        this.fileType = 'image';
+      }else {
+        this.fileType = 'file';
+      }
       if (!isJPG) {
         this.msg.error('You can only upload JPG file!');
       }
@@ -139,8 +152,25 @@ export class AddGroupCom implements OnInit {
         this.nextStepFlag = true;
     }
 
-    completeAdd():void {
-
+    completeAdd(): void {
+      this.alumniMgService.postAddGroup(
+        this.members,
+        this.groupRemark,
+        this.groupName,
+        this.uid,
+        this.groupIntro,
+        this.avatarUrl
+      )
+      this.addSubscription = this.alumniMgService.AddGroupSubject.subscribe(res => {
+        if (res.error_code === 0) {
+          console.log(res);
+          this.msg.success('创建成功')
+          this.router.navigate(['/index/groupManagement'])
+        } else {
+          this.msg.success(res.error_msg || '创建成功');
+        }
+        this.addSubscription.unsubscribe()
+      })
     }
 
     /**
