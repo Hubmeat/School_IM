@@ -119,7 +119,7 @@
                             <span>
                                 群介绍：
                             </span>
-                            <nz-input [nzType]="'textarea'" [nzReadonly]="isReadOnly"[(ngModel)]='editInfo.intro'></nz-input>
+                            <nz-input [nzType]="'textarea'" [nzReadonly]="isReadOnly" [(ngModel)]='editInfo.intro'></nz-input>
                         </div>
                         <div class=''>
                             <span>
@@ -211,12 +211,12 @@
                               </nz-option>
                             </nz-select>
                           </div>
-                          <button nz-button nz-col [nzSpan]="2" class="margin-10">搜索</button>
+                          <button nz-col [nzSpan]="2" nz-button class="margin-10">搜索</button>
                         </div>
 
                         <div>
                           <div>
-                            <button nz-button class="margin-10" routerLink="/index/addMember">添加成员</button>
+                            <button nz-button class="margin-10" (click)="goAddMember()">添加成员</button>
 
                             <nz-table #nzTable [nzDataSource]="menubarList" [nzPageSize]="10" nzShowSizeChanger>
                               <thead nz-thead>

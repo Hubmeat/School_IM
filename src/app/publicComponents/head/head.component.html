@@ -13,9 +13,39 @@
     <ul nz-menu [nzTheme]="'dark'" [nzMode]="'horizontal'" id="menberController">
       <!--<li nz-menu-item class="head">{{role}}</li>-->
       <li nz-menu-item class="head">{{userName}}</li>
-      <!--<li nz-menu-item class="head">{{email}}</li>-->
+      <li nz-menu-item class="head" (click)="showModal()">修改密码</li>
       <li nz-menu-item class="head"  (click)='signOut()'>
           <i class="anticon anticon-logout"></i>退出
       </li>
     </ul>
   </nz-header>
+
+
+<nz-modal [nzVisible]="isVisible"
+          [nzTitle]="'重置密码'"
+          [nzOkText]="'确定'"
+          [nzCancelText]="'取消'"
+          [nzContent]="modalContent"
+          (nzOnCancel)="handleCancel($event)"
+          (nzOnOk)="editPass()"
+>
+  <ng-template #modalContent>
+    <div id="template">
+      <div>
+        <nz-input [(ngModel)]="oldPassword" [nzPlaceHolder]="'请输入旧密码'">
+          <ng-template #addOnBefore>旧密码</ng-template>
+        </nz-input>
+      </div>
+      <div>
+        <nz-input [nzType]="'password'" [(ngModel)]="newPassword" [nzPlaceHolder]="'请输入新密码'">
+          <ng-template #addOnBefore>新密码</ng-template>
+        </nz-input>
+      </div>
+      <div>
+        <nz-input [nzType]="'password'" [(ngModel)]="repeatPassword" [nzPlaceHolder]="'请再次输入新密码'">
+          <ng-template #addOnBefore>确认新密码</ng-template>
+        </nz-input>
+      </div>
+    </div>
+  </ng-template>
+</nz-modal>
