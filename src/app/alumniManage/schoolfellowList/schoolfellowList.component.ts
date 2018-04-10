@@ -101,7 +101,9 @@ export class SchoolfellowListCom implements OnInit {
         }
     ];
     sexSelected = '';
-    editCityOptions = [];
+    editCityOptions = []; // 编辑功能城市列表
+    industroyOptions = []; // 行业下拉列表数据
+    editComCityOptions = []; // 编辑 公司地址
 
     constructor(
         private alumniMgService: AMService,
@@ -112,8 +114,23 @@ export class SchoolfellowListCom implements OnInit {
     ngOnInit():any {
         // 初始化下拉列表数据与表格数据
         this.getCollegeSelectData()
-        this.loadData()
+        // 获取行业数据
+        this.getIndustryData();
+        this.loadData();
 
+    }
+
+    getIndustryData():void {
+        this.alumniMgService.getIndustryList();
+        this.alumniMgService.industrySubject.subscribe(
+            res => {
+                if (res.error_code === 0) {
+                    this.industroyOptions = res.result;
+                } else {
+                    this.industroyOptions = [];
+                }
+            }
+        )
     }
 
     loadData() {
@@ -198,7 +215,7 @@ export class SchoolfellowListCom implements OnInit {
     }
 
     collegeChange (value) {
-        this.geMojorData(this.collegeSelected)
+        this.geMojorData(value)
     }
     // 搜索、分页方法
 
@@ -223,6 +240,7 @@ export class SchoolfellowListCom implements OnInit {
                     this.userInfo = res.result;
                     // 开启调用city下拉框方法
                     this.editProvinceChange(res.result.province_code);
+                    this.editCompanyProvinceChange(res.result.company_batch[0].area_code)
                     // 调用获取专业联动方法
                     this.geMojorData(res.result.academy_id);
                     
@@ -357,10 +375,21 @@ export class SchoolfellowListCom implements OnInit {
 
     cancelEdit ():void {
         this.editFlag = false;
+        this.loadData();
     }
 
     saveEdit ():void {
         this.editFlag = true;
+        this.alumniMgService.updatedSchoolFw(this.userInfo);
+        this.alumniMgService.schoolFwEditSubject.subscribe(
+            res => {
+                if (res.error_code === 0) {
+                    this._message.success('修改成功')
+                } else {
+                    this._message.success('修改失败')
+                }
+            }
+        )
     }
 
     editProvinceChange (id):void {
@@ -373,5 +402,16 @@ export class SchoolfellowListCom implements OnInit {
                 }
             }
         )
+    }
+
+    editCompanyProvinceChange(id):void {
+        this.alumniMgService.getCityList(id);
+        this.alumniMgService.provinceCodeSubject.subscribe(
+            res => {
+                if (res.city) {
+                    this.editComCityOptions = res.city.result;
+                }
+            }
+        )        
     }
 }
