@@ -341,12 +341,8 @@ export class AMService {
     // 批量上传
     public uploadSubject = new Subject<any>();
 
-    public uploadFileList (id, file) {
-        var formData = {
-            unique_identification: id,
-            header_index: 1,
-            file: file
-        }
+    public uploadFileList (formData) {
+        var formData =  formData;
 
         this.$http
         .post(this.$HOST.host + '/a/user_info/import', formData)

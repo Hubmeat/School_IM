@@ -84,6 +84,7 @@ export class SchoolfellowListCom implements OnInit {
     progressValue:number = 0;
 
     // 编辑功能模块
+    editSubscription: Subscription;
     modelStyle:any = {
         width: '1000px'
     }
@@ -109,6 +110,7 @@ export class SchoolfellowListCom implements OnInit {
         private alumniMgService: AMService,
         private _message: NzMessageService
     ) {
+        this.editSubscription = new Subscription();
     }
 
     ngOnInit():any {
@@ -339,27 +341,28 @@ export class SchoolfellowListCom implements OnInit {
     }
 
     handleUpload() {
-        const formData = [];
+        const formData = new FormData();
         this.progressFlag = true;
         this.fileList.forEach((file: any) => {
-            formData.push(file);
+            formData.append('unique_identification', file.uid);
+            formData.append('header_index', '1');
+            formData.append('file', file);
         });
         console.log('formData', formData)
-        this.alumniMgService.uploadFileList(this.fileList[0].uid, formData[0].name);
+        this.alumniMgService.uploadFileList(formData);
         var timer = setInterval( () => {
             this.progressValue += 5;
             if (this.progressValue >= 100) {
                 this.alumniMgService.uploadSubject.subscribe(
                     res => {
-                        if (res.error_code) {
-
+                        if (res.error_code === 0) {
+                            this._message.success('上传成功！')
                         }
                     }
                 )
                 this.progressFlag = false;
                 this.progressValue = 0;
                 clearInterval(timer);
-                this._message.success('上传成功！')
                 this.fileList = [];
                 setTimeout( () => {
                     this.uploadVisible = false;
@@ -381,10 +384,12 @@ export class SchoolfellowListCom implements OnInit {
     saveEdit ():void {
         this.editFlag = true;
         this.alumniMgService.updatedSchoolFw(this.userInfo);
-        this.alumniMgService.schoolFwEditSubject.subscribe(
+        this.editSubscription = this.alumniMgService.schoolFwEditSubject.subscribe(
             res => {
                 if (res.error_code === 0) {
                     this._message.success('修改成功')
+                    this.editFlag = false;
+                    this.editSubscription.unsubscribe();
                 } else {
                     this._message.success('修改失败')
                 }

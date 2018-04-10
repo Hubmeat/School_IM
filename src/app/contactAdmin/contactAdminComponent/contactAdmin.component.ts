@@ -74,17 +74,20 @@ export class ContactAdminComponent implements OnInit {
     });
     this.Nm = nim;
     console.log('nim', nim)
-    this.changeChatObject(account, token)
+    // this.changeChatObject(account, token)
   }
 
   onConnect() {
+    console.log('success')
     this.Nm.connect();
     // debugger
     console.log('连接成功');
   }
 
   onWillReconnect(obj) {
-    console.log(obj)
+
+    console.log('obj',obj)
+    debugger
     // debugger
     console.log('即将重连');
     // console.log(obj.retryCount);
