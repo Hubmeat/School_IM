@@ -19,16 +19,6 @@ export class SchoolfellowListCom implements OnInit {
     joinBeginTime = null;
     joinEndrTime = null;
 
-<<<<<<< HEAD
-    constructor(
-        private alumniMgService: AMService,
-        private _message: NzMessageService,
-        private http: HttpClient
-    ) {
-    }
-
-=======
->>>>>>> 3d049e968a7bf0126eb8c87244ed309e1ec9ca32
     // 搜索数据
     userName:string = '';
     IDcard:string = '';
@@ -95,7 +85,7 @@ export class SchoolfellowListCom implements OnInit {
 
     // 编辑功能模块
     modelStyle:any = {
-        width: '800px'
+        width: '1000px'
     }
     editFlag:boolean = false;
     sexOptions = [
@@ -231,6 +221,10 @@ export class SchoolfellowListCom implements OnInit {
                 if (res.error_code === 0) {
                     console.log('detail res', res)
                     this.userInfo = res.result;
+                    // 开启调用city下拉框方法
+                    this.editProvinceChange(res.result.province_code);
+                    // 调用获取专业联动方法
+                    this.geMojorData(res.result.academy_id);
                     
                     this.userInfoVisible = true;
                 }
@@ -374,6 +368,7 @@ export class SchoolfellowListCom implements OnInit {
         this.alumniMgService.provinceCodeSubject.subscribe(
             res => {
                 if (res.city) {
+                    console.log('hhh res', res)
                     this.editCityOptions = res.city.result;
                 }
             }
