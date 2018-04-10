@@ -32,8 +32,13 @@ export class CkeditorComponent implements OnInit {
     }
     // 或者 var editor = new E( document.getElementById('editor') )
     this.editor.create()
-    // this.editor.txt.html('<p>请添加内容</p>')
-    this.editor.txt.placeholder('<p>请添加内容</p>')
+    if (this.article_content) {
+      this.editor.txt.html(this.article_content)
+    } else {
+      this.editor.txt.html('<p>请添加内容</p>')
+    }
+
+    // this.editor.txt.placeholder('<p>请添加内容</p>')
     // 初始化 textarea 的值
     this.article_content = this.editor.txt.html();
     console.log(this.article_content);

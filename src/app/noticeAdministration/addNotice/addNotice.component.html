@@ -52,20 +52,19 @@
         >
         </nz-input>
       </div>
-      <div>
-        <span class="text-padd-span">文章引言</span>
-        <nz-input
-          style="width: 75%;resize:none"
-          [nzType]="'textarea'"
-          [(ngModel)]="article_intr"
-          [nzPlaceHolder]="'请输入文章文章引言'"
-        >
-        </nz-input>
-      </div>
-
     </div>
     <div *ngIf="affiche_type === 2">
       <ckeditor-outlet [fromFatherValue]="article_content" (fromChild)="contentChange($event)"></ckeditor-outlet>
+    </div>
+    <div>
+      <span class="text-padd-span">文章引言</span>
+      <nz-input
+        style="width: 75%;resize:none"
+        [nzType]="'textarea'"
+        [(ngModel)]="article_intr"
+        [nzPlaceHolder]="'请输入文章文章引言'"
+      >
+      </nz-input>
     </div>
     <div>
       <span class="text-padd-span">文章状态</span>

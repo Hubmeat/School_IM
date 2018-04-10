@@ -48,8 +48,8 @@
       <td nz-td>{{data.user_name}}</td>
       <td nz-td (click)="showDetailsModal(data.id)"><a>{{data.affiche_title}}</a></td>
       <td nz-td><img src="{{data.affiche_pic}}" alt="" style="width: 60px; height: 60px;"></td>
-      <td nz-td style="width: 260px;"><a href="{{data.article_url}}">{{data.article_url}}</a></td>
-      <td nz-td></td>
+      <td nz-td style="width: 240px;"><a href="{{data.article_url}}">{{data.article_url}}</a></td>
+      <td nz-td><span style="margin-right: 7px;">评论{{data.comment_count}}</span><span>点赞{{data.praise_count}}</span></td>
       <td nz-td>{{data.affiche_state === 1 ? '显示' : '隐藏'}}</td>
       <td nz-td>
         <a class="a-click" (click)="editNot(data)">编辑</a>
