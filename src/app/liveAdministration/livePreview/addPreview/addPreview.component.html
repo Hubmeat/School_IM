@@ -23,13 +23,12 @@
     <div>
       <span class="text-padd-span">上传缩略图</span>
       <nz-upload
-        style="width: 75%;"
         class="avatar-uploader"
         nzName="avatar"
         [nzShowUploadList]="false"
         [nzBeforeUpload]="beforeUpload"
         (nzChange)="handleChange($event)">
-        <i *ngIf="!avatarUrl" class="anticon anticon-plus avatar-uploader-trigger"></i>
+        <i *ngIf="!avatarUrl" class="anticon anticon-plus avatar-uploader-trigge"></i>
         <img *ngIf="avatarUrl" [src]="avatarUrl" class="avatar">
       </nz-upload>
     </div>

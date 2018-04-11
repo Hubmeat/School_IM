@@ -39,6 +39,7 @@ export class AddNoticeComponent implements OnInit  {
   beforeUploadUrl
   addSubscription: Subscription;
   editSubscription: Subscription;
+  upImgSubscription: Subscription;
 
   id;
   editFlag: boolean;
@@ -132,49 +133,6 @@ export class AddNoticeComponent implements OnInit  {
     this.router.navigate(['/index/noticeAdmin']);
   }
 
-  // beforeUpload = (file: File) => {
-    /*var rFilter = /^(image\/bmp|image\/gif|image\/jpeg|image\/png|image\/tiff)$/i; //控制格式
-    var iMaxFilesize = 2097152; //控制大小2M
-    var iMaxFilesize = 2097152; //控制大小2M
-
-    var reader = new FileReader();
-    if (!rFilter.test(file.type)) {
-      alert("文件格式必须为图片");
-      return;
-    }
-    if (file.size > iMaxFilesize) {
-      alert("图片大小不能超过2M");
-      return;
-    }*/
-    /*if(typeof FileReader == 'undefined'){
-      result.InnerHTML="<p>你的浏览器不支持FileReader接口！</p>";
-      //使选择控件不可操作
-    }
-    const reader = new FileReader();
-    const res = reader.readAsDataURL(file);
-    console.log("file", file);
-    console.log("res", res);
-
-    reader.onload = function (e) {
-
-      const result = document.getElementById("result");
-      // 显示文件
-      console.log(result)
-      this.avatarUrl = result;
-    }
-    reader.readAsDataURL(file);
-    console.log('res', res)
-    const isJPG = file.type === 'image/jpeg';
-    if (!isJPG) {
-      this._message.error('上传格式有误!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-
-    if (!isLt2M) {
-      this._message.error('图片过大!');
-    }
-    return isJPG && isLt2M;
-  }*/
 
   // 上传
   beforeUpload = (file: UploadFile) => {
@@ -186,70 +144,31 @@ export class AddNoticeComponent implements OnInit  {
       formData.append('file', file);
     });
     this.service.upFile(formData);
-    this.service.NoticeAdminSubject.subscribe(res => {
+    this.upImgSubscription = this.service.NoticeAdminSubject.subscribe(res => {
       console.log(res);
       this.avatarUrl = res.file.original_pic;
+      this.affiche_pic = res.file.original_pic;
+      this.upImgSubscription.unsubscribe();
     })
-   /* if (isJPG) {
-      this.fileType = 'image';
-    }else {
-      this.fileType = 'file';
-    }
-    if (!isJPG) {
-      this._message.error('You can only upload JPG file!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      this._message.error('Image must smaller than 2MB!');
-    }
-    if (isJPG && isLt2M) {
-      const imgUrl = window.URL.createObjectURL(file);
-      console.log(imgUrl);
-      this.affiche_pic = imgUrl
-      this.avatarUrl = imgUrl;
-    }*/
   }
-  /*upafter() {
-    const formData = new FormData();
-    this.fileList.forEach((file: any) => {
-      console.log(file)
-      formData.append('unique_identification', file.uid);
-      formData.append('header_index', '1');
-      formData.append('file', file);
-    });
-  }*/
-    // beforeUpload = (file) => {
-    //   this.file = file;
-    //   console.log(file)
-    //   // window.URL.createObjectURL
-    //   const isJPG = file.type === 'image/jpeg';
-    //   if (isJPG) {
-    //     this.fileType = 'image';
-    //   }else {
-    //     this.fileType = 'file';
-    //   }
-    //   if (!isJPG) {
-    //     this._message.error('You can only upload JPG file!');
-    //   }
-    //   const isLt2M = file.size / 1024 / 1024 < 2;
-    //   if (!isLt2M) {
-    //     this._message.error('Image must smaller than 2MB!');
-    //   }
-    //   return isJPG && isLt2M;
-    // }
 
-  // private getBase64(img: File, callback: (img: any) => void) {
-  //   const reader = new FileReader();
-  //   reader.addEventListener('load', () => callback(reader.result));
-  //   reader.readAsDataURL(img);
-  // }
-  // //
   handleChange(info: { file: UploadFile }) {
-    // this.getBase64(info.file.originFileObj, (img: any) => {
-    //   this.loading = false;
-    //   // console.log(img);
-    //   this.avatarUrl = img;
-    // });
+      const file = info.file;
+      console.log(file)
+      const isJPG = file.type === 'image/jpeg';
+      if (isJPG) {
+        this.fileType = 'image';
+      }else {
+        this.fileType = 'file';
+      }
+      if (!isJPG) {
+        this._message.error('You can only upload JPG file!');
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this._message.error('Image must smaller than 2MB!');
+      }
+      return isJPG && isLt2M;
   }
 
   contentChange(e) {
