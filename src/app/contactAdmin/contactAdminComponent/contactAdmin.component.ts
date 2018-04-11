@@ -47,11 +47,14 @@ export class ContactAdminComponent implements OnInit {
     this.service.chatDataSubject.subscribe(
     res => {
       console.log('res', res)
-      var token = Md5.hashStr(res.result.id);
+      var token = Md5.hashStr(res.result.id.toString());
       var account = res.result.id;
       console.log('account', account);
       console.log('token', token);
-      this.initChat(account, token);
+      setTimeout( () => {      
+        this.initChat(account.toString(), token);
+      }, 7000)
+      // this.initChat(account, token);
 
     })
   }
@@ -64,13 +67,47 @@ export class ContactAdminComponent implements OnInit {
     // 注意这里, 引入的 SDK 文件不一样的话, 你可能需要使用 SDK.NIM.getInstance 来调用接口
     var nim = NIM.getInstance({
       debug: true,
-      appKey: 'ff5c5a21d8269d4afddfc7b1a2f40027',
+      appKey: "ff5c5a21d8269d4afddfc7b1a2f40027",
       account: account,
       token: token,
-      onconnect: this.onConnect,
-      onwillreconnect: this.onWillReconnect,
-      ondisconnect: this.onDisconnect,
-      onerror: this.onError
+      onconnect: function () {
+        alert('success')
+        // this.Nm.connect();
+        // debugger
+        alert('连接成功');
+      },
+      onwillreconnect:  function(obj) {
+        console.log('obj',obj);
+        alert('即将重连');
+        // console.log(obj.retryCount);
+        // console.log(obj.duration);
+      },
+      ondisconnect: function (error) {
+        alert('丢失连接');
+        alert(error);
+        // if (error) {
+        //   switch (error.code) {
+        //     // 账号或者密码错误, 请跳转到登录页面并提示错误
+        //     case 302:
+        //       break;
+        //     // 重复登录, 已经在其它端登录了, 请跳转到登录页面并提示错误
+        //     case 417:
+        //       break;
+        //     // 被踢, 请提示错误后跳转到登录页面
+        //     case 'kicked':
+        //       break;
+        //     default:
+        //       break;
+        //   }
+        // }
+      },
+      onerror: function (error) {
+        console.log(error);
+      },  
+      // onmsg: function (msg) {
+      //   console.log('msg',msg)
+      //   // 此处为委托消息事件，消息发送成功后，成功消息也在此处处理
+      // }
     });
     this.Nm = nim;
     console.log('nim', nim)
@@ -78,40 +115,36 @@ export class ContactAdminComponent implements OnInit {
   }
 
   onConnect() {
-    console.log('success')
-    this.Nm.connect();
-    // debugger
-    console.log('连接成功');
+    alert('success')
+    // this.Nm.connect();
+    alert('连接成功');
   }
 
   onWillReconnect(obj) {
-
-    console.log('obj',obj)
-    debugger
-    // debugger
-    console.log('即将重连');
+    console.log('obj',obj);
+    alert('即将重连');
     // console.log(obj.retryCount);
     // console.log(obj.duration);
   }
 
   onDisconnect(error) {
-    console.log('丢失连接');
-    console.log(error);
-    if (error) {
-      switch (error.code) {
-        // 账号或者密码错误, 请跳转到登录页面并提示错误
-        case 302:
-          break;
-        // 重复登录, 已经在其它端登录了, 请跳转到登录页面并提示错误
-        case 417:
-          break;
-        // 被踢, 请提示错误后跳转到登录页面
-        case 'kicked':
-          break;
-        default:
-          break;
-      }
-    }
+    alert('丢失连接');
+    alert(error);
+    // if (error) {
+    //   switch (error.code) {
+    //     // 账号或者密码错误, 请跳转到登录页面并提示错误
+    //     case 302:
+    //       break;
+    //     // 重复登录, 已经在其它端登录了, 请跳转到登录页面并提示错误
+    //     case 417:
+    //       break;
+    //     // 被踢, 请提示错误后跳转到登录页面
+    //     case 'kicked':
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // }
   }
 
   onError(error) {
@@ -134,7 +167,6 @@ export class ContactAdminComponent implements OnInit {
         account: account
       })
       console.log('nim1', nim1)
-      // debugger
       // 断开 IM
       nim1.disconnect();
       // 更新 token
@@ -157,6 +189,7 @@ export class ContactAdminComponent implements OnInit {
         onmsg: this.onMsg
       });
     }
+
     onRoamingMsgs(obj) {
         console.log('收到漫游消息', obj);
         this.pushMsg(obj.msgs);
