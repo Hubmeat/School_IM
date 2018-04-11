@@ -59,9 +59,9 @@ export class AddMemberComponent implements OnInit {
 
     // 性别下拉框
     sexOptions = [
-        { value: '0', label: '全部'},
-        { value: '1', label: '男'},
-        { value: '2', label: '女'}
+        { value: 0, label: '全部'},
+        { value: 1, label: '男'},
+        { value: 2, label: '女'}
     ]
     sexSelected = this.sexOptions[0].value;
 
@@ -94,6 +94,9 @@ export class AddMemberComponent implements OnInit {
     _indeterminate = false;
     _displayData = [];
 
+    addMemberList = []; // 欲添加成员list
+    addMemberListcheckedList = [];
+
 
     constructor(
         private alumniMgService: AMService,
@@ -103,6 +106,11 @@ export class AddMemberComponent implements OnInit {
 
     ngOnInit():void {
         // $('.two_step').hide()
+      console.log(this.alumniMgService.tid)
+      if (this.alumniMgService.tid === undefined) {
+        this.router.navigate(['/index/groupManagement'])
+        return;
+      }
       this.getAddMemberList();
     }
 
@@ -226,27 +234,65 @@ export class AddMemberComponent implements OnInit {
 
     _displayDataChange($event) {
       this._displayData = $event;
-      this._refreshStatus();
+      console.log($event)
+      // this._refreshStatus();
     }
 
-    _refreshStatus() {
+    _refreshStatus(data, index) {
+      const arrList = this.addMemberList;
       const allChecked = this._displayData.every(value => value.checked === true);
       const allUnChecked = this._displayData.every(value => !value.checked);
       this._allChecked = allChecked;
       this._indeterminate = (!allChecked) && (!allUnChecked);
+
+      if (data.checked) {
+        this.addMemberListcheckedList.push(data);
+        this.addMemberListcheckedList = Array.from(new Set(this.addMemberListcheckedList)); // 去重
+      } else {
+        // for (let i in this.transferOptions) {
+        for (let i = 0; i < this.addMemberListcheckedList.length; i++) {
+          if (this.addMemberListcheckedList[i] === data) {
+            this.addMemberListcheckedList.splice(i, 1)
+          }
+        }
+      }
     }
 
     _checkAll(value) {
       if (value) {
+        this.addMemberListcheckedList = [];
         this._displayData.forEach(data => {
           data.checked = true;
+          this._allChecked = value;
+          this.addMemberListcheckedList.push(data);
         });
       } else {
         this._displayData.forEach(data => {
           data.checked = false;
+          this._allChecked = value;
+          this.addMemberListcheckedList.splice(0, 1);
         });
       }
-      this._refreshStatus();
+      this._indeterminate = false
+    }
+
+    deleteItem(index, item) {
+      this.addMemberListcheckedList.splice(index, 1);
+      for (let i in this.addMemberList) {
+        if (this.addMemberList[i] === item) {
+          this.addMemberList[i].checked = false;
+          break;
+        }
+      }
+      // this.addMemberList[index].checked = false;
+      this._displayData.forEach(data => {
+        if (data.checked === true) {
+          this._indeterminate = true;
+        } else {
+          this._allChecked = false;
+          this._indeterminate = false;
+        }
+      })
     }
     goback() {
         this.router.navigate(['/index/groupManagement']);
@@ -259,6 +305,9 @@ export class AddMemberComponent implements OnInit {
 
     // 获取可添加成员列表
     getAddMemberList() {
+      this._allChecked = false;
+      this._indeterminate = false;
+      this.addMemberListcheckedList = [];
       this.alumniMgService.getAddMemberDataList(
         this.alumniMgService.tid,
         this.educationSelected,
@@ -279,6 +328,7 @@ export class AddMemberComponent implements OnInit {
       this.alumniMgService.MemberServiceSubject.subscribe(res => {
         if (res.addDataList) {
           console.log(res);
+          this.addMemberList = res.addDataList.result;
         }
 
       })

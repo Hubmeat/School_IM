@@ -90,22 +90,25 @@
           [nzCancelText]="'取消'"
           [nzContent]="modalContent1"
           (nzOnCancel)="handleCancel($event)"
-          (nzOnOk)="handleCancel($event)"
 >
   <ng-template #modalContent1>
     <div>
-      <span>导入模板.exls</span>
-      <button nz-button><a href="{{api}}" downloa>下载模板</a></button>
+      <span><a>导入模板.exls</a></span>
+      <button nz-button [nzLoading]="downLoading"><a href="{{api}}" download="{{api}}">下载模板</a></button>
     </div>
     <div>
       <span>选择上传文件</span>
       <nz-upload
-        nzAction="https://jsonplaceholder.typicode.com/posts/"
+        [nzBeforeUpload]="beforeUpload"
         [nzFileList]="fileList">
         <button nz-button>
-          <i class="anticon anticon-upload"></i><span>Upload</span>
+          <i class="anticon anticon-upload"></i><span>Select File</span>
         </button>
       </nz-upload>
+      <button nz-button [nzType]="'primary'" (click)="UploadSubmit()" [disabled]="fileList.length == 0">
+        <i class="anticon anticon-upload"></i><span>点击上传</span>
+      </button>
+      <nz-progress *ngIf='progressFlag' [ngModel]="progressValue"></nz-progress>
     </div>
   </ng-template>
 </nz-modal>

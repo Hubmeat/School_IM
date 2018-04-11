@@ -238,22 +238,37 @@ export class DataSettingService {
         })
     }
 
-    // 上传文件
+    // 行业上传文件
     public uploadFileList(
-      unique_identification,
-      uid,
-      file
+      formData
     ) {
-      const formData = {
-        header_index: 1,
-        unique_identification: unique_identification,
-        uid: uid,
-        file: file
-      };
+      // const formData = formData
       this.$http
         .post(this.$HOST.host + '/a/industry_info/import', formData)
         .subscribe(res => {
           this.IndustrySetupSubject.next({updata: res})
+        })
+    }
+    // 学院上传文件
+    public uploadacademyFileList(
+      formData
+    ) {
+      // const formData = formData
+      this.$http
+        .post(this.$HOST.host + '/a/academy_info/import', formData)
+        .subscribe(res => {
+          this.DataSettingDepartmentsSubject.next({updata: res})
+        })
+    }
+    // 专业上传文件
+    public uploadmajorFileList(
+      formData
+    ) {
+      // const formData = formData
+      this.$http
+        .post(this.$HOST.host + '/a/major_info/import', formData)
+        .subscribe(res => {
+          this.SpecialtySetupSubject.next({updata: res})
         })
     }
 }
