@@ -32,7 +32,7 @@ export class SchoolfellowListCom implements OnInit {
     majorSelected = '';
     // 学历选项框
     educationOptions = [
-        { value: '全部', label: '全部' },
+        { value: '', label: '全部' },
         { value: '专科', label: '专科' },
         { value: '本科', label: '本科'},
         { value: '硕士', label: '硕士'},
@@ -245,7 +245,7 @@ export class SchoolfellowListCom implements OnInit {
                     this.editCompanyProvinceChange(res.result.company_batch[0].area_code)
                     // 调用获取专业联动方法
                     this.geMojorData(res.result.academy_id);
-                    
+
                     this.userInfoVisible = true;
                 }
             }
@@ -417,6 +417,6 @@ export class SchoolfellowListCom implements OnInit {
                     this.editComCityOptions = res.city.result;
                 }
             }
-        )        
+        )
     }
 }

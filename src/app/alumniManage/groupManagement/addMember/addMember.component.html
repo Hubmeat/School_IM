@@ -79,7 +79,7 @@
           </nz-option>
         </nz-select>
       </div>
-      <div nz-col [nzSpan]="8">
+      <div nz-col [nzSpan]="6">
         <span>所在地：</span>
         <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="provinceSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择省份'" nzAllowClear>
           <nz-option
@@ -109,12 +109,12 @@
           </nz-option>
         </nz-select>
       </div>
-      <div nz-col [nzSpan]="4">
-        <button nz-button (click)="getAddMemberList()">搜索</button>
+      <div nz-col [nzSpan]="2">
+        <button nz-button [nzType]="'primary'" (click)="getAddMemberList()">搜索</button>
       </div>
     </div>
     <div nz-row style="margin-top: 40px;">
-      <nz-table #nzTable [nzDataSource]="data" [nzPageSize]="10" (nzDataChange)="_displayDataChange($event)" (nzPageIndexChange)="_refreshStatus()" (nzPageSizeChange)="_refreshStatus()" nz-col [nzSpan]="20">
+      <nz-table #nzTable [nzDataSource]="addMemberList" [nzPageSize]="100" (nzDataChange)="_displayDataChange($event)" nz-col [nzSpan]="18">
         <thead nz-thead>
         <tr>
           <th nz-th nzCheckbox>
@@ -133,27 +133,30 @@
         </tr>
         </thead>
         <tbody nz-tbody>
-        <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+        <tr nz-tbody-tr *ngFor="let data of nzTable.data;let index = index">
           <td nz-td nzCheckbox>
-            <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="_refreshStatus($event)">
+            <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="_refreshStatus(data, index)">
             </label>
           </td>
-          <td nz-td>{{data.name}}</td>
-          <td nz-td>{{data.age}}</td>
-          <td nz-td>{{data.address}}</td>
-          <td nz-td>{{data.address}}</td>
-          <td nz-td>{{data.address}}</td>
-          <td nz-td>{{data.address}}</td>
-          <td nz-td>{{data.address}}</td>
-          <td nz-td>{{data.address}}</td>
-          <td nz-td>{{data.address}}</td>
+          <td nz-td>{{data.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+          <td nz-td>{{data.user_name}}</td>
+          <td nz-td>{{data.contact_phone}}</td>
+          <td nz-td>{{data.gender === 1 ? '男' : '女'}}</td>
+          <td nz-td>{{data.academic_starts}}</td>
+          <td nz-td>{{data.academy}}</td>
+          <td nz-td>{{data.profession}}</td>
+          <td nz-td>{{data.education}}</td>
+          <td nz-td>{{data.province}}-{{data.city}}</td>
         </tr>
         </tbody>
       </nz-table>
-      <div nz-col [nzSpan]="4" class="card_div">
+      <div nz-col [nzSpan]="6" class="card_div">
         <ul>
           <li class="card-head">已选成员</li>
-          <li>12313212123123132123123123132</li>
+          <li class="card-body" *ngFor="let item of addMemberListcheckedList;let index = index">
+            <img src="{{item.url}}" alt="">{{index + 1}} - {{item.user_name}} - {{item.contact_phone}}
+            <button nz-button (click)="deleteItem(index, item)" style="float: right">X</button>
+          </li>
         </ul>
       </div>
     </div>

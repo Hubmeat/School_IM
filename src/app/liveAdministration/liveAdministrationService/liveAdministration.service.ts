@@ -189,4 +189,15 @@ export class LiveAdministrationService {
           this.LiveServiceSubject.next({userlist: res})
         })
     }
+
+    // 上传
+    public upFile(formData) {
+      // console.log(file);
+      // const formData = formData
+      this.$http
+        .post(this.$HOST.host + '/util/qiniu/upload', formData)
+        .subscribe(res => {
+          this.LivePreSubject.next({file: res})
+        })
+    }
 }

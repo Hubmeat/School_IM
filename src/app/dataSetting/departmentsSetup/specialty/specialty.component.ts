@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DataSettingService} from '../../dataSettingService/dataSettingService';
-import {NzMessageService} from 'ng-zorro-antd';
+import {NzMessageService, UploadFile} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 
 @Component({
@@ -23,8 +23,11 @@ export class SpecialtyComponent implements OnInit {
   editMajorName: string = '';
   editId;
   msg: string = '';
-  fileList
+  fileList = [];
+  progressFlag: boolean = false;
+  progressValue: number = 0;
   api
+  downLoading
   constructor(
     private service: DataSettingService,
     private router: Router,
@@ -149,5 +152,45 @@ export class SpecialtyComponent implements OnInit {
   }
   cancel = () => {
 
+  }
+
+  // 上传
+  beforeUpload = (file: UploadFile): boolean => {
+    console.log('file', file);
+    this.fileList.push(file);
+    console.log('fileList', this.fileList)
+    return false;
+  }
+
+  UploadSubmit() {
+    const formData = new FormData();
+    this.progressFlag = true;
+    this.fileList.forEach((file: any) => {
+      formData.append('unique_identification', file.uid);
+      formData.append('header_index', '1');
+      formData.append('file', file);
+    });
+    console.log('formData', formData)
+    this.service.uploadacademyFileList(formData);
+    var timer = setInterval( () => {
+      this.progressValue += 5;
+      if (this.progressValue >= 100) {
+        this.service.SpecialtySetupSubject.subscribe(
+          res => {
+            if (res.updata && res.updata.error_code === 0) {
+              this._message.success('上传成功！')
+            }
+          }
+        )
+        this.progressFlag = false;
+        this.progressValue = 0;
+        clearInterval(timer);
+        this.fileList = [];
+        setTimeout( () => {
+          this.isVisible1 = false;
+          this.search()
+        }, 1500)
+      }
+    }, 50)
   }
 }

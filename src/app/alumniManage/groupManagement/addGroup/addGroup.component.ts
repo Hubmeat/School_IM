@@ -21,7 +21,7 @@ export class AddGroupCom implements OnInit {
     groupIntro:string = '';
     groupRemark:string = '';
     nextStepFlag:boolean = true;
-    uid: any = window.localStorage.getItem('uid');
+    uid: any = Number(window.localStorage.getItem('uid'));
     members: any = []; // 添加成员列表
 
     // nextStep data

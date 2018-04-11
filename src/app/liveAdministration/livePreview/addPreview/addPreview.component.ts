@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
-import {NzMessageService} from 'ng-zorro-antd';
+import {NzMessageService, UploadFile} from 'ng-zorro-antd';
 import {LiveAdministrationService} from '../../liveAdministrationService/liveAdministration.service';
 import {Subscription} from 'rxjs/Subscription'
 
@@ -24,6 +24,7 @@ export class AddPreviewComponent implements OnInit {
   live_person_gender
   addSubscription: Subscription;
   editSubscription: Subscription;
+  upImgSubscription: Subscription;
   video_url
   video_type
   id
@@ -32,9 +33,11 @@ export class AddPreviewComponent implements OnInit {
   editData: any;
 
 
-  avatarUrl
-  beforeUpload
+  avatarUrl: string;
   radioValue
+
+  fileList: any = [];
+  fileType
 
   constructor(private service: LiveAdministrationService,
               private _message: NzMessageService,
@@ -43,6 +46,7 @@ export class AddPreviewComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.avatarUrl)
       this.editFlag = this.service.editFlag;
       if (!this.editFlag) {
 
@@ -51,6 +55,7 @@ export class AddPreviewComponent implements OnInit {
           this.id = this.editData.id
           this.live_title = this.editData.live_title
           this.live_pic = this.editData.live_pic
+          this.avatarUrl = this.editData.live_pic
           this.live_time = this.editData.live_time
           this.live_person_id = this.editData.live_person_id
           this.live_person = this.editData.live_person
@@ -118,5 +123,48 @@ export class AddPreviewComponent implements OnInit {
       }
     })
   }
-  handleChange = (e) => {}
+
+
+  // 上传
+  beforeUpload = (file: UploadFile) => {
+    this.fileList.push(file);
+    const formData = new FormData();
+    this.fileList.forEach((file: any) => {
+      console.log(file)
+      formData.append('type', 'image');
+      formData.append('file', file);
+    });
+    this.service.upFile(formData);
+    this.upImgSubscription = this.service.LivePreSubject.subscribe(res => {
+      console.log(res);
+      if (!res.error_code) {
+        this.avatarUrl = res.file.original_pic;
+        this.live_pic = res.file.original_pic;
+      } else {
+        this.fileList = [];
+      }
+      this.upImgSubscription.unsubscribe();
+    })
+  }
+
+  handleChange(info: { file: UploadFile }) {
+    const file = info.file;
+    console.log(file)
+    const isJPG = file.type === 'image/jpeg';
+    if (isJPG) {
+      this.fileType = 'image';
+    }else {
+      this.fileType = 'file';
+    }
+    if (!isJPG) {
+      this._message.error('You can only upload JPG file!');
+      this.fileList = [];
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      this._message.error('Image must smaller than 2MB!');
+      this.fileList = [];
+    }
+    return isJPG && isLt2M;
+  }
 }
