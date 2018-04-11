@@ -49,8 +49,6 @@ export class ContactAdminComponent implements OnInit {
       console.log('res', res)
       var token = Md5.hashStr(res.result.id.toString());
       var account = res.result.id;
-      console.log('account', account);
-      console.log('token', token);
       setTimeout( () => {      
         this.initChat(account.toString(), token);
       }, 7000)
@@ -63,6 +61,8 @@ export class ContactAdminComponent implements OnInit {
    * 初始化聊天室，新建连接   ==================================================================================>
    */
   initChat (account, token) {
+    console.log('account', account);
+    console.log('token', token);
     var data = {};
     // 注意这里, 引入的 SDK 文件不一样的话, 你可能需要使用 SDK.NIM.getInstance 来调用接口
     var nim = NIM.getInstance({
@@ -70,11 +70,12 @@ export class ContactAdminComponent implements OnInit {
       appKey: "ff5c5a21d8269d4afddfc7b1a2f40027",
       account: account,
       token: token,
-      onconnect: function () {
+      onconnect: function (res) {
+        console.log(res)
         alert('success')
-        // this.Nm.connect();
         // debugger
         alert('连接成功');
+        return
       },
       onwillreconnect:  function(obj) {
         console.log('obj',obj);
