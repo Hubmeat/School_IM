@@ -124,12 +124,9 @@ export class NoticeAdminService {
     }
 
     // 上传
-    public upFile(file, type) {
-      console.log(file);
-      const formData = {
-        file: file,
-        type: type
-      }
+    public upFile(formData) {
+      // console.log(file);
+      // const formData = formData
       this.$http
         .post(this.$HOST.host + '/util/qiniu/upload', formData)
         .subscribe(res => {
