@@ -16,6 +16,8 @@ export class GroupManagementCom implements OnInit {
     groupName:string = '';
     beginTime = null;
     editVisible:boolean = false;
+    detailsVisible:boolean = false;
+    detailsData: any; // 详情；
     endTime = null;
     tid: any; // 群ID
     uid: any = window.localStorage.getItem('uid'); // 当前登录ID
@@ -50,9 +52,9 @@ export class GroupManagementCom implements OnInit {
 
     // 性别下拉列表
     sexOptions = [
-      { value: '0', label: '全部'},
-      { value: '1', label: '男'},
-      { value: '2', label: '女'}
+      { value: 0, label: '全部'},
+      { value: 1, label: '男'},
+      { value: 2, label: '女'}
     ]
     // 省市下拉框
     provinceOptions = [];
@@ -81,7 +83,11 @@ export class GroupManagementCom implements OnInit {
     ) {}
 
     ngOnInit():void {
+        this.alumniService.groupTid = null;
+        this.alumniService.groupUid = null;
+        this.alumniService.groupId = null;
         this.loadData();
+        this.getCollegeSelectData()
     }
 
     loadData ():void {
@@ -106,6 +112,39 @@ export class GroupManagementCom implements OnInit {
         )
     }
 
+    // 获取下拉列表数据
+    getCollegeSelectData ():void {
+    // 获取省市区列表内
+      this.alumniService.getProvinceList();
+      this.alumniService.provinceCodeSubject.subscribe(
+        res => {
+          if (res.province) {
+            this.provinceOptions = res.province.result;
+          }
+        }
+      )
+    }
+    provinceChange(provinceCode) {
+      this.alumniService.getCityList(provinceCode);
+      this.alumniService.provinceCodeSubject.subscribe(
+        res => {
+          if (res.city) {
+            this.cityOptions = res.city.result;
+          }
+        }
+      )
+    }
+    cityChange(cityCode) {
+        this.alumniService.getareaList(cityCode);
+        this.alumniService.provinceCodeSubject.subscribe(
+          res => {
+            if (res.area) {
+              this.areaOptions = res.area.result;
+            }
+          }
+        )
+    }
+
     createGroup():void {
         this.router.navigate(['index/addGroup'])
     }
@@ -126,7 +165,9 @@ export class GroupManagementCom implements OnInit {
         this.groupAdminId = data.uid;
         this.editVisible = true;
         this.editInfo = Object.assign({}, data);
-        this.alumniService.tid = data.tid;
+        this.alumniService.groupTid = data.tid;
+        this.alumniService.groupUid = data.uid;
+        this.alumniService.groupId = data.id;
         this.getMemberList();
         console.log('this.editInfo ', this.editInfo )
     }
@@ -172,7 +213,7 @@ export class GroupManagementCom implements OnInit {
     deleteMenber(data) {
       console.log(data);
       const menubar_id = data.id; // 被踢人id
-      const tid = this.alumniService.tid; // 群id
+      const tid = this.alumniService.groupTid; // 群id
       const uid = this.groupAdminId; // 群主id
       const id = this.groupDataId;  // 群数据id
       this.alumniService.deleteMember(
@@ -187,7 +228,7 @@ export class GroupManagementCom implements OnInit {
         }
         if (res.delmsg.error_code === 0) {
           this._message.success('删除成功');
-          this.loadData()
+          this.getMemberList()
         }
         this.delMemberSubscription.unsubscribe();
       })
@@ -215,6 +256,8 @@ export class GroupManagementCom implements OnInit {
 
     // 查看成员详情
     getDetails(data) {
+      this.detailsVisible = true;
+      this.detailsData = data;
       this.alumniService.getMemberDetails();
     }
 
@@ -244,5 +287,12 @@ export class GroupManagementCom implements OnInit {
 
     goAddMember() {
       this.router.navigate(['/index/addMember']);
+    }
+
+    memberAdmin() {
+        this.isReadOnly = true;
+    }
+    handleCancel = (e) => {
+        this.detailsVisible = false;
     }
 }

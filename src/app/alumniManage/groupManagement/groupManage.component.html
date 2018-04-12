@@ -65,7 +65,7 @@
                             {{data.custom}}
                         </td>
                         <td nz-td>
-                            <button nz-button [nzType]="'default'">
+                            <button nz-button [nzType]="'default'" style="width: 80px">
                               <nz-popconfirm [nzTitle]="'确定解散群?'"
                                              [nzOkText]="'确定'"
                                              [nzCancelText]="'取消'"
@@ -76,6 +76,9 @@
                               </nz-popconfirm>
                             </button>
                             <p style="color: #ccc;font-style: italic;">*仅群主可解散群</p>
+                            <button nz-button [nzType]="'default'" style="width: 80px">
+                              群主转让
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -131,7 +134,7 @@
                 </nz-tab>
                 <nz-tab>
                     <ng-template #nzTabHeading>
-                        成员管理
+                        <span (click)='memberAdmin()'>成员管理</span>
                     </ng-template>
                     <div>
                         <div nz-row>
@@ -174,44 +177,46 @@
                                        [(ngModel)]="memberprovinceSelected"
                                        [nzPlaceHolder]="'全部'"
                                        nzAllowClear
+                                       (ngModelChange)='provinceChange($event)'
                             >
                               <nz-option
                                 *ngFor="let item of provinceOptions"
-                                [nzLabel]="item.label"
-                                [nzValue]="item.value"
+                                [nzLabel]="item.name"
+                                [nzValue]="item.code"
                               >
                               </nz-option>
                             </nz-select>
                           </div>
-                          <div nz-col [nzSpan]="6" class="margin-10">
-                          <nz-select style="width: 75%;"
-                                     [(ngModel)]="memberareaSelected"
+                          <div nz-col [nzSpan]="4" class="margin-10">
+                            <nz-select style="width: 100%;"
+                                     [(ngModel)]="membercitySelected"
                                      [nzPlaceHolder]="'全部'"
                                      nzAllowClear
+                                     (ngModelChange)='cityChange($event)'
                           >
                             <nz-option
                               *ngFor="let item of cityOptions"
-                              [nzLabel]="item.label"
-                              [nzValue]="item.value"
+                              [nzLabel]="item.name"
+                              [nzValue]="item.code"
                             >
                             </nz-option>
                           </nz-select>
-                        </div>
-                          <div nz-col [nzSpan]="6" class="margin-10">
-                            <nz-select style="width: 75%;"
+                          </div>
+                          <div nz-col [nzSpan]="4" class="margin-10">
+                            <nz-select style="width: 100%;"
                                        [(ngModel)]="memberareaSelected"
                                        [nzPlaceHolder]="'全部'"
                                        nzAllowClear
                             >
                               <nz-option
                                 *ngFor="let item of areaOptions"
-                                [nzLabel]="item.label"
-                                [nzValue]="item.value"
+                                [nzLabel]="item.name"
+                                [nzValue]="item.code"
                               >
                               </nz-option>
                             </nz-select>
                           </div>
-                          <button nz-col [nzSpan]="2" nz-button class="margin-10">搜索</button>
+                          <button nz-col [nzSpan]="2" nz-button class="margin-10" (click)="getMemberList()">搜索</button>
                         </div>
 
                         <div>
@@ -239,7 +244,7 @@
                                 <td nz-td>
                                   <a class="a-click" (click)="getDetails(data)">查看资料</a>
                                   <a class="a-click" >
-                                    <nz-popconfirm [nzTitle]="'确定踢出群'"
+                                    <nz-popconfirm nzTitle="确定将'{{data.user_name}}'踢出群吗"
                                                    [nzOkText]="'确定'"
                                                    [nzCancelText]="'取消'"
                                                    (nzOnConfirm)="deleteMenber(data)"
@@ -272,3 +277,27 @@
         </ng-template>
     </nz-modal>
 </div>
+
+
+<nz-modal *ngIf="detailsVisible" [nzVisible]="detailsVisible" [nzTitle]="'资料详情'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleCancel($event)">
+  <ng-template #modalContent>
+    <div class="modal-details">
+      <div>
+        <img src="{{detailsData.avatar}}" alt="" style="width: 65px;height: 65px;vertical-align: middle;margin-right: 5px;">
+        {{detailsData.user_name}}
+      </div>
+      <div>
+        群名片：{{detailsData.nick}}
+      </div>
+      <div>
+        性别：{{detailsData.gender === 1 ? '男' : '女'}}
+      </div>
+      <div>
+        联系方式：{{detailsData.contact_phone}}
+      </div>
+      <div>
+        所在地：{{detailsData.province}} - {{detailsData.city}}
+      </div>
+    </div>
+  </ng-template>
+</nz-modal>

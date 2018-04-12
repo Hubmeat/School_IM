@@ -54,6 +54,23 @@ export class AMService {
             )
     }
 
+    public getareaList (code):void {
+        var formData = {
+            "type": "area",
+            "code": code
+        }
+        this.$http
+            .post(this.$HOST.host + '/util/location/get', formData)
+            .subscribe(
+                res => {
+                    this.provinceCodeSubject.next({area: res});
+                },
+                err => {
+                    this.provinceCodeSubject.next({area: err});
+                }
+            )
+    }
+
     /**
      * 校友管理模块
      */
@@ -361,7 +378,10 @@ export class AMService {
     /**
      * 群组管理，解散群，新建群
      */
-      tid: any; // 群id
+      groupTid: any; // 群id
+      groupUid: any; // 群主id
+      groupId: any; // 数据id
+
      public groupManageSubject = new Subject<any>();
 
      // list
@@ -397,10 +417,10 @@ export class AMService {
       icon
     ) {
       const formData = {
-        members: [
+        /*members: [
           1705948746940446
-        ],
-        // members: members,
+        ],*/
+        members: members,
         custom: custom,
         tname: tname,
         uid: uid,
@@ -476,7 +496,7 @@ export class AMService {
       page
     ) {
       const formData = {
-        tid: this.tid,
+        tid: this.groupTid,
         user_name: user_name,
         contact_phone: contact_phone,
         gender: gender,
@@ -550,6 +570,38 @@ export class AMService {
         .post(this.$HOST.host + '/a/group/adduserlist', formData)
         .subscribe(res => {
           this.MemberServiceSubject.next({addDataList: res})
+        })
+    }
+
+    // 提交添加成员
+    public postAddMemberList(
+      members,
+      tid,
+      uid,
+      id
+    ) {
+      const formData = {
+        members: members,
+        tid: tid,
+        uid: uid,
+        id: id
+      }
+      this.$http
+        .post(this.$HOST.host + '/a/group/adduser', formData)
+        .subscribe(res => {
+          this.MemberServiceSubject.next({postAddMember: res})
+        })
+    }
+
+  // 上传
+    public uoFileSubject = new Subject<any>()
+    public upFile(formData) {
+      // console.log(file);
+      // const formData = formData
+      this.$http
+        .post(this.$HOST.host + '/util/qiniu/upload', formData)
+        .subscribe(res => {
+          this.uoFileSubject.next({file: res})
         })
     }
 }

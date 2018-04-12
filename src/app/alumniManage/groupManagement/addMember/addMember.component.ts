@@ -49,13 +49,6 @@ export class AddMemberComponent implements OnInit {
         { value: '博士', label: '博士'}
     ];
     educationSelected = '';
-    /*// 审核状态下拉框
-    industryOptions= [
-        { value: '0', label: '全部'},
-        { value: '1', label: '正常'},
-        { value: '2', label: '已冻结'}
-    ];*/
-    // industrySelected = this.industryOptions[0].value;
 
     // 性别下拉框
     sexOptions = [
@@ -105,13 +98,15 @@ export class AddMemberComponent implements OnInit {
     ) {}
 
     ngOnInit():void {
-        // $('.two_step').hide()
-      console.log(this.alumniMgService.tid)
-      if (this.alumniMgService.tid === undefined) {
+      console.log(this.alumniMgService.groupTid)
+      if (this.alumniMgService.groupTid === undefined) {
         this.router.navigate(['/index/groupManagement'])
         return;
       }
       this.getAddMemberList();
+      this.getProvinceSelectData(); // 所在地
+      this.getCollegeSelectData() // 学院
+      this.getIndustryData(); // 行业
     }
 
     beforeUpload = (file: File) => {
@@ -126,36 +121,6 @@ export class AddMemberComponent implements OnInit {
       return isJPG && isLt2M;
     }
 
-    private getBase64(img: File, callback: (img: any) => void) {
-      const reader = new FileReader();
-      reader.addEventListener('load', () => callback(reader.result));
-      reader.readAsDataURL(img);
-    }
-
-    handleChange(info: { file: UploadFile }) {
-      if (info.file.status === 'uploading') {
-        return;
-      }
-      if (info.file.status === 'done') {
-        // Get this url from response in real world.
-        this.getBase64(info.file.originFileObj, (img: any) => {
-          this.avatarUrl = img;
-        });
-      }
-    }
-
-    nextStep():void {
-        this.nextStepFlag = false;
-        console.log('this.groupIntro', this.groupIntro)
-    }
-
-    lastStep():void {
-        this.nextStepFlag = true;
-    }
-
-    completeAdd():void {
-
-    }
 
     /**
      * 表格相关方法
@@ -164,60 +129,81 @@ export class AddMemberComponent implements OnInit {
 
     loadData() {
         this.spinShow = true;
+
     }
 
     // 获取下拉列表数据
-    getCollegeSelectData ():void {
-        this.alumniMgService.getCollegeSelectData();
-        this.alumniMgService.waitPendingOfSelectSubject.subscribe(
-            res => {
-                if (res.college) {
-                    console.log('selected data', res)
-                    if (res.college.error_code === 0) {
-                        this.collegeOptions = res.college.result;
-                    }
-                }
-            }
-        )
-
-        // 获取省市区列表内
-        this.alumniMgService.getProvinceList();
-        this.alumniMgService.provinceCodeSubject.subscribe(
-            res => {
-                if (res.province) {
-                    this.provinceOptions = res.province.result;
-                }
-            }
-        )
+    getProvinceSelectData ():void {
+      // 获取省市区列表内
+      this.alumniMgService.getProvinceList();
+      this.alumniMgService.provinceCodeSubject.subscribe(
+        res => {
+          if (res.province) {
+            this.provinceOptions = res.province.result;
+          }
+        })
     }
-
     provinceChange(provinceCode) {
-        this.alumniMgService.getCityList(provinceCode);
-        this.alumniMgService.provinceCodeSubject.subscribe(
-            res => {
-                if (res.city) {
-                    this.cityOptions = res.city.result;
-                }
-            }
-        )
+      this.alumniMgService.getCityList(provinceCode);
+      this.alumniMgService.provinceCodeSubject.subscribe(
+        res => {
+          if (res.city) {
+            this.cityOptions = res.city.result;
+          }
+        })
     }
-
+    cityChange(cityCode) {
+      this.alumniMgService.getareaList(cityCode);
+      this.alumniMgService.provinceCodeSubject.subscribe(
+        res => {
+          if (res.area) {
+            this.areaOptions = res.area.result;
+          }
+        })
+    }
+    // 学院专业
+    getCollegeSelectData ():void {
+      this.alumniMgService.getCollegeSelectData();
+      this.alumniMgService.waitPendingOfSelectSubject.subscribe(
+        res => {
+          if (res.college) {
+            console.log('selected data', res)
+            if (res.college.error_code === 0) {
+              this.collegeOptions = res.college.result;
+            }
+          }
+        }
+      )
+    }
     geMojorData (value) {
-        this.alumniMgService.getMajorSelectData(value);
-        this.alumniMgService.waitPendingOfSelectSubject.subscribe(
-            res => {
-                if (res.major) {
-                    if (res.major.error_code === 0) {
-                        this.majorOptions = res.major.result;
-                    }
-                }
+      this.alumniMgService.getMajorSelectData(value);
+      this.alumniMgService.waitPendingOfSelectSubject.subscribe(
+        res => {
+          if (res.major) {
+            if (res.major.error_code === 0) {
+              this.majorOptions = res.major.result;
             }
-        )
+          }
+        }
+      )
+    }
+    collegeChange (value) {
+      this.geMojorData(this.collegeSelected)
+    }
+    // 行业
+    getIndustryData():void {
+      this.alumniMgService.getIndustryList();
+      this.alumniMgService.industrySubject.subscribe(
+        res => {
+          if (res.error_code === 0) {
+            this.industryOptions = res.result;
+          } else {
+            this.industryOptions = [];
+          }
+        }
+      )
     }
 
-    collegeChange (value) {
-        this.geMojorData(this.collegeSelected)
-    }
     // 搜索、分页方法
 
     currentPageChange (currentPage) {
@@ -300,7 +286,31 @@ export class AddMemberComponent implements OnInit {
 
     // 添加提交
     submitAddMember() {
-
+      const addList = this.addMemberListcheckedList;
+      if (addList.length < 1) {
+        this.msg.warning('至少选择一位成员');
+        return;
+      } else {
+        for (let i in addList) {
+          addList[i] = addList[i].id;
+        }
+      }
+      this.alumniMgService.postAddMemberList(
+        addList,
+        this.alumniMgService.groupTid,
+        this.alumniMgService.groupUid,
+        this.alumniMgService.groupId,
+      )
+      this.alumniMgService.MemberServiceSubject.subscribe(res => {
+         if (res.postAddMember) {
+           if (res.postAddMember.error_code === 0) {
+             this.msg.success('添加成功');
+             this.goback();
+           } else {
+             this.msg.warning(res.postAddMember.error_msg || '添加未成功')
+           }
+         }
+      })
     }
 
     // 获取可添加成员列表
@@ -309,7 +319,7 @@ export class AddMemberComponent implements OnInit {
       this._indeterminate = false;
       this.addMemberListcheckedList = [];
       this.alumniMgService.getAddMemberDataList(
-        this.alumniMgService.tid,
+        this.alumniMgService.groupTid,
         this.educationSelected,
         this.currentPage,
         this.majorSelected,
