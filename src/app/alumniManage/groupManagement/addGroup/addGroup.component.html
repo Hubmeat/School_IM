@@ -99,7 +99,7 @@
                                         <span>
                                             姓名：
                                         </span>
-                                        <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="userName" [nzPlaceHolder]="'Basic usage'"></nz-input>
+                                        <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="groupUserName" [nzPlaceHolder]="'Basic usage'"></nz-input>
                                     </div>
                                     <div class="phone">
                                         <span>
@@ -170,7 +170,7 @@
                             </div>
                             <!-- 搜索 -->
                             <div class="search">
-                                <button nz-button (click)='handlerSearch()' [nzType]="'primary'">
+                                <button nz-button (click)='getAddMemberList()' [nzType]="'primary'">
                                     <span>搜索</span>
                                 </button>
                             </div>
@@ -180,78 +180,43 @@
                         <!-- 表格 -->
                         <div class="schoolfellow_table">
                             <div class="table">
-                                <nz-table #nzTable [nzDataSource]="data" [nzBordered]="borderShow" [nzLoading]="spinShow" [nzIsPagination]="false">
-                                    <thead nz-thead>
-                                        <tr>
-                                            <th nz-th nzCheckbox>
-                                                <label nz-checkbox [(ngModel)]="_allChecked" [nzIndeterminate]="_indeterminate" (ngModelChange)="_checkAll($event)">
-                                                </label>
-                                            </th>
-                                            <th nz-th>
-                                                <span>注册时间</span>
-                                            </th>
-                                            <th nz-th>
-                                                <span>姓名</span>
-                                            </th>
-                                            <th nz-th>
-                                                <span>手机</span>
-                                            </th>
-                                            <th nz-th>
-                                                <span>性别</span>
-                                            </th>
-                                            <th nz-th>
-                                                <span>入学时间</span>
-                                            </th>
-                                            <th nz-th>
-                                                <span>学院</span>
-                                            </th>
-                                            <th nz-th>
-                                                <span>专业</span>
-                                            </th>
-                                            <th nz-th>
-                                                <span>学历</span>
-                                            </th>
-                                            <th nz-th>
-                                                <span>所在地</span>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody nz-tbody>
-                                        <tr nz-tbody-tr *ngFor="let data of nzTable.data">
-                                            <td nz-td nzCheckbox>
-                                                <label nz-checkbox (ngModelChange)="_refreshStatus($event)">
-                                                </label>
-                                            </td>
-                                            <td nz-td>
-                                                {{data.created_at}}
-                                            </td>
-                                            <td nz-td>
-                                                {{data.user_name}}
-                                            </td>
-                                            <td nz-td>
-                                                {{data.contact_phone}}
-                                            </td>
-                                            <td nz-td>
-                                                {{data.gender === 1?'男':[data.gender === 2?'女':'未知']}}
-                                            </td>
-                                            <td nz-td>
-                                                {{data.academic_starts}}
-                                            </td>
-                                            <td nz-td>
-                                                {{data.academy}}
-                                            </td>
-                                            <td nz-td>
-                                                {{data.profession}}
-                                            </td>
-                                            <td nz-td>
-                                                {{data.education}}
-                                            </td>
-                                            <td nz-td>
-                                                {{data.province}} {{data.city}}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </nz-table>
+
+                              <nz-table #nzTable [nzDataSource]="addMemberList" [nzPageSize]="100" (nzDataChange)="_displayDataChange($event)" nz-col [nzSpan]="18">
+                                <thead nz-thead>
+                                <tr>
+                                  <th nz-th nzCheckbox>
+                                    <label nz-checkbox [(ngModel)]="_allChecked" [nzIndeterminate]="_indeterminate" (ngModelChange)="_checkAll($event)">
+                                    </label>
+                                  </th>
+                                  <th nz-th><span>注册时间</span></th>
+                                  <th nz-th><span>姓名</span></th>
+                                  <th nz-th><span>手机</span></th>
+                                  <th nz-th><span>性别</span></th>
+                                  <th nz-th><span>入学时间</span></th>
+                                  <th nz-th><span>学院</span></th>
+                                  <th nz-th><span>专业</span></th>
+                                  <th nz-th><span>学历</span></th>
+                                  <th nz-th><span>所在地</span></th>
+                                </tr>
+                                </thead>
+                                <tbody nz-tbody>
+                                <tr nz-tbody-tr *ngFor="let data of nzTable.data;let index = index">
+                                  <td nz-td nzCheckbox>
+                                    <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="_refreshStatus(data, index)">
+                                    </label>
+                                  </td>
+                                  <td nz-td>{{data.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                  <td nz-td>{{data.user_name}}</td>
+                                  <td nz-td>{{data.contact_phone}}</td>
+                                  <td nz-td>{{data.gender === 1 ? '男' : '女'}}</td>
+                                  <td nz-td>{{data.academic_starts}}</td>
+                                  <td nz-td>{{data.academy}}</td>
+                                  <td nz-td>{{data.profession}}</td>
+                                  <td nz-td>{{data.education}}</td>
+                                  <td nz-td>{{data.province}}-{{data.city}}</td>
+                                </tr>
+                                </tbody>
+                              </nz-table>
                             </div>
                             <div class="page" *ngIf="data.length > 0">
                                 <nz-pagination [nzPageIndex]="currentPage" [nzPageSize]='15' [nzTotal]="totalPage" (nzPageIndexClickChange)='currentPageChange($event)'
@@ -261,15 +226,15 @@
 
                         </div>
                 </div>
-                <div style="border: 1px solid #ccc; min-height: 500px; overflow-y: scroll;" nz-col [nzSpan]='4'>
-                    <p nz-row style="height: 30px; line-height: 30px;">
-                        <span nz-col [nzSpan]='4'>
-                            <img src="" alt="" style="display: block; width: 20px;" />
-                        </span>
-                        <span nz-col [nzSpan]='19'>张三 12123123123</span>
-                        <span nz-col [nzSpan]='1'>x</span>
-                    </p>
-                </div>
+              <div nz-col [nzSpan]="4" class="card_div">
+                <ul>
+                  <li class="card-head">已选成员</li>
+                  <li class="card-body" *ngFor="let item of addMemberListcheckedList;let index = index">
+                    <img src="{{item.url}}" alt="">{{index + 1}} - {{item.user_name}} - {{item.contact_phone}}
+                    <button nz-button (click)="deleteItem(index, item)" style="float: right">X</button>
+                  </li>
+                </ul>
+              </div>
             </div>
             <div nz-row style="margin-top: 20px;">
                 <div nz-col [nzSpan]="12" [nzOffset]="6" style="text-align: center;">

@@ -32,6 +32,7 @@ export class AddGroupCom implements OnInit {
 
     // 搜索数据
     userName:string = '';
+    groupUserName: string = ''; // 姓名
     IDcard:string = '';
     phone:string = '';
 
@@ -50,19 +51,21 @@ export class AddGroupCom implements OnInit {
         { value: '博士', label: '博士'}
     ];
     educationSelected = '';
-    // 审核状态下拉框
+    /*// 审核状态下拉框
     industryOptions= [
         { value: '0', label: '全部'},
         { value: '1', label: '正常'},
         { value: '2', label: '已冻结'}
     ];
-    industrySelected = this.industryOptions[0].value;
+    industrySelected = this.industryOptions[0].value;*/
+    industryOptions = [];
+    industrySelected: any;
 
     // 性别下拉框
     sexOptions = [
-        { value: '0', label: '全部'},
-        { value: '1', label: '男'},
-        { value: '2', label: '女'}
+        { value: 0, label: '全部'},
+        { value: 1, label: '男'},
+        { value: 2, label: '女'}
     ]
     sexSelected = this.sexOptions[0].value;
 
@@ -93,8 +96,14 @@ export class AddGroupCom implements OnInit {
 
     file: any;
     fileType: any = 'image';
+    addMemberList = [];
+    groupPhone
+  addMemberListcheckedList = []
+  tid = null;
+  fileList = [];
 
     addSubscription: Subscription;
+  upImgSubscription: Subscription;
 
 
     constructor(
@@ -103,49 +112,62 @@ export class AddGroupCom implements OnInit {
         private msg: NzMessageService
     ) {}
 
-    ngOnInit():void {
-        // $('.two_step').hide()
+    ngOnInit(): void {
+      this.getProvinceSelectData(); // 所在地
+      this.getCollegeSelectData(); // 学院
+      this.getIndustryData(); // 行业
     }
 
-    beforeUpload = (file: File) => {
-      this.file = file;
-      const isJPG = file.type === 'image/jpeg';
-      if (isJPG) {
-        this.fileType = 'image';
-      }else {
-        this.fileType = 'file';
+  // 上传
+  beforeUpload = (file: UploadFile) => {
+    this.fileList.push(file);
+    const formData = new FormData();
+    this.fileList.forEach((file: any) => {
+      console.log(file)
+      formData.append('type', 'image');
+      formData.append('file', file);
+    });
+    this.alumniMgService.upFile(formData);
+    this.upImgSubscription = this.alumniMgService.uoFileSubject.subscribe(res => {
+      console.log(res);
+      if (!res.error_code) {
+        this.avatarUrl = res.file.original_pic;
+        // this.live_pic = res.file.original_pic;
+      } else {
+        this.fileList = [];
       }
-      if (!isJPG) {
-        this.msg.error('You can only upload JPG file!');
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        this.msg.error('Image must smaller than 2MB!');
-      }
-      return isJPG && isLt2M;
-    }
+      this.upImgSubscription.unsubscribe();
+    })
+  }
 
-    private getBase64(img: File, callback: (img: any) => void) {
-      const reader = new FileReader();
-      reader.addEventListener('load', () => callback(reader.result));
-      reader.readAsDataURL(img);
+  handleChange(info: { file: UploadFile }) {
+    const file = info.file;
+    console.log(file)
+    const isJPG = file.type === 'image/jpeg';
+    if (isJPG) {
+      this.fileType = 'image';
+    }else {
+      this.fileType = 'file';
     }
-
-    handleChange(info: { file: UploadFile }) {
-      if (info.file.status === 'uploading') {
-        return;
-      }
-      if (info.file.status === 'done') {
-        // Get this url from response in real world.
-        this.getBase64(info.file.originFileObj, (img: any) => {
-          this.avatarUrl = img;
-        });
-      }
+    if (!isJPG) {
+      this.msg.error('You can only upload JPG file!');
+      this.fileList = [];
     }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      this.msg.error('Image must smaller than 2MB!');
+      this.fileList = [];
+    }
+    return isJPG && isLt2M;
+  }
 
     nextStep():void {
-        this.nextStepFlag = false;
-        console.log('this.groupIntro', this.groupIntro)
+      if (this.groupName === '') {
+        this.msg.warning('群名称为空');
+        return;
+      }
+      this.nextStepFlag = false;
+      this.getAddMemberList();
     }
 
     lastStep():void {
@@ -153,8 +175,14 @@ export class AddGroupCom implements OnInit {
     }
 
     completeAdd(): void {
+      const addList = this.addMemberListcheckedList;
+      if (addList.length > 0) {
+        for (let i in addList) {
+          addList[i] = addList[i].id;
+        }
+      }
       this.alumniMgService.postAddGroup(
-        this.members,
+        addList,
         this.groupRemark,
         this.groupName,
         this.uid,
@@ -183,56 +211,75 @@ export class AddGroupCom implements OnInit {
     }
 
     // 获取下拉列表数据
-    getCollegeSelectData ():void {
-        this.alumniMgService.getCollegeSelectData();
-        this.alumniMgService.waitPendingOfSelectSubject.subscribe(
-            res => {
-                if (res.college) {
-                    console.log('selected data', res)
-                    if (res.college.error_code === 0) {
-                        this.collegeOptions = res.college.result;
-                    }
-                }
-            }
-        )
-
-        // 获取省市区列表内
-        this.alumniMgService.getProvinceList();
-        this.alumniMgService.provinceCodeSubject.subscribe(
-            res => {
-                if (res.province) {
-                    this.provinceOptions = res.province.result;
-                }
-            }
-        )
+    getProvinceSelectData ():void {
+      // 获取省市区列表内
+      this.alumniMgService.getProvinceList();
+      this.alumniMgService.provinceCodeSubject.subscribe(
+        res => {
+          if (res.province) {
+            this.provinceOptions = res.province.result;
+          }
+        })
     }
-
     provinceChange(provinceCode) {
-        this.alumniMgService.getCityList(provinceCode);
-        this.alumniMgService.provinceCodeSubject.subscribe(
-            res => {
-                if (res.city) {
-                    this.cityOptions = res.city.result;
-                }
-            }
-        )
+      this.alumniMgService.getCityList(provinceCode);
+      this.alumniMgService.provinceCodeSubject.subscribe(
+        res => {
+          if (res.city) {
+            this.cityOptions = res.city.result;
+          }
+        })
     }
-
+    cityChange(cityCode) {
+      this.alumniMgService.getareaList(cityCode);
+      this.alumniMgService.provinceCodeSubject.subscribe(
+        res => {
+          if (res.area) {
+            this.areaOptions = res.area.result;
+          }
+        })
+    }
+    // 学院专业
+    getCollegeSelectData ():void {
+      this.alumniMgService.getCollegeSelectData();
+      this.alumniMgService.waitPendingOfSelectSubject.subscribe(
+        res => {
+          if (res.college) {
+            console.log('selected data', res)
+            if (res.college.error_code === 0) {
+              this.collegeOptions = res.college.result;
+            }
+          }
+        }
+      )
+    }
     geMojorData (value) {
-        this.alumniMgService.getMajorSelectData(value);
-        this.alumniMgService.waitPendingOfSelectSubject.subscribe(
-            res => {
-                if (res.major) {
-                    if (res.major.error_code === 0) {
-                        this.majorOptions = res.major.result;
-                    }
-                }
+      this.alumniMgService.getMajorSelectData(value);
+      this.alumniMgService.waitPendingOfSelectSubject.subscribe(
+        res => {
+          if (res.major) {
+            if (res.major.error_code === 0) {
+              this.majorOptions = res.major.result;
             }
-        )
+          }
+        }
+      )
     }
-
     collegeChange (value) {
-        this.geMojorData(this.collegeSelected)
+      this.geMojorData(this.collegeSelected)
+    }
+    // 行业
+    getIndustryData():void {
+      this.alumniMgService.getIndustryList();
+      this.alumniMgService.industrySubject.subscribe(
+        res => {
+          if (res.error_code === 0) {
+            this.industryOptions = res.result;
+          } else {
+            this.industryOptions = [];
+          }
+        }
+      )
     }
     // 搜索、分页方法
 
@@ -246,30 +293,98 @@ export class AddGroupCom implements OnInit {
         this.loadData()
     }
 
-    _displayDataChange($event) {
-        this._displayData = $event;
-        this._refreshStatus();
-      }
+  _displayDataChange($event) {
+    this._displayData = $event;
+    console.log($event)
+    // this._refreshStatus();
+  }
 
-    _refreshStatus() {
-    const allChecked = this._displayData.every(value => value.checked === true);
-    const allUnChecked = this._displayData.every(value => !value.checked);
-    this._allChecked = allChecked;
-    this._indeterminate = (!allChecked) && (!allUnChecked);
+    _refreshStatus(data, index) {
+      const arrList = this.addMemberList;
+      const allChecked = this._displayData.every(value => value.checked === true);
+      const allUnChecked = this._displayData.every(value => !value.checked);
+      this._allChecked = allChecked;
+      this._indeterminate = (!allChecked) && (!allUnChecked);
+
+      if (data.checked) {
+        this.addMemberListcheckedList.push(data);
+        this.addMemberListcheckedList = Array.from(new Set(this.addMemberListcheckedList)); // 去重
+      } else {
+        // for (let i in this.transferOptions) {
+        for (let i = 0; i < this.addMemberListcheckedList.length; i++) {
+          if (this.addMemberListcheckedList[i] === data) {
+            this.addMemberListcheckedList.splice(i, 1)
+          }
+        }
+      }
     }
 
     _checkAll(value) {
-        if (value) {
-            this._displayData.forEach(data => {
-            data.checked = true;
-            });
-        } else {
-            this._displayData.forEach(data => {
-            data.checked = false;
-            });
-        }
-        this._refreshStatus();
+      if (value) {
+        this.addMemberListcheckedList = [];
+        this._displayData.forEach(data => {
+          data.checked = true;
+          this._allChecked = value;
+          this.addMemberListcheckedList.push(data);
+        });
+      } else {
+        this._displayData.forEach(data => {
+          data.checked = false;
+          this._allChecked = value;
+          this.addMemberListcheckedList.splice(0, 1);
+        });
+      }
+      this._indeterminate = false
     }
+  deleteItem(index, item) {
+    this.addMemberListcheckedList.splice(index, 1);
+    for (let i in this.addMemberList) {
+      if (this.addMemberList[i] === item) {
+        this.addMemberList[i].checked = false;
+        break;
+      }
+    }
+    // this.addMemberList[index].checked = false;
+    this._displayData.forEach(data => {
+      if (data.checked === true) {
+        this._indeterminate = true;
+      } else {
+        this._allChecked = false;
+        this._indeterminate = false;
+      }
+    })
+  }
+  // 获取可添加成员列表
+  getAddMemberList() {
+    this._allChecked = false;
+    this._indeterminate = false;
+    this.addMemberListcheckedList = [];
+    this.alumniMgService.getAddMemberDataList(
+      this.tid,
+      this.educationSelected,
+      this.currentPage,
+      this.majorSelected,
+      this.collegeSelected,
+      this.joinBeginTime,
+      this.joinEndrTime,
+      this.groupUserName,
+      this.groupPhone,
+      this.provinceSelected,
+      this.citySelectde,
+      this.areaSelected,
+      this.sexSelected,
+      this.nationSelected,
+      this.industrySelected
+    )
+    this.alumniMgService.MemberServiceSubject.subscribe(res => {
+      if (res.addDataList) {
+        console.log(res);
+        this.addMemberList = res.addDataList.result;
+      }
+
+    })
+  }
+
     goback() {
         this.router.navigate(['/index/groupManagement']);
     }

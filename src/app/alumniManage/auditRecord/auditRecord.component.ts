@@ -102,7 +102,7 @@ export class AuditRecordCom implements OnInit {
                 console.log('this is 订阅的数据', res)
                 if (res.error_code === 0) {
                     this.data = res.result;
-                    this.totalPage = res.total_count;                    
+                    this.totalPage = res.total_count;
                 } else {
                     this.data = [];
                     this.totalPage = 0;
