@@ -8,7 +8,7 @@ import {Md5} from 'ts-md5/dist/md5';
 @Component({selector: 'contactAdmin-component', templateUrl: './contactAdmin.component.html', styleUrls: ['./contactAdmin.component.less']})
 
 export class ContactAdminComponent implements OnInit {
-  dataList = [];
+  dataList = '';
   schoolName = '';
   isVisible = false;
   isVisible1 = false;
@@ -20,38 +20,39 @@ export class ContactAdminComponent implements OnInit {
 
   academy_name : string = ''; // 学院名
   msg : string = '';
+
+  chatListNim:any;
   Nm:any;
+
+  // 当前沟通对象
+  chatId = '';
+
+  // 发送的消息
+  sendMsg: '';
+
+  // 消息记录
+  msgList = []
 
 
   constructor(
     private service : ContactAdminService,
     private _message : NzMessageService,
     private router : Router) {}
+
   ngOnInit() {
-    this.dataList = [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      0
-    ];
-    this.loadData()
+    this.getNIMConfig();
   }
-  loadData () {
+  getNIMConfig () {
     this.service.getChatData();
     this.service.chatDataSubject.subscribe(
     res => {
-      console.log('res', res)
       var token = Md5.hashStr(res.result.id.toString());
       var account = res.result.id;
+      // 初始化聊天对象account
+      this.chatId = account;
       setTimeout( () => {      
         this.initChat(account.toString(), token);
-      }, 7000)
+      }, 300)
       // this.initChat(account, token);
 
     })
@@ -61,31 +62,31 @@ export class ContactAdminComponent implements OnInit {
    * 初始化聊天室，新建连接   ==================================================================================>
    */
   initChat (account, token) {
+    var that = this;
     console.log('account', account);
     console.log('token', token);
     var data = {};
     // 注意这里, 引入的 SDK 文件不一样的话, 你可能需要使用 SDK.NIM.getInstance 来调用接口
-    var nim = NIM.getInstance({
-      debug: true,
+    this.Nm = SDK.NIM.getInstance({
+      debug: false,
       appKey: "ff5c5a21d8269d4afddfc7b1a2f40027",
       account: account,
       token: token,
       onconnect: function (res) {
         console.log(res)
-        alert('success')
+        console.log('success')
         // debugger
-        alert('连接成功');
-        return
+        console.log('连接成功');
       },
-      onwillreconnect:  function(obj) {
+      onwillreconnect: function(obj) {
         console.log('obj',obj);
-        alert('即将重连');
+        console.log('即将重连');
         // console.log(obj.retryCount);
         // console.log(obj.duration);
       },
       ondisconnect: function (error) {
-        alert('丢失连接');
-        alert(error);
+        console.log('丢失连接');
+        console.log(error);
         // if (error) {
         //   switch (error.code) {
         //     // 账号或者密码错误, 请跳转到登录页面并提示错误
@@ -104,52 +105,35 @@ export class ContactAdminComponent implements OnInit {
       },
       onerror: function (error) {
         console.log(error);
-      },  
+      },
+      onroamingmsgs: function (obj) {
+        console.log('收到漫游消息', obj);
+        that.pushMsg(obj.msgs);
+      },
+      onofflinemsgs: function (obj) {
+          console.log('收到离线消息', obj);
+          that.pushMsg(obj.msgs);
+      },
+      onmsg: function onMsg(msg) {
+          console.log('收到消息', msg.scene, msg.type, msg);
+          that.pushMsg(msg.text);
+      },
+      onsessions: function (sessions) {
+          console.log('收到会话列表', sessions);
+          that.dataList = sessions;
+          // sessions = this.chatListNim.mergeSessions(sessions, sessions);
+          // that.updateSessionsUI();
+      },
+      onupdatesession: function (session) {
+          console.log('会话更新了', session);
+          // session = this.chatListNim.mergeSessions(session, session);
+          // that.updateSessionsUI();
+      }
       // onmsg: function (msg) {
       //   console.log('msg',msg)
       //   // 此处为委托消息事件，消息发送成功后，成功消息也在此处处理
       // }
     });
-    this.Nm = nim;
-    console.log('nim', nim)
-    // this.changeChatObject(account, token)
-  }
-
-  onConnect() {
-    alert('success')
-    // this.Nm.connect();
-    alert('连接成功');
-  }
-
-  onWillReconnect(obj) {
-    console.log('obj',obj);
-    alert('即将重连');
-    // console.log(obj.retryCount);
-    // console.log(obj.duration);
-  }
-
-  onDisconnect(error) {
-    alert('丢失连接');
-    alert(error);
-    // if (error) {
-    //   switch (error.code) {
-    //     // 账号或者密码错误, 请跳转到登录页面并提示错误
-    //     case 302:
-    //       break;
-    //     // 重复登录, 已经在其它端登录了, 请跳转到登录页面并提示错误
-    //     case 417:
-    //       break;
-    //     // 被踢, 请提示错误后跳转到登录页面
-    //     case 'kicked':
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    // }
-  }
-
-  onError(error) {
-    console.log(error);
   }
 
   /**
@@ -161,13 +145,18 @@ export class ContactAdminComponent implements OnInit {
    * 切换聊天对象方法
    */
 
-   changeChatObject (account, token) {
-      var nim1 = NIM.getInstance({
+   changeChatObject (item) {
+     console.log('item', item)
+     var token = Md5.hashStr(item.to.toString());
+     var account = item.to.toString();
+    //  改变聊天对象account
+     this.chatId = account;
+
+      var nim1 = SDK.NIM.getInstance({
         appKey: 'ff5c5a21d8269d4afddfc7b1a2f40027',
         token: token,
         account: account
       })
-      console.log('nim1', nim1)
       // 断开 IM
       nim1.disconnect();
       // 更新 token
@@ -176,7 +165,7 @@ export class ContactAdminComponent implements OnInit {
       });
       // 重新连接
       nim1.connect();
-   }
+  }
 
 
    /**
@@ -184,39 +173,49 @@ export class ContactAdminComponent implements OnInit {
     */
 
     chatHandler () {
-      var nim = NIM.getInstance({
-        onroamingmsgs: this.onRoamingMsgs,
-        onofflinemsgs: this.onOfflineMsgs,
-        onmsg: this.onMsg
+      var that = this;
+      this.Nm.getInstance({
+        onroamingmsgs: function onRoamingMsgs(obj) {
+          console.log('收到漫游消息', obj);
+          that.pushMsg(obj.msgs);
+        },
+        onofflinemsgs: function onOfflineMsgs(obj) {
+            console.log('收到离线消息', obj);
+            that.pushMsg(obj.msgs);
+        },
+        onmsg: function onMsg(msg) {
+            console.log('收到消息', msg);
+            that.pushMsg(msg);
+            // switch (msg.type) {
+            // case 'custom':
+            //     this.onCustomMsg(msg);
+            //     break;
+            // case 'notification':
+            //     // 处理群通知消息
+            //     break;
+            // // 其它case
+            // default:
+            //     break;
+            // }
+        },
+        onsessions: function onSessions(sessions) {
+            console.log('收到会话列表', sessions);
+            // sessions = this.chatListNim.mergeSessions(sessions, sessions);
+            // that.updateSessionsUI();
+        },
+        onupdatesession: function onUpdateSession(session) {
+            console.log('会话更新了', session);
+            // session = this.chatListNim.mergeSessions(session, session);
+            // that.updateSessionsUI();
+        }
       });
     }
 
-    onRoamingMsgs(obj) {
-        console.log('收到漫游消息', obj);
-        this.pushMsg(obj.msgs);
-    }
-    onOfflineMsgs(obj) {
-        console.log('收到离线消息', obj);
-        this.pushMsg(obj.msgs);
-    }
-    onMsg(msg) {
-        console.log('收到消息', msg.scene, msg.type, msg);
-        this.pushMsg(msg);
-        switch (msg.type) {
-        case 'custom':
-            this.onCustomMsg(msg);
-            break;
-        case 'notification':
-            // 处理群通知消息
-            break;
-        // 其它case
-        default:
-            break;
-        }
-    }
+
 
     pushMsg(msgs) {
       console.log('msgs', msgs)
+      this.msgList.push(msgs);
         // if (!Array.isArray(msgs)) { msgs = [msgs]; }
         // var sessionId = msg[0].scene + '-' + msgs[0].account;
         // data.msgs = data.msgs || {};
@@ -226,4 +225,46 @@ export class ContactAdminComponent implements OnInit {
     onCustomMsg(msg) {
         // 处理自定义消息
     }
+
+    /**
+     * 发送消息
+     */
+    sendMessage(info):void {
+      var that = this;
+      var msg = this.Nm.sendText({
+        scene: 'p2p',
+        to:  this.chatId,
+        text: info,
+        done: function sendMsgDone(error, msg) {
+          console.log(error);
+          console.log(msg);
+          console.log('发送' + msg.scene + ' ' + msg.type + '消息' + (!error?'成功':'失败') + ', id=' + msg.idClient);
+          that.pushMsg(msg.text);
+        }
+      });
+    }
+
+    /**
+     * 获取会话列表
+     */
+    getChatList () {
+      var that = this;
+      console.log('conime')
+      this.Nm.getInstance({
+        onsessions: function onSessions(sessions) {
+            console.log('收到会话列表', sessions);
+            sessions = this.chatListNim.mergeSessions(sessions, sessions);
+            that.updateSessionsUI();
+        },
+        onupdatesession: function onUpdateSession(session) {
+            console.log('会话更新了', session);
+            session = this.chatListNim.mergeSessions(session, session);
+            that.updateSessionsUI();
+        }
+      });
+    }
+    updateSessionsUI() {
+        // 刷新界面
+    }
+    
 }
