@@ -1,7 +1,7 @@
 <div id="contactAdmin" nz-row>
   <div class="contact-list" nz-col [nzSpan]="8">
     <ul>
-      <li>联系人列表</li>
+      <li>系统管理员</li>
       <li *ngFor="let item of dataList" (click)='changeChatObject(item)' style="cursor: pointer;">
         {{item.id}}
       </li>
@@ -11,10 +11,9 @@
     <p *ngFor='let item of msgList'>
       {{item}}
     </p>
-
+    <input type="text" [(ngModel)] = 'sendMsg'>
+    <button (click)='sendMessage(sendMsg)'>
+      发送
+    </button>
   </div>
-  <input type="text" [(ngModel)] = 'sendMsg'>
-  <button (click)='sendMessage(sendMsg)'>
-    发送
-  </button>
 </div>

@@ -120,9 +120,9 @@ export class ContactAdminComponent implements OnInit {
       },
       onsessions: function (sessions) {
           console.log('收到会话列表', sessions);
-          that.dataList = sessions;
+          // that.dataList = sessions;
           // sessions = this.chatListNim.mergeSessions(sessions, sessions);
-          // that.updateSessionsUI();
+          that.updateSessionsUI(sessions);
       },
       onupdatesession: function (session) {
           console.log('会话更新了', session);
@@ -254,17 +254,18 @@ export class ContactAdminComponent implements OnInit {
         onsessions: function onSessions(sessions) {
             console.log('收到会话列表', sessions);
             sessions = this.chatListNim.mergeSessions(sessions, sessions);
-            that.updateSessionsUI();
+            // that.updateSessionsUI();
         },
         onupdatesession: function onUpdateSession(session) {
             console.log('会话更新了', session);
             session = this.chatListNim.mergeSessions(session, session);
-            that.updateSessionsUI();
+            // that.updateSessionsUI();
         }
       });
     }
-    updateSessionsUI() {
+    updateSessionsUI(res) {
         // 刷新界面
+        this.dataList = res;
     }
     
 }
