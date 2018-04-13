@@ -18,19 +18,30 @@ export class AddNewUserComponent implements OnInit  {
   UserPhone: string = '';
   initPassword: string = '';
   confirmPassword: string = '';
+  editId;
+  editState;
+  editFlag: boolean = false;
   radioValue: number;
   msg: string;
   addSubscription: Subscription;
+  editSubscription: Subscription;
 
   constructor(
     private router: Router,
     private _message: NzMessageService,
-    private servive: SystemSetupService
+    private service: SystemSetupService
   ) {
 
   }
   ngOnInit() {
     this.radioValue = 1; // 默认帐号状态 ‘可用’
+    if (this.service.editFlag) {
+      this.editFlag = this.service.editFlag;
+      this.UserName = this.service.editData.username;
+      this.UserPhone = this.service.editData.contact_phone;
+      this.editId = this.service.editData.id;
+      this.radioValue = this.service.editData.state;
+    }
   }
   goback(): void {
     this.router.navigate(['/index/accountManagement'])
@@ -66,13 +77,13 @@ export class AddNewUserComponent implements OnInit  {
 
     if (flag) {
       this.msg = '';
-      this.servive.addNewUser(
+      this.service.addNewUser(
         this.UserPhone,
         this.initPassword,
         this.UserName,
         this.radioValue
       )
-      this.addSubscription = this.servive.SystemAddNewUserSubject.subscribe(res => {
+      this.addSubscription = this.service.SystemAddNewUserSubject.subscribe(res => {
         console.log(res);
         if (res.addUser === undefined) {
           return;
@@ -87,5 +98,20 @@ export class AddNewUserComponent implements OnInit  {
         }
       })
     }
+  }
+
+  editData() {
+    this.service.userUpData(
+      this.editId,
+      this.UserName,
+      this.radioValue
+    )
+    this.editSubscription = this.service.SystemUpDataSubject.subscribe(res => {
+      console.log(res);
+      if (res.error_code === 0) {
+        this._message.success('编辑完成');
+      }
+      this.editSubscription.unsubscribe();
+    })
   }
 }

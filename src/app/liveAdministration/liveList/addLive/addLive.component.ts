@@ -15,7 +15,8 @@ import {Subscription} from 'rxjs/Subscription'
 
 export class AddLiveComponent implements OnInit  {
   live_title: string = '';
-  live_person: string = '';
+  live_person: any;
+  postLive_person: string = ''; // 提交直播人姓名
   video_url: string = '';
   avatarUrl: string;
   video_type: number = 1;
@@ -27,6 +28,8 @@ export class AddLiveComponent implements OnInit  {
   editSubscription: Subscription; // 编辑
   upImgSubscription: Subscription; // 上传
   fileList: any = [];
+  live_personOptions: any = []; // 直播人搜索列表
+  showpersonList: boolean = false
 
   id;
   live_time;
@@ -42,6 +45,7 @@ export class AddLiveComponent implements OnInit  {
     private router: Router
   ) {}
   ngOnInit() {
+    this.getLive_personsList(this.live_person);
     this.editFlag = this.service.editFlag;
     if (!this.editFlag) {
 
@@ -60,6 +64,34 @@ export class AddLiveComponent implements OnInit  {
       this.video_url = this.editData.video_url;
       this.video_type = this.editData.video_type;
     }
+  }
+
+  searchChange(event) {
+    this.getLive_personsList(event)
+    window.setTimeout(() => {
+      this.showpersonList = true;
+      if (this.live_person === '') {
+        this.showpersonList = false;
+      }
+    }, 500)
+    this.live_person = event
+
+  }
+  selectUserNmae(data) {
+    this.live_person = data.user_name;
+    this.showpersonList = false
+
+  }
+  // 获取直播人list
+  getLive_personsList(son) {
+      this.service.getLivePersonsList(son);
+      this.service.LiveServiceSubject.subscribe(res => {
+        if (res.personList) {
+          if (res.personList.error_code === 0) {
+            this.live_personOptions = res.personList.result;
+          }
+        }
+      })
   }
 
   goback() {

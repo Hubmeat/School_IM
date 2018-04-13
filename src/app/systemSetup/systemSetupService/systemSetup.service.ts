@@ -75,7 +75,13 @@ export class SystemSetupService {
         })
     }
 
-
+    public editData: any = {
+      id: null,
+      username: null,
+      state: null,
+      contact_phone: null
+    }
+    public editFlag = false;
     public SystemUpDataSubject = new Subject<any>();
     // 编辑
     public userUpData(id, username, state) {

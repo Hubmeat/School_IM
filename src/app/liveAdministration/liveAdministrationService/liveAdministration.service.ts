@@ -200,4 +200,14 @@ export class LiveAdministrationService {
           this.LivePreSubject.next({file: res})
         })
     }
+    public getLivePersonsList(searchParam) {
+      const formData = {
+        searchParam: searchParam
+      }
+      this.$http
+        .post(this.$HOST.host + '/a/live/userlist', formData)
+        .subscribe(res => {
+          this.LiveServiceSubject.next({personList: res})
+        })
+    }
 }

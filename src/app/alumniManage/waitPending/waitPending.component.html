@@ -1,8 +1,8 @@
 <div id="waitPendingContent">
-  <div class="waitPending_head"  nz-row>
+  <div class="waitPending_head"  >
     <!-- 查询时间段 -->
-    <div class="timeSelect_area" nz-col [nzSpan]='8'>
-        <div class="register">
+    <div class="timeSelect_area"nz-row>
+        <div class="register" nz-col [nzSpan]='11'>
             <span>
                 注册时间：
             </span>
@@ -10,7 +10,7 @@
             <span>至</span>
             <nz-datepicker [(ngModel)]="registeEndrTime" nzShowTime [nzPlaceHolder]="'选择结束时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
         </div>
-        <div class="joinSchool">
+        <div class="joinSchool" nz-col [nzSpan]='11'>
             <span>
                 入学时间：
             </span>
@@ -20,29 +20,29 @@
         </div>
     </div>
     <!-- 查询条件、下拉框 -->
-    <div class="conditionSelect_area" nz-col [nzSpan]='14'>
+    <div class="conditionSelect_area"nz-row>
       <div class="top">
-          <div class="name">
+          <div class="name" nz-col [nzSpan]='6'>
             <span>
                 姓名：
             </span>
             <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="userName" [nzPlaceHolder]="'Basic usage'" ></nz-input>
           </div>
-          <div class="ID_card">
+          <div class="ID_card" nz-col [nzSpan]='6'>
             <span>
                 身份证：
             </span>
             <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="IDcard" [nzPlaceHolder]="'Basic usage'" ></nz-input>
           </div>
-          <div class="phone">
+          <div class="phone" nz-col [nzSpan]='6'>
             <span>
                 手机：
             </span>
             <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="phone" [nzPlaceHolder]="'Basic usage'" ></nz-input>
           </div>
       </div>
-      <div class="bottom" nz-col>
-          <div class="college">
+      <div class="bottom" nz-row>
+          <div class="college" nz-col [nzSpan]='6'>
             <span>
                 学院：
             </span>
@@ -55,9 +55,9 @@
                 </nz-option>
             </nz-select>
           </div>
-          <div class="major">
+          <div class="major" nz-col [nzSpan]='6'>
             <span>
-                专业：
+                专业：&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
             <nz-select  class="selectInput" style="width: 150px;" [(ngModel)]="majorSelected" [nzPlaceHolder]="'请选择学历'" nzAllowClear>
                 <nz-option
@@ -68,7 +68,7 @@
                 </nz-option>
             </nz-select>
           </div>
-          <div class="education">
+          <div class="education" nz-col [nzSpan]='6'>
             <span>
                 学历：
             </span>
@@ -84,8 +84,8 @@
       </div>
     </div>
     <!-- 搜索 -->
-    <div class="search" nz-col [nzSpan]='2'>
-      <button nz-button (click) = 'handlerSearch()' [nzType]="'primary'">
+    <div class="search" nz-row>
+      <button nz-col [nzSpan]="3" [nzOffset]="20" nz-button (click) = 'handlerSearch()' [nzType]="'primary'">
         <span>搜索</span>
       </button>
     </div>
@@ -130,7 +130,7 @@
               {{data.id_number}}
             </td>
             <td nz-td>
-              {{data.gender}}
+              {{data.gender === 1?'男':[data.gender === 2?'女':'未知']}}
             </td>
             <td nz-td>
               {{data.academic_starts}}

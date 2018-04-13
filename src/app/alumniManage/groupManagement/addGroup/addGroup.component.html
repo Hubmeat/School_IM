@@ -208,7 +208,7 @@
                                   <td nz-td>{{data.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                                   <td nz-td>{{data.user_name}}</td>
                                   <td nz-td>{{data.contact_phone}}</td>
-                                  <td nz-td>{{data.gender === 1 ? '男' : '女'}}</td>
+                                  <td nz-td>{{data.gender === 1?'男':[data.gender === 2?'女':'未知']}}</td>
                                   <td nz-td>{{data.academic_starts}}</td>
                                   <td nz-td>{{data.academy}}</td>
                                   <td nz-td>{{data.profession}}</td>

@@ -79,8 +79,8 @@
     </div>
     <div nz-row class="foot-buts">
       <button nz-col [nzSpan]="5" [nzPush]="5" nz-button (click)="goback()">取消</button>
-      <button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="addNoticeSubmit()" *ngIf="editFlag;else editFlagSub">提交</button>
-      <ng-template #editFlagSub><button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="editSubmit()">提交</button></ng-template>
+      <button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="editSubmit()" *ngIf="editFlag;else editFlagSub">提交</button>
+      <ng-template #editFlagSub><button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="addNoticeSubmit()">提交</button></ng-template>
     </div>
 
   </div>

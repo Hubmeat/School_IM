@@ -1,8 +1,8 @@
 <div id="schoolfellowContent">
-        <div class="schoolfellow_head">
+        <div class="schoolfellow_head" nz-row>
           <!-- 查询时间段 -->
-            <div class="timeSelect_area">
-              <div class="register">
+            <!--<div class="timeSelect_area">-->
+              <div class="register" nz-col [nzSpan]="11">
                   <span>
                       注册时间：
                   </span>
@@ -10,7 +10,7 @@
                   <span>至</span>
                   <nz-datepicker [(ngModel)]="registeEndrTime" nzShowTime [nzPlaceHolder]="'选择结束时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
               </div>
-              <div class="joinSchool">
+              <div class="joinSchool" nz-col [nzSpan]="11">
                   <span>
                       入学时间：
                   </span>
@@ -18,35 +18,50 @@
                   <span>至</span>
                   <nz-datepicker [(ngModel)]="joinEndrTime" nzShowTime [nzPlaceHolder]="'选择结束时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
               </div>
-          </div>
+          <!--</div>-->
           <!-- 查询条件、下拉框 -->
-          <div class="conditionSelect_area">
-            <div class="top">
-                <div class="name">
+          <div class="conditionSelect_area" nz-row>
+            <!--<div class="top">-->
+            <div class="name" nz-col [nzSpan]="6">
                   <span>
                       姓名：
                   </span>
-                  <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="userName" [nzPlaceHolder]="'Basic usage'"></nz-input>
+                  <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="userName" [nzPlaceHolder]="'请输入姓名'"></nz-input>
                 </div>
-                <div class="ID_card">
+            <div class="ID_card" nz-col [nzSpan]="6">
                   <span>
                       身份证：
                   </span>
-                  <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="IDcard" [nzPlaceHolder]="'Basic usage'"></nz-input>
+                  <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="IDcard" [nzPlaceHolder]="'请输入身份证'"></nz-input>
                 </div>
-                <div class="phone">
+            <div class="phone" nz-col [nzSpan]="6">
                   <span>
                       手机：
                   </span>
-                  <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="phone" [nzPlaceHolder]="'Basic usage'"></nz-input>
+                  <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="phone" [nzPlaceHolder]="'请输入手机'"></nz-input>
                 </div>
+            <div class="education" nz-col [nzSpan]="5">
+                  <span style="width: 60px;">
+                      账号状态：
+                  </span>
+              <nz-select  class="selectInput" class="" style="width: 100px;" [(ngModel)]="accountSelected" [nzPlaceHolder]="'请选择状态'" nzAllowClear>
+                <nz-option
+                  *ngFor="let item of accountOptions"
+                  [nzLabel]="item.label"
+                  [nzValue]="item.value"
+                  [nzDisabled]="item.disabled">
+                </nz-option>
+              </nz-select>
             </div>
-            <div class="bottom">
-                <div class="college">
+          </div>
+            <!--</div>-->
+            <!--<div class="bottom">-->
+          <div nz-row>
+                <div class="college" nz-col [nzSpan]="6">
                   <span>
                       学院：
                   </span>
-                  <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
+                  <nz-select  class="selectInput" style="width: 150px;" [(ngModel)]="collegeSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'" nzAllowClear>
                       <nz-option
                         *ngFor="let item of collegeOptions"
                         [nzLabel]="item.academy_name"
@@ -55,11 +70,11 @@
                       </nz-option>
                   </nz-select>
                 </div>
-                <div class="major">
+                <div class="major" nz-col [nzSpan]="6">
                   <span>
-                      专业：
+                      专业：&nbsp;&nbsp;&nbsp;&nbsp;
                   </span>
-                  <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="majorSelected" [nzPlaceHolder]="'请选择学历'" nzAllowClear>
+                  <nz-select  class="selectInput" style="width: 150px;" [(ngModel)]="majorSelected" [nzPlaceHolder]="'请选择学历'" nzAllowClear>
                       <nz-option
                         *ngFor="let item of majorOptions"
                         [nzLabel]="item.major_name"
@@ -68,11 +83,11 @@
                       </nz-option>
                   </nz-select>
                 </div>
-                <div class="education">
+                <div class="education" nz-col [nzSpan]="6">
                   <span>
                       学历：
                   </span>
-                  <nz-select  class="selectInput" class="" style="width: 100px;" [(ngModel)]="educationSelected" [nzPlaceHolder]="'请选择学历'" nzAllowClear>
+                  <nz-select  class="selectInput" class="" style="width: 150px;" [(ngModel)]="educationSelected" [nzPlaceHolder]="'请选择学历'" nzAllowClear>
                       <nz-option
                         *ngFor="let item of educationOptions"
                         [nzLabel]="item.label"
@@ -81,22 +96,9 @@
                       </nz-option>
                   </nz-select>
                 </div>
-                <div class="education">
-                  <span style="width: 60px;">
-                      账号状态：
-                  </span>
-                  <nz-select  class="selectInput" class="" style="width: 100px;" [(ngModel)]="accountSelected" [nzPlaceHolder]="'请选择状态'" nzAllowClear>
-                      <nz-option
-                        *ngFor="let item of accountOptions"
-                        [nzLabel]="item.label"
-                        [nzValue]="item.value"
-                        [nzDisabled]="item.disabled">
-                      </nz-option>
-                  </nz-select>
-                </div>
-                <div class="education">
+                <div class="education" nz-col [nzSpan]="6">
                   <span>
-                      所在地：
+                      所在地：&nbsp;&nbsp;&nbsp;&nbsp;
                   </span>
                   <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="provinceSelected" (ngModelChange) = 'provinceChange($event)' [nzPlaceHolder]="'请选择省份'" nzAllowClear>
                       <nz-option
@@ -115,11 +117,11 @@
                       </nz-option>
                   </nz-select>
                 </div>
-            </div>
+            <!--</div>-->
           </div>
           <!-- 搜索 -->
-          <div class="search">
-            <button nz-button (click) = 'handlerSearch()' [nzType]="'primary'">
+          <div class="search" nz-row>
+            <button nz-col [nzSpan]="3" [nzOffset]="20" nz-button (click) = 'handlerSearch()' [nzType]="'primary'">
               <span>搜索</span>
             </button>
           </div>
@@ -158,7 +160,7 @@
             <tbody nz-tbody>
               <tr nz-tbody-tr *ngFor="let data of nzTable.data">
                 <td nz-td>
-                  {{data.created_at}}
+                  {{data.created_at | date:'yyyy-MM-dd HH:mm:ss'}}
                 </td>
                 <td nz-td   (click)="showInfoModal(data)"  style="color: blue; cursor: pointer;">
                   {{data.user_name}}
@@ -173,7 +175,7 @@
                   {{data.gender === 1?'男':[data.gender === 2?'女':'未知']}}
                 </td>
                 <td nz-td>
-                  {{data.academic_starts}}
+                  {{data.academic_starts | date:'yyyy-MM-dd HH:mm:ss'}}
                 </td>
                 <td nz-td>
                   {{data.academy}}
@@ -188,10 +190,18 @@
                   {{data.province}} {{data.city}}
                 </td>
                 <td nz-td>
-                  {{data.c_data_state}}
+                  {{data.c_data_state === 1 ? '正常':'冻结'}}
                 </td>
-                <td nz-td (click)='handleFreeze(data)' style="color: blue; cursor: pointer;">
-                  {{data.c_data_state === 1?'冻结':'解冻'}}
+                <td nz-td style="color: blue; cursor: pointer;">
+                  <nz-popconfirm nzTitle="确认{{data.c_data_state === 1?'冻结':'解冻'}}该账号?"
+                                 [nzOkText]="'确定'"
+                                 [nzCancelText]="'取消'"
+                                 (nzOnConfirm)="handleFreeze(data)"
+                                 (nzOnCancel)="deleteLivecancel()"
+                  >
+                    <a nz-popconfirm>{{data.c_data_state === 1?'冻结':'解冻'}}</a>
+                  </nz-popconfirm>
+
                 </td>
               </tr>
             </tbody>
@@ -227,11 +237,11 @@
                   <ul>
                     <li>
                       <span>
-                        <b class="weight">姓名：</b> 
+                        <b class="weight">姓名：</b>
                         <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.user_name" [nzReadonly]='!editFlag'></nz-input>
                       </span>
                       <span  style="margin-left: 10px;">
-                        <b class="weight">性别：</b>    
+                        <b class="weight">性别：</b>
                         <nz-select style="width: 100px;" [(ngModel)]="userInfo.gender" [nzPlaceHolder]="'choose option'" [nzDisabled]='!editFlag'>
                           <nz-option
                             *ngFor="let item of sexOptions"
@@ -371,11 +381,11 @@
                     <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].person_number" [nzReadonly]='!editFlag'></nz-input>
                   </li>
                   <li>
-                    <b class="weight">上一年度资产总值：</b> 
+                    <b class="weight">上一年度资产总值：</b>
                     <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].last_total_assets" [nzReadonly]='!editFlag'></nz-input>
                   </li>
                   <li>
-                    <b class="weight">公司地址：</b> 
+                    <b class="weight">公司地址：</b>
                     <nz-select  class="selectInput" [nzDisabled]='!editFlag' style="width: 100px;" [(ngModel)]="userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].province_code" (ngModelChange) = 'editCompanyProvinceChange(userInfo.company_batch[0].province_code)' [nzPlaceHolder]="'请选择省份'" nzAllowClear>
                         <nz-option
                           *ngFor="let item of provinceOptions"
@@ -458,7 +468,7 @@
             <button nz-button [nzType]="'primary'" (click)="handleUpload()" [disabled]="fileList.length == 0" style="margin-top: 16px">
               点击上传
             </button>
-  
+
             <nz-progress *ngIf='progressFlag' [ngModel]="progressValue"></nz-progress>
           </p>
       </ng-template>
