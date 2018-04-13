@@ -47,12 +47,29 @@
     </div>
     <div>
       <span class="text-padd-span">直播人</span>
-      <nz-input
+      <!--<nz-select
         style="width: 75%;"
+        nzAllowClear
+        [nzPlaceHolder]="'请输入直播人姓名'"
+        [nzFilter]="false"
         [(ngModel)]="live_person"
-        [nzPlaceHolder]="'请添加直播人姓名'"
-      >
-      </nz-input>
+        (nzSearchChange)="searchChange($event)"
+        [nzNotFoundContent]="'无法找到'"
+        nzShowSearch>
+        <nz-option *ngFor="let option of live_personOptions" [nzLabel]="option.user_name + [option.contact_phone === ''?'':'-'] + option.contact_phone" [nzValue]="option">
+          <ng-template #nzOptionTemplate>
+            <img src="{{option.avatar}}" alt="" style="width: 20px;height: 20px;"> {{option.user_name + '  -  ' + option.contact_phone}}
+          </ng-template>
+        </nz-option>
+      </nz-select>-->
+      <nz-input style="width: 75%;" [(ngModel)]="live_person" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="searchChange($event)"></nz-input>
+      <div *ngIf="live_personOptions.length > 1 && showpersonList" class="option-list">
+        <ul>
+          <li *ngFor="let option of live_personOptions" (click)="selectUserNmae(option)">
+            <img src="{{option.avatar}}" alt="" style="width: 20px;height: 20px;vertical-align: middle"> {{option.user_name + '  -  ' + option.contact_phone}}
+          </li>
+        </ul>
+      </div>
     </div>
     <div>
       <span class="text-padd-span">视频状态</span>

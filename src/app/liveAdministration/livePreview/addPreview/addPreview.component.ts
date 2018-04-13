@@ -39,6 +39,9 @@ export class AddPreviewComponent implements OnInit {
   fileList: any = [];
   fileType
 
+  live_personOptions: any = []; // 直播人搜索列表
+  showpersonList: boolean = false
+
   constructor(private service: LiveAdministrationService,
               private _message: NzMessageService,
               private router: Router) {
@@ -46,6 +49,7 @@ export class AddPreviewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getLive_personsList(this.live_person);
     console.log(this.avatarUrl)
       this.editFlag = this.service.editFlag;
       if (!this.editFlag) {
@@ -65,6 +69,34 @@ export class AddPreviewComponent implements OnInit {
           this.video_url = this.editData.video_url
           this.video_type = this.editData.video_type
       }
+  }
+
+  searchChange(event) {
+    this.getLive_personsList(event)
+    window.setTimeout(() => {
+      this.showpersonList = true;
+      if (this.live_person === '') {
+        this.showpersonList = false;
+      }
+    }, 500)
+    this.live_person = event
+
+  }
+  selectUserNmae(data) {
+    this.live_person = data.user_name;
+    this.showpersonList = false
+
+  }
+  // 获取直播人list
+  getLive_personsList(son) {
+    this.service.getLivePersonsList(son);
+    this.service.LiveServiceSubject.subscribe(res => {
+      if (res.personList) {
+        if (res.personList.error_code === 0) {
+          this.live_personOptions = res.personList.result;
+        }
+      }
+    })
   }
 
   goback(): void {

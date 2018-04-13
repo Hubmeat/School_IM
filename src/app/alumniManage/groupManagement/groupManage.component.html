@@ -239,7 +239,7 @@
                                 <td nz-td><img src="{{data.avatar}}" alt="" style="width: 25px;height: 25px;vertical-align: middle;margin-right: 5px;">{{data.user_name}}</td>
                                 <td nz-td>{{data.nick}}</td>
                                 <td nz-td>{{data.contact_phone}}</td>
-                                <td nz-td>{{data.gender === 1 ? '男' : '女'}}</td>
+                                <td nz-td>{{data.gender === 1?'男':[data.gender === 2?'女':'未知']}}</td>
                                 <td nz-td>{{data.province}}-{{data.city}}</td>
                                 <td nz-td>
                                   <a class="a-click" (click)="getDetails(data)">查看资料</a>

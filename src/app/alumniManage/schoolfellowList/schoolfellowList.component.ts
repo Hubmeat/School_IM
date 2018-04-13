@@ -41,9 +41,9 @@ export class SchoolfellowListCom implements OnInit {
     educationSelected = '';
     // 审核状态下拉框
     accountOptions= [
-        { value: '0', label: '全部'},
-        { value: '1', label: '正常'},
-        { value: '2', label: '已冻结'}
+        { value: null, label: '全部'},
+        { value: 1, label: '正常'},
+        { value: 2, label: '已冻结'}
     ];
     accountSelected = this.accountOptions[0].value;
 
@@ -259,7 +259,7 @@ export class SchoolfellowListCom implements OnInit {
     // 处理解冻与冻结
     handleFreeze (data) {
         if (data.c_data_state === 1) {
-            this.alumniMgService.dealFreeze(data.id, 0);
+            this.alumniMgService.dealFreeze(data.id, 2);
             this.handFreezeSubscription = this.alumniMgService.handleFreezeSubject.subscribe(
                 res => {
                     if (res.error_code === 0) {
@@ -284,8 +284,8 @@ export class SchoolfellowListCom implements OnInit {
         }
 
     }
-    closeAuditModel = () => {
-
+    deleteLivecancel() {
+      // this.isDetailsModal = false;
     }
 
 

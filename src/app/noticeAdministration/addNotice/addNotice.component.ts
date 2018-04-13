@@ -121,7 +121,7 @@ export class AddNoticeComponent implements OnInit  {
       if (res.editmsg) {
         if (res.editmsg.error_code === 0) {
           this._message.success('编辑成功');
-          this.router.navigate(['/index/liveList']);
+          this.router.navigate(['/index/noticeAdmin']);
         } else {
           this._message.warning('编辑失败');
         }

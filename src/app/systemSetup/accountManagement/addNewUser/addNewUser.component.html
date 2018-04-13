@@ -6,7 +6,8 @@
             (click)="goback()">
       返回
     </button>
-    <h2 nz-col [nzSpan]="20">新建账号</h2>
+    <h2 *ngIf="!editFlag; else editH2" nz-col [nzSpan]="20">新建账号</h2>
+    <ng-template #editH2><h2 nz-col [nzSpan]="20">编辑</h2></ng-template>
   </div>
   <div nz-row class="addList_head">
     <div>
@@ -28,7 +29,7 @@
       >
       </nz-input>
     </div>
-    <div>
+    <div *ngIf="!editFlag">
       <span class="text-padd-span">初始密码</span>
       <nz-input
         nzType="password"
@@ -38,7 +39,7 @@
       >
       </nz-input>
     </div>
-    <div>
+    <div *ngIf="!editFlag">
       <span class="text-padd-span">确认密码</span>
       <nz-input
         nzType="password"
@@ -64,7 +65,8 @@
     </div>
     <div nz-row class="foot-buts">
       <button nz-col [nzSpan]="5" [nzPush]="5" nz-button (click)="goback()">取消</button>
-      <button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="previewSubmit()">提交</button>
+      <button *ngIf="!editFlag; else editSub" nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="previewSubmit()">提交</button>
+      <ng-template #editSub><button #editSub nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="editData()">提交</button></ng-template>
     </div>
   </div>
 </div>

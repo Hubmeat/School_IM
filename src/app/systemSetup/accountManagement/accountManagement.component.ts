@@ -64,10 +64,12 @@ export class AccountManagementComponent implements OnInit {
 
   constructor(
     private service: SystemSetupService,
-    private _message: NzMessageService
+    private _message: NzMessageService,
+    private router: Router
   ) {}
 
   ngOnInit() {
+    this.service.editFlag = false;
     this.loadData()
   }
   loadData() {
@@ -144,18 +146,13 @@ export class AccountManagementComponent implements OnInit {
   }
 
   // 编辑
-  editData(id, username, state) {
-    this.service.userUpData(
-      id,
-      username,
-      state
-    )
-    this.service.SystemUpDataSubject.subscribe(res => {
-       console.log(res);
-       if (res.error_code === 0) {
-         this._message.success('编辑完成');
-       }
-    })
+  editData(id, username, state, contact_phone) {
+    this.service.editFlag = true;
+    this.service.editData.id = id;
+    this.service.editData.username = username;
+    this.service.editData.state = state;
+    this.service.editData.contact_phone = contact_phone;
+    this.router.navigate(['/index/addNewUser']);
   }
 
   pageChange(page) {
