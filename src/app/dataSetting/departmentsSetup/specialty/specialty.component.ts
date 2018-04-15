@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DataSettingService} from '../../dataSettingService/dataSettingService';
 import {NzMessageService, UploadFile} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'specialty-component',
@@ -28,6 +29,14 @@ export class SpecialtyComponent implements OnInit {
   progressValue: number = 0;
   api
   downLoading
+
+  uploadSubscription: Subscription;
+  recordInfo: any = false;
+  isShowResult: boolean = false;
+  upload: any = {
+    success: 0,
+    defeat: 0
+  };
   constructor(
     private service: DataSettingService,
     private router: Router,
@@ -149,6 +158,7 @@ export class SpecialtyComponent implements OnInit {
     this.isAddVisible = false;
     this.isVisible1 = false;
     this.isEditVisible = false;
+    this.isShowResult = false;
   }
   cancel = () => {
 
@@ -172,25 +182,34 @@ export class SpecialtyComponent implements OnInit {
     });
     console.log('formData', formData)
     this.service.uploadacademyFileList(formData);
-    var timer = setInterval( () => {
-      this.progressValue += 5;
-      if (this.progressValue >= 100) {
-        this.service.SpecialtySetupSubject.subscribe(
-          res => {
-            if (res.updata && res.updata.error_code === 0) {
-              this._message.success('上传成功！')
-            }
+    this.uploadSubscription = this.service.SpecialtySetupSubject.subscribe(res => {
+      var timer = setInterval( () => {
+        this.progressValue += 5;
+        if (this.progressValue >= 100) {
+          clearInterval(timer);
+          if (res.updata && res.updata.error_code === 0) {
+            this.upload = res.updata.return;
+            this._message.success('上传成功！')
           }
-        )
-        this.progressFlag = false;
-        this.progressValue = 0;
-        clearInterval(timer);
-        this.fileList = [];
-        setTimeout( () => {
-          this.isVisible1 = false;
-          this.search()
-        }, 1500)
-      }
-    }, 50)
+          this.progressFlag = false;
+          this.progressValue = 0;
+          this.fileList = [];
+          setTimeout( () => {
+            this.isVisible1 = false;
+            this.search()
+            this.isShowResult = true;
+          }, 1500)
+          this.uploadSubscription.unsubscribe();
+        }
+      }, 50)
+    })
+  }
+
+  getDownRecord() {
+    if (this.upload.defeat > 0) {
+      this.recordInfo = true;
+    } else {
+      this.recordInfo = false;
+    }
   }
 }

@@ -112,3 +112,25 @@
     </div>
   </ng-template>
 </nz-modal>
+
+
+<!--上传结束结果-->
+<nz-modal [nzVisible]="isShowResult"
+          [nzTitle]="'批量导入'"
+          [nzOkText]="'提交'"
+          [nzCancelText]="'取消'"
+          [nzContent]="modalContent"
+          (nzOnCancel)="handleCancel($event)"
+          (nzOnOk)="handleCancel($event)"
+>
+  <ng-template #modalContent>
+    <div>
+      <div>
+        <p>成功上传：{{upload.success}}</p>
+        <span>上传失败：{{upload.defeat}}</span>
+        <button nz-button (click)="getDownRecord()" [disabled]="upload.defeat < 1">下载失败记录</button>
+        <p *ngIf="recordInfo" style="color: red">已存在</p>
+      </div>
+    </div>
+  </ng-template>
+</nz-modal>

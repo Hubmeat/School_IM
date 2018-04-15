@@ -105,6 +105,13 @@ export class SchoolfellowListCom implements OnInit {
     editCityOptions = []; // 编辑功能城市列表
     industroyOptions = []; // 行业下拉列表数据
     editComCityOptions = []; // 编辑 公司地址
+    uploadSubscription: Subscription;
+    recordInfo: any = false;
+    isShowResult: boolean = false;
+    upload: any = {
+      success: 0,
+      defeat: 0
+    };
 
     constructor(
         private alumniMgService: AMService,
@@ -294,11 +301,14 @@ export class SchoolfellowListCom implements OnInit {
     }
 
     closeUploadModel() {
-        this.uploadVisible = false;
+        this.uploadVisible = true;
     }
 
     openUploadModel() {
         this.uploadVisible = true;
+    }
+    handleCancel = (e) => {
+      this.isShowResult = false;
     }
 
     exportWay () {
@@ -350,25 +360,28 @@ export class SchoolfellowListCom implements OnInit {
         });
         console.log('formData', formData)
         this.alumniMgService.uploadFileList(formData);
-        var timer = setInterval( () => {
+        this.uploadSubscription = this.alumniMgService.uploadSubject.subscribe(res => {
+          var timer = setInterval( () => {
             this.progressValue += 5;
             if (this.progressValue >= 100) {
-                this.alumniMgService.uploadSubject.subscribe(
-                    res => {
-                        if (res.error_code === 0) {
-                            this._message.success('上传成功！')
-                        }
-                    }
-                )
-                this.progressFlag = false;
-                this.progressValue = 0;
-                clearInterval(timer);
-                this.fileList = [];
-                setTimeout( () => {
-                    this.uploadVisible = false;
-                }, 1500)
+              if (res.error_code === 0) {
+                this.upload = res.updata.return;
+                this._message.success('上传成功！')
+              }
+              this.progressFlag = false;
+              this.progressValue = 0;
+              clearInterval(timer);
+              this.fileList = [];
+              setTimeout( () => {
+                this.uploadVisible = false;
+                this.loadData()
+                this.isShowResult = true;
+              }, 1500)
+              this.uploadSubscription.unsubscribe();
             }
-        }, 50)
+          }, 50)
+        })
+
     }
 
     // 编辑功能
@@ -419,4 +432,12 @@ export class SchoolfellowListCom implements OnInit {
             }
         )
     }
+
+  getDownRecord() {
+    if (this.upload.defeat > 0) {
+      this.recordInfo = true;
+    } else {
+      this.recordInfo = false;
+    }
+  }
 }

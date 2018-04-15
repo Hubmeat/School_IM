@@ -271,4 +271,19 @@ export class DataSettingService {
           this.SpecialtySetupSubject.next({updata: res})
         })
     }
+
+    public DownRecordInfoSubject = new Subject<any>();
+
+    public downRecordInfo(unique_identification) {
+      const formData = {
+        unique_identification: unique_identification
+      };
+      this.$http
+        .post(this.$HOST.host + '/a/academy_defeat/export', formData)
+        .subscribe(res => {
+          this.DownRecordInfoSubject.next(res);
+        })
+
+
+    }
 }

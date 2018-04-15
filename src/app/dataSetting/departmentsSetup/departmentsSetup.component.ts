@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DataSettingService} from '../dataSettingService/dataSettingService';
 import {NzMessageService, UploadFile} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription'
 
 @Component({
   selector: 'departmentsSetup-component',
@@ -17,6 +18,7 @@ export class DepartmentsSetupComponent implements OnInit {
   isVisible = false;
   isVisible1= false;
   isEditVisible= false;
+
   page: number = 1;
   searchParam:string = '';
   editName: '';
@@ -27,14 +29,23 @@ export class DepartmentsSetupComponent implements OnInit {
   progressFlag: boolean = false;
   fileList: any = [];
   progressValue: number = 0;
+  fileUid = '';
 
   academy_name: string = ''; // 学院名
   msg: string = '';
+  uploadSubscription: Subscription;
+  recordInfo: any = false;
+  isShowResult: boolean = false;
+  upload: any = {
+    success: 0,
+    defeat: 0
+  };
   constructor(
     private service: DataSettingService,
     private _message: NzMessageService,
     private router: Router
-  ) {}
+  ) {
+  }
   ngOnInit() {
     this.api = this.service.departmentsApi;
     this.search()
@@ -159,6 +170,7 @@ export class DepartmentsSetupComponent implements OnInit {
     this.isVisible = false;
     this.isVisible1 = false;
     this.isEditVisible = false;
+    this.isShowResult = false;
   }
 
   // 上传
@@ -166,6 +178,7 @@ export class DepartmentsSetupComponent implements OnInit {
     console.log('file', file);
     this.fileList.push(file);
     console.log('fileList', this.fileList)
+    this.fileUid = this.fileList[0].uid; // 文件唯一标识
     return false;
   }
 
@@ -179,25 +192,34 @@ export class DepartmentsSetupComponent implements OnInit {
     });
     console.log('formData', formData)
     this.service.uploadacademyFileList(formData);
-    var timer = setInterval( () => {
-      this.progressValue += 5;
-      if (this.progressValue >= 100) {
-        this.service.DataSettingDepartmentsSubject.subscribe(
-          res => {
-            if (res.updata && res.updata.error_code === 0) {
-              this._message.success('上传成功！')
-            }
+    this.uploadSubscription = this.service.DataSettingDepartmentsSubject.subscribe(res => {
+      var timer = setInterval( () => {
+        this.progressValue += 5;
+        if (this.progressValue >= 100) {
+          clearInterval(timer);
+          if (res.updata && res.updata.error_code === 0) {
+            this.upload = res.updata.return;
+            this._message.success('上传成功！')
           }
-        )
-        this.progressFlag = false;
-        this.progressValue = 0;
-        clearInterval(timer);
-        this.fileList = [];
-        setTimeout( () => {
-          this.isVisible1 = false;
-          this.search()
-        }, 1500)
-      }
-    }, 50)
+          this.progressFlag = false;
+          this.progressValue = 0;
+          this.fileList = [];
+          setTimeout( () => {
+            this.isVisible1 = false;
+            this.search()
+            this.isShowResult = true;
+          }, 1000)
+          this.uploadSubscription.unsubscribe();
+        }
+      }, 50)
+    })
+  }
+
+  getDownRecord() {
+    if (this.upload.defeat > 0) {
+      this.recordInfo = true;
+    } else {
+      this.recordInfo = false;
+    }
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DataSettingService} from '../dataSettingService/dataSettingService';
 import {NzMessageService, UploadFile} from 'ng-zorro-antd';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'industrySetup-component',
@@ -30,6 +31,14 @@ export class IndustrySetupComponent implements OnInit {
   uploadVisible;
   downLoading = false;
   api
+
+  uploadSubscription: Subscription;
+  recordInfo: any = false;
+  isShowResult: boolean = false;
+  upload: any = {
+    success: 0,
+    defeat: 0
+  };
 
   constructor(
     private service: DataSettingService,
@@ -161,26 +170,27 @@ export class IndustrySetupComponent implements OnInit {
     });
     console.log('formData', formData)
     this.service.uploadFileList(formData);
-    var timer = setInterval( () => {
-      this.progressValue += 5;
-      if (this.progressValue >= 100) {
-        this.service.IndustrySetupSubject.subscribe(
-          res => {
-            if (res.updata && res.updata.error_code === 0) {
-              this._message.success('上传成功！')
-            }
+    this.uploadSubscription = this.service.IndustrySetupSubject.subscribe(res => {
+      var timer = setInterval( () => {
+        this.progressValue += 5;
+        if (this.progressValue >= 100) {
+          clearInterval(timer);
+          if (res.updata && res.updata.error_code === 0) {
+            this.upload = res.updata.return;
+            this._message.success('上传成功！')
           }
-        )
-        this.progressFlag = false;
-        this.progressValue = 0;
-        clearInterval(timer);
-        this.fileList = [];
-        setTimeout( () => {
-          this.isVisible1 = false;
-          this.getDataList()
-        }, 1500)
-      }
-    }, 50)
+          this.progressFlag = false;
+          this.progressValue = 0;
+          this.fileList = [];
+          setTimeout( () => {
+            this.isVisible1 = false;
+            this.getDataList()
+            this.isShowResult = true;
+          }, 1500)
+          this.uploadSubscription.unsubscribe();
+        }
+      }, 50)
+    })
   }
 
   handleCancel = (e) => {
@@ -188,8 +198,17 @@ export class IndustrySetupComponent implements OnInit {
     this.isVisible = false;
     this.isVisible1 = false;
     this.editVisible = false;
+    this.isShowResult = false;
   }
   handleOk = (e) => {
 
+  }
+
+  getDownRecord() {
+    if (this.upload.defeat > 0) {
+      this.recordInfo = true;
+    } else {
+      this.recordInfo = false;
+    }
   }
 }
