@@ -483,11 +483,11 @@
           [nzTitle]="'批量导入'"
           [nzOkText]="'提交'"
           [nzCancelText]="'取消'"
-          [nzContent]="modalContent"
+          [nzContent]="modalContentss"
           (nzOnCancel)="handleCancel($event)"
           (nzOnOk)="handleCancel($event)"
 >
-  <ng-template #modalContent>
+  <ng-template #modalContentss>
     <div>
       <div>
         <p>成功上传：{{upload.success}}</p>
