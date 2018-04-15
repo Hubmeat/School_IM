@@ -2,18 +2,30 @@
   <div class="contact-list" nz-col [nzSpan]="8">
     <ul>
       <li>系统管理员</li>
-      <li *ngFor="let item of dataList" (click)='changeChatObject(item)' style="cursor: pointer;">
+      <li *ngFor="let item of dataList" (click)='changeChatObject(item)' >
         {{item.id}}
       </li>
     </ul>
   </div>
-  <div id="chart" style="width: 500px; height: 500px; background: #ffc;"  nz-col [nzSpan]="16">
-    <p *ngFor='let item of msgList'>
-      {{item}}
-    </p>
-    <input type="text" [(ngModel)] = 'sendMsg'>
-    <button (click)='sendMessage(sendMsg)'>
-      发送
-    </button>
+  <div id="chart"  nz-col [nzSpan]="16">
+    <div class="text_content">
+      <p *ngFor='let item of msgList'>
+        <span [ngStyle]="{'float': item.flow === 'to'?'right':'left'}">
+          {{item.text}}
+        </span>
+      </p>
+    </div>
+    <div class="send_message">
+      <div nz-row>
+        <div style="padding: 0 10px 0 10px;" nz-col [nzSpan]='20'>
+          <nz-input class="text_area" [(ngModel)]="sendMsg" [nzPlaceHolder]="'请输入聊天内容'"></nz-input>
+        </div>
+        <div style="text-align: center;padding: 0 10px 0 10px;" nz-col [nzSpan]='4'>
+          <button style="width: 100%;" class="send_btn" nz-button (click)='sendMessage(sendMsg)' [nzType]="'default'">
+            <span>发送</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

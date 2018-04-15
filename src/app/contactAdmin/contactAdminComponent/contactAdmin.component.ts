@@ -108,15 +108,28 @@ export class ContactAdminComponent implements OnInit {
       },
       onroamingmsgs: function (obj) {
         console.log('收到漫游消息', obj);
-        that.pushMsg(obj.msgs);
+        obj.msgs.map( item => {
+          that.pushMsg({
+            text: item.text,
+            flow: item.flow
+          });
+        })
       },
       onofflinemsgs: function (obj) {
           console.log('收到离线消息', obj);
-          that.pushMsg(obj.msgs);
+          obj.msgs.map( item => {
+            that.pushMsg({
+              text: item.text,
+              flow: item.flow
+            });
+          })
       },
       onmsg: function onMsg(msg) {
           console.log('收到消息', msg.scene, msg.type, msg);
-          that.pushMsg(msg.text);
+          that.pushMsg({
+            text: msg.text,
+            flow: msg.flow
+          });
       },
       onsessions: function (sessions) {
           console.log('收到会话列表', sessions);
@@ -230,6 +243,10 @@ export class ContactAdminComponent implements OnInit {
      * 发送消息
      */
     sendMessage(info):void {
+      if (info === '') {
+        this._message.warning('不能发送空消息')
+        return
+      }
       var that = this;
       var msg = this.Nm.sendText({
         scene: 'p2p',
@@ -239,7 +256,10 @@ export class ContactAdminComponent implements OnInit {
           console.log(error);
           console.log(msg);
           console.log('发送' + msg.scene + ' ' + msg.type + '消息' + (!error?'成功':'失败') + ', id=' + msg.idClient);
-          that.pushMsg(msg.text);
+          that.pushMsg({
+            text: msg.text,
+            flow: msg.flow
+          });
         }
       });
     }
