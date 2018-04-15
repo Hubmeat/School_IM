@@ -43,7 +43,7 @@ export class ContactAdminComponent implements OnInit, DoCheck {
     var str = window.localStorage.setItem('emio', '');
     this.getNIMConfig();
   }
-  
+
   ngDoCheck() {
     // var str = window.localStorage.getItem('emio');
     // this.sendMsg = str.toString();
@@ -51,23 +51,23 @@ export class ContactAdminComponent implements OnInit, DoCheck {
 
   addFace () {
     $('.emotion').qqFace({
-      id : 'facebox', 
-      assign: 'saytext', 
-      path: './assets/arclist/'	
+      id : 'facebox',
+      assign: 'saytext',
+      path: './assets/arclist/'
     });
    }
 
    replace_em(str){
       str = str.replace(/\</g,'&lt;');
-    
+
       str = str.replace(/\>/g,'&gt;');
-    
+
       str = str.replace(/\n/g,'<br/>');
-    
+
       str = str.replace(/\[em_([0-9]*)\]/g,'<img src="arclist/$1.gif" border="0" />');
-    
+
       return str;
-    
+
     }
 
   getNIMConfig () {
@@ -78,7 +78,7 @@ export class ContactAdminComponent implements OnInit, DoCheck {
       var account = res.result.id;
       // 初始化聊天对象account
       this.chatId = account;
-      setTimeout( () => {      
+      setTimeout( () => {
         this.initChat(account.toString(), token);
       }, 300)
       // this.initChat(account, token);
@@ -289,7 +289,8 @@ export class ContactAdminComponent implements OnInit, DoCheck {
           console.log('发送' + msg.scene + ' ' + msg.type + '消息' + (!error?'成功':'失败') + ', id=' + msg.idClient);
           that.pushMsg({
             text: msg.text,
-            flow: msg.flow
+            flow: msg.flow,
+            time: msg.userUpdateTime
           });
           that.sendMsg = '';
         }
@@ -319,5 +320,5 @@ export class ContactAdminComponent implements OnInit, DoCheck {
         // 刷新界面
         this.dataList = res;
     }
-    
+
 }
