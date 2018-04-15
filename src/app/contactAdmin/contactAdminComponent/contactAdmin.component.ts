@@ -45,8 +45,8 @@ export class ContactAdminComponent implements OnInit, DoCheck {
   }
   
   ngDoCheck() {
-    var str = window.localStorage.getItem('emio');
-    this.sendMsg = str.toString();
+    // var str = window.localStorage.getItem('emio');
+    // this.sendMsg = str.toString();
   }
 
   addFace () {
