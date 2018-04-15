@@ -604,4 +604,5 @@ export class AMService {
           this.uoFileSubject.next({file: res})
         })
     }
+    schoolApi = this.$HOST.host + '/a/academy_template/export';
 }

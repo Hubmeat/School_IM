@@ -283,7 +283,5 @@ export class DataSettingService {
         .subscribe(res => {
           this.DownRecordInfoSubject.next(res);
         })
-
-
     }
 }

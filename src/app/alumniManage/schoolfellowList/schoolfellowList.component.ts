@@ -112,6 +112,7 @@ export class SchoolfellowListCom implements OnInit {
       success: 0,
       defeat: 0
     };
+    schoolApi: any;
 
     constructor(
         private alumniMgService: AMService,
@@ -121,6 +122,7 @@ export class SchoolfellowListCom implements OnInit {
     }
 
     ngOnInit():any {
+        this.schoolApi = this.alumniMgService.schoolApi;
         // 初始化下拉列表数据与表格数据
         this.getCollegeSelectData()
         // 获取行业数据
@@ -333,12 +335,13 @@ export class SchoolfellowListCom implements OnInit {
                 console.log('导出', res);
                 if (res.status === 200) {
                     this._message.success('导出成功！')
-                    window.open(res.url);
-                    this.exportSubscbscription.unsubscribe()
+                    // window.open(res.url);
+                  const ifram = window.document.getElementById('ifile');
+                  ifram.setAttribute('src', res.url)
                 } else {
                     this._message.error('导出失败')
-                    this.exportSubscbscription.unsubscribe()
                 }
+                this.exportSubscbscription.unsubscribe()
             }
         )
     }
@@ -364,13 +367,13 @@ export class SchoolfellowListCom implements OnInit {
           var timer = setInterval( () => {
             this.progressValue += 5;
             if (this.progressValue >= 100) {
+              clearInterval(timer);
               if (res.error_code === 0) {
-                this.upload = res.updata.return;
+                this.upload = res.return;
                 this._message.success('上传成功！')
               }
               this.progressFlag = false;
               this.progressValue = 0;
-              clearInterval(timer);
               this.fileList = [];
               setTimeout( () => {
                 this.uploadVisible = false;
