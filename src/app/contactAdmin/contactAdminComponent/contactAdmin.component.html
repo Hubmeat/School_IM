@@ -10,7 +10,7 @@
   <div id="chart"  nz-col [nzSpan]="16">
     <div class="text_content">
       <p *ngFor='let item of msgList'>
-        <span [ngStyle]="{'float': item.flow === 'to'?'right':'left'}">
+        <span [ngStyle]="{'float': item.flow === 'to'?'left':'right'}">
           {{item.text}}
         </span>
       </p>
@@ -18,7 +18,8 @@
     <div class="send_message">
       <div nz-row>
         <div style="padding: 0 10px 0 10px;" nz-col [nzSpan]='20'>
-          <nz-input class="text_area" [(ngModel)]="sendMsg" [nzPlaceHolder]="'请输入聊天内容'"></nz-input>
+          <span style="display: inline-block; margin-right: 10px;" (click)='addFace()' class="emotion">表情</span>
+          <nz-input style="width: 90%;" class="text_area" id="saytext" name="saytext" [(ngModel)]="sendMsg" [nzPlaceHolder]="'请输入聊天内容'"></nz-input>
         </div>
         <div style="text-align: center;padding: 0 10px 0 10px;" nz-col [nzSpan]='4'>
           <button style="width: 100%;" class="send_btn" nz-button (click)='sendMessage(sendMsg)' [nzType]="'default'">

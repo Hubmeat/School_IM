@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, DoCheck} from '@angular/core';
 import {NzMessageService} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 import {ContactAdminService} from '../contactAdminService/contactAdmin.service';
@@ -7,7 +7,7 @@ import {Md5} from 'ts-md5/dist/md5';
 
 @Component({selector: 'contactAdmin-component', templateUrl: './contactAdmin.component.html', styleUrls: ['./contactAdmin.component.less']})
 
-export class ContactAdminComponent implements OnInit {
+export class ContactAdminComponent implements OnInit, DoCheck {
   dataList = '';
   schoolName = '';
   isVisible = false;
@@ -28,7 +28,7 @@ export class ContactAdminComponent implements OnInit {
   chatId = '';
 
   // 发送的消息
-  sendMsg: '';
+  sendMsg:string = '';
 
   // 消息记录
   msgList = []
@@ -40,8 +40,36 @@ export class ContactAdminComponent implements OnInit {
     private router : Router) {}
 
   ngOnInit() {
+    var str = window.localStorage.setItem('emio', '');
     this.getNIMConfig();
   }
+  
+  ngDoCheck() {
+    var str = window.localStorage.getItem('emio');
+    this.sendMsg = str.toString();
+  }
+
+  addFace () {
+    $('.emotion').qqFace({
+      id : 'facebox', 
+      assign: 'saytext', 
+      path: './assets/arclist/'	
+    });
+   }
+
+   replace_em(str){
+      str = str.replace(/\</g,'&lt;');
+    
+      str = str.replace(/\>/g,'&gt;');
+    
+      str = str.replace(/\n/g,'<br/>');
+    
+      str = str.replace(/\[em_([0-9]*)\]/g,'<img src="arclist/$1.gif" border="0" />');
+    
+      return str;
+    
+    }
+
   getNIMConfig () {
     this.service.getChatData();
     this.service.chatDataSubject.subscribe(
@@ -159,7 +187,7 @@ export class ContactAdminComponent implements OnInit {
    */
 
    changeChatObject (item) {
-     console.log('item', item)
+     this.msgList = [];
      var token = Md5.hashStr(item.to.toString());
      var account = item.to.toString();
     //  改变聊天对象account
@@ -243,15 +271,18 @@ export class ContactAdminComponent implements OnInit {
      * 发送消息
      */
     sendMessage(info):void {
+      console.log('infor', info)
       if (info === '') {
         this._message.warning('不能发送空消息')
         return
       }
+      // var str = $("#saytext").val();
+      var str = this.replace_em(info)
       var that = this;
       var msg = this.Nm.sendText({
         scene: 'p2p',
         to:  this.chatId,
-        text: info,
+        text: str,
         done: function sendMsgDone(error, msg) {
           console.log(error);
           console.log(msg);
