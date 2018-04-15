@@ -291,6 +291,7 @@ export class ContactAdminComponent implements OnInit, DoCheck {
             text: msg.text,
             flow: msg.flow
           });
+          that.sendMsg = '';
         }
       });
     }
