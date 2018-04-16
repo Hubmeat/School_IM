@@ -139,7 +139,7 @@
                 {{data.examine_user}}
               </td>
               <td nz-td>
-                {{data.examine_stat === 1?'通过':[data.examine_stat === 2?'不通过':'待审核']}}
+                {{data.examine_state === 1?'通过':[data.examine_stat === 2?'不通过':'待审核']}}
               </td>
               <td nz-td>
                 {{data.created_at | date:'yyyy-MM-dd HH:mm:ss'}}
