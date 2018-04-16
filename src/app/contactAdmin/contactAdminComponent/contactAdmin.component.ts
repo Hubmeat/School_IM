@@ -33,6 +33,9 @@ export class ContactAdminComponent implements OnInit, DoCheck {
   // 消息记录
   msgList = []
 
+  // 文件
+  inputFile:any;
+
 
   constructor(
     private service : ContactAdminService,
@@ -295,6 +298,10 @@ export class ContactAdminComponent implements OnInit, DoCheck {
           that.sendMsg = '';
         }
       });
+    }
+
+    sendFile(inputFile) {
+      
     }
 
     /**

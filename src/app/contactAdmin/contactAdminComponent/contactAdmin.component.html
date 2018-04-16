@@ -11,7 +11,7 @@
     <div class="text_content">
       <p *ngFor='let item of msgList'>
         <span class="date_span">{{item.time | date : 'yyyy-MM-dd hh:mm:ss EEEE'}}</span>
-        <span [ngStyle]="{'float': item.flow === 'to'?'left':'right'}">
+        <span [ngStyle]="{'float': item.flow === 'in'?'left':'right'}">
           {{item.text}}
         </span>
       </p>
@@ -20,6 +20,9 @@
       <div nz-row>
         <div style="padding: 0 10px 0 10px;" nz-col [nzSpan]='20'>
           <span style="display: inline-block; margin-right: 10px;" (click)='addFace()' class="emotion">表情</span>
+          <span>
+            <input type="file" [(ngModel)]='inputFile' />
+          </span>
           <nz-input style="width: 90%;" class="text_area" id="saytext" name="saytext" [(ngModel)]="sendMsg" [nzPlaceHolder]="'请输入聊天内容'"></nz-input>
         </div>
         <div style="text-align: center;padding: 0 10px 0 10px;" nz-col [nzSpan]='4'>
