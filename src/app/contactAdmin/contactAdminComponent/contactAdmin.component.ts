@@ -1,5 +1,5 @@
 import {Component, OnInit, DoCheck} from '@angular/core';
-import {NzMessageService} from 'ng-zorro-antd';
+import {NzMessageService, UploadFile} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 import {ContactAdminService} from '../contactAdminService/contactAdmin.service';
 import {Md5} from 'ts-md5/dist/md5';
@@ -34,7 +34,8 @@ export class ContactAdminComponent implements OnInit, DoCheck {
   msgList = []
 
   // 文件
-  inputFile:any;
+  fileList: UploadFile[] = [];
+  inputFile:any = '';
 
   //昵称 头像
   custom: boolean = false;
@@ -277,11 +278,14 @@ export class ContactAdminComponent implements OnInit, DoCheck {
      * 发送消息
      */
     sendMessage(info):void {
-      console.log('infor', info)
-      if (info === '') {
+      if (this.inputFile != '') {
+        this.sendFile();
+        return
+      } else if (info === '') {
         this._message.warning('不能发送空消息')
         return
       }
+
       // var str = $("#saytext").val();
       var str = this.replace_em(info)
       var that = this;
@@ -303,8 +307,65 @@ export class ContactAdminComponent implements OnInit, DoCheck {
       });
     }
 
-    sendFile(inputFile) {
+    beforeUpload = (file: UploadFile): boolean => {
+      this.fileList.push(file);
+      console.log('fileList', this.fileList)
+      return false;
+    }
+    
+    private getUpload(e) {
+      if (e.target.files[0]) {
+       const file = e.target;
+       this.inputFile = file;
+       console.log('inputFile',this.inputFile)
+      }
+    }
 
+    sendFile() {
+      // console.log(this.fileList)
+      // var inputFile = this.fileList[0];
+      // var formData = new FormData();
+      // this.fileList.forEach((file: any) => {
+      //   formData.append('bolb', file);
+      // });
+      // console.log('formData',formData)
+      var that = this;
+      this.Nm.sendFile({
+        scene: 'p2p',
+        to:  this.chatId,
+        type: 'file',
+        fileInput: that.inputFile,
+        beginupload: function(upload) {
+          
+        },
+        uploadprogress: function(obj) {
+            console.log('文件总大小: ' + obj.total + 'bytes');
+            console.log('已经上传的大小: ' + obj.loaded + 'bytes');
+            console.log('上传进度: ' + obj.percentage);
+            console.log('上传进度文本: ' + obj.percentageText);
+        },
+        uploaddone: function(error, file) {
+            console.log(error);
+            console.log(file);
+            console.log('上传' + (!error?'成功':'失败'));
+        },
+        beforesend: function(msg) {
+            console.log('正在发送p2p image消息, id=' + msg.idClient);
+            that.pushMsg(msg);
+        },
+        done: function sendMsgDone(error, msg) {
+          console.log(error);
+          console.log(msg);
+          console.log('发送' + msg.scene + ' ' + msg.type + '消息' + (!error?'成功':'失败') + ', id=' + msg.idClient);
+          that.pushMsg({
+            text: msg.name,
+            flow: msg.flow,
+            time: msg.userUpdateTime
+          });
+          that.inputFile = ''
+          that.sendMsg = '';
+        }
+    });
     }
 
     /**
