@@ -86,17 +86,17 @@
   <ng-template #modalContent>
     <div id="template">
       <div>
-        <nz-input [(ngModel)]="UserName" [nzDisabled]="true" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)">
+        <nz-input [(ngModel)]="UserName" [nzDisabled]="true" [nzPlaceHolder]="'请输入姓名'" (ngModelChange)="_console($event)">
           <ng-template #addOnBefore>姓名</ng-template>
         </nz-input>
       </div>
       <div>
-        <nz-input [nzType]="'password'" [(ngModel)]="newUserPassword" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)">
+        <nz-input [nzType]="'password'" [(ngModel)]="newUserPassword" [nzPlaceHolder]="'请输入密码'" (ngModelChange)="_console($event)">
           <ng-template #addOnBefore>密码</ng-template>
         </nz-input>
       </div>
       <div>
-        <nz-input [nzType]="'password'" [(ngModel)]="repeatPassword" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)">
+        <nz-input [nzType]="'password'" [(ngModel)]="repeatPassword" [nzPlaceHolder]="'请确认密码'" (ngModelChange)="_console($event)">
           <ng-template #addOnBefore>确认密码</ng-template>
         </nz-input>
       </div>

@@ -19,9 +19,9 @@
     <div class="send_message">
       <div nz-row>
         <div style="padding: 0 10px 0 10px;" nz-col [nzSpan]='20'>
-          <span style="display: inline-block; margin-right: 10px;" (click)='addFace()' class="emotion">表情</span>
+          <span style="display: inline-block; margin-right: 10px;" (click)='addFace()' class="emotion"><i class="anticon anticon-smile-o"></i></span>
           <span>
-            <input type="file" [(ngModel)]='inputFile' />
+            <input class="fileBtn" type="file" [(ngModel)]='inputFile' />
           </span>
           <nz-input style="width: 90%;" class="text_area" id="saytext" name="saytext" [(ngModel)]="sendMsg" [nzPlaceHolder]="'请输入聊天内容'"></nz-input>
         </div>

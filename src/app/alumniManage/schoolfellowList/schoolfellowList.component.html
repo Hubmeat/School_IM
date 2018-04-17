@@ -263,38 +263,34 @@
                     <li>
                       <span><b class="weight">手机：</b></span>
                       <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.contact_phone" [nzReadonly]='!editFlag'></nz-input>
-                      <span><b class="weight">邮箱：</b></span>
+                      <span style="margin-left: 10px;"><b class="weight">邮箱：</b></span>
                       <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.private_email" [nzReadonly]='!editFlag'></nz-input>
-                    </li>
-                    <li>
-                      <span><b class="weight">身份证：</b></span>
-                      <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.id_number" [nzReadonly]='!editFlag'></nz-input>
-                      <span><b class="weight">政治面貌：</b></span>
+                      <span style="margin-left: 10px;"><b class="weight">政治面貌：</b></span>
                       <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.politics_status" [nzReadonly]='!editFlag'></nz-input>
+                      <span style="margin-left: 10px;"><b class="weight">身份证：</b></span>
+                      <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="userInfo.id_number" [nzReadonly]='!editFlag'></nz-input>
                     </li>
                     <li>
                       <span><b class="weight">微信：</b></span>
                       <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.wechat_number" [nzReadonly]='!editFlag'></nz-input>
-                      <span><b class="weight">QQ：</b></span>
+                      <span style="margin-left: 10px;"><b class="weight">Q Q：</b></span>
                       <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.qq_number" [nzReadonly]='!editFlag'></nz-input>
-                    </li>
-                    <li>
-                      <span><b class="weight">目前所在地：</b></span>
+                      <span style="margin-left: 10px;"><b class="weight">目前所在地：</b></span>
                       <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.province_code" (ngModelChange) = 'editProvinceChange(userInfo.province_code)' [nzDisabled]='!editFlag'>
-                          <nz-option
-                            *ngFor="let item of provinceOptions"
-                            [nzLabel]="item.name"
-                            [nzValue]="item.code"
-                            [nzDisabled]="item.disabled">
-                          </nz-option>
+                        <nz-option
+                          *ngFor="let item of provinceOptions"
+                          [nzLabel]="item.name"
+                          [nzValue]="item.code"
+                          [nzDisabled]="item.disabled">
+                        </nz-option>
                       </nz-select>
                       <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.city_code" [nzDisabled]='!editFlag'>
-                          <nz-option
-                            *ngFor="let item of editCityOptions"
-                            [nzLabel]="item.name"
-                            [nzValue]="item.code"
-                            [nzDisabled]="item.disabled">
-                          </nz-option>
+                        <nz-option
+                          *ngFor="let item of editCityOptions"
+                          [nzLabel]="item.name"
+                          [nzValue]="item.code"
+                          [nzDisabled]="item.disabled">
+                        </nz-option>
                       </nz-select>
                     </li>
                   </ul>
@@ -308,7 +304,7 @@
                   </li>
                   <li>
                     <b class="weight">学院：</b>
-                    <nz-select  class="selectInput" style="width: 100px;" [nzDisabled]='!editFlag' [(ngModel)]="userInfo.academy_id" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'">
+                    <nz-select  class="selectInput" style="width: 170px;" [nzDisabled]='!editFlag' [(ngModel)]="userInfo.academy_id" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择学院'">
                       <nz-option
                         *ngFor="let item of collegeOptions"
                         [nzLabel]="item.academy_name"
@@ -319,7 +315,7 @@
                   </li>
                   <li>
                     <b class="weight">专业：</b>
-                    <nz-select  class="selectInput" [nzDisabled]='!editFlag' style="width: 100px;" [(ngModel)]="userInfo.profession_id" [nzPlaceHolder]="'请选择学历'">
+                    <nz-select  class="selectInput" [nzDisabled]='!editFlag' style="width: 170px;" [(ngModel)]="userInfo.profession_id" [nzPlaceHolder]="'请选择学历'">
                       <nz-option
                         *ngFor="let item of majorOptions"
                         [nzLabel]="item.major_name"
@@ -345,11 +341,11 @@
                   </li>
                   <li>
                     <b class="weight">班号：</b>
-                    <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.class_number" [nzReadonly]='!editFlag'></nz-input>
+                    <nz-input class="selectInput" style="width: 170px;" [(ngModel)]="userInfo.class_number" [nzReadonly]='!editFlag'></nz-input>
                   </li>
                   <li>
                     <b class="weight">学号：</b>
-                    <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.student_number" [nzReadonly]='!editFlag'></nz-input>
+                    <nz-input class="selectInput" style="width: 170px;" [(ngModel)]="userInfo.student_number" [nzReadonly]='!editFlag'></nz-input>
                   </li>
                   <li>
                     <b class="weight">班主任：</b>
@@ -361,15 +357,15 @@
                 <ul>
                   <li>
                     <b class="weight">公司名称：</b>
-                    <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].company_name" [nzReadonly]='!editFlag'></nz-input>
+                    <nz-input class="selectInput" style="width: 160px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].company_name" [nzReadonly]='!editFlag'></nz-input>
                   </li>
                   <li>
                     <b class="weight">职位名称：</b>
-                    <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].job_title" [nzReadonly]='!editFlag'></nz-input>
+                    <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].job_title" [nzReadonly]='!editFlag'></nz-input>
                   </li>
                   <li>
                     <b class="weight">所属行业：</b>
-                    <nz-select  class="selectInput" class="" style="width: 100px;" [nzDisabled]='!editFlag' [(ngModel)]="userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].industry_involved_id" [nzPlaceHolder]="'请选择行业'">
+                    <nz-select  class="selectInput" class="" style="width: 100px;" [nzDisabled]='!editFlag' [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].industry_involved_id" [nzPlaceHolder]="'请选择行业'">
                       <nz-option
                         *ngFor="let item of industroyOptions"
                         [nzLabel]="item.industry_name"
@@ -379,15 +375,15 @@
                   </li>
                   <li>
                     <b class="weight">企业人数：</b>
-                    <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].person_number" [nzReadonly]='!editFlag'></nz-input>
+                    <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].person_number" [nzReadonly]='!editFlag'></nz-input>
                   </li>
                   <li>
                     <b class="weight">上一年度资产总值：</b>
-                    <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].last_total_assets" [nzReadonly]='!editFlag'></nz-input>
+                    <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].last_total_assets" [nzReadonly]='!editFlag'></nz-input>
                   </li>
                   <li>
                     <b class="weight">公司地址：</b>
-                    <nz-select  class="selectInput" [nzDisabled]='!editFlag' style="width: 100px;" [(ngModel)]="userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].province_code" (ngModelChange) = 'editCompanyProvinceChange(userInfo.company_batch[0].province_code)' [nzPlaceHolder]="'请选择省份'" nzAllowClear>
+                    <nz-select  class="selectInput" [nzDisabled]='!editFlag' style="width: 100px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].province_code" (ngModelChange) = 'editCompanyProvinceChange(userInfo.company_batch[0].province_code)' [nzPlaceHolder]="'请选择省份'" nzAllowClear>
                         <nz-option
                           *ngFor="let item of provinceOptions"
                           [nzLabel]="item.name"
@@ -395,7 +391,7 @@
                           [nzDisabled]="item.disabled">
                         </nz-option>
                     </nz-select>
-                    <nz-select  class="selectInput" [nzDisabled]='!editFlag' style="width: 100px;" [(ngModel)]="userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].area_code" [nzPlaceHolder]="'请选择城市'" nzAllowClear>
+                    <nz-select  class="selectInput" [nzDisabled]='!editFlag' style="width: 100px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].area_code" [nzPlaceHolder]="'请选择城市'" nzAllowClear>
                         <nz-option
                           *ngFor="let item of editComCityOptions"
                           [nzLabel]="item.name"
@@ -403,12 +399,12 @@
                           [nzDisabled]="item.disabled">
                         </nz-option>
                     </nz-select>
-                    <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].address" [nzReadonly]='!editFlag'></nz-input>
+                    <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].address" [nzReadonly]='!editFlag'></nz-input>
                   </li>
                 </ul>
                 <p>
                   <b class="weight">公司简介：</b>
-                  <nz-input style="min-height: 40px; width: 100%;" [(ngModel)]="userInfo.company_batch === undefined?'暂无':userInfo.company_batch[0].company_introduce" [nzType]="'textarea'" [nzReadonly]='!editFlag'></nz-input>
+                  <nz-input style="min-height: 40px; width: 100%;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].company_introduce" [nzType]="'textarea'" [nzReadonly]='!editFlag'></nz-input>
                 </p>
                 <p>
                   <b class="weight">企业家简介：</b>

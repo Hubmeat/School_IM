@@ -32,7 +32,7 @@
       <td nz-td>
         <a>{{data.major_name}}</a>
       </td>
-      <td nz-td>{{data.age}}</td>
+      <td nz-td>{{data.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
       <td nz-td>
         <a class="a-click" (click)="editshowModal(data.major_name, data.id)">编辑</a>
         <a class="a-click">

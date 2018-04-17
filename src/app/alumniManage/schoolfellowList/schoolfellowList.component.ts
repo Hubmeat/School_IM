@@ -65,7 +65,9 @@ export class SchoolfellowListCom implements OnInit {
     totalPage = 0;
 
     // 用户资料model
-    userInfo = {};
+    userInfo = {
+      company_batch: []
+    };
     userInfoVisible:boolean = false;
     acceptLoading:boolean = false;
     rejectLoading:boolean = false;
@@ -242,6 +244,7 @@ export class SchoolfellowListCom implements OnInit {
 
     // 审核资料展示 方法
     showInfoModal = (data) => {
+        this.editFlag = false;
         var id = data.id;
         this.alumniMgService.getSchoolFwDetail(id);
         this.alumniMgService.schoolFwDeatilSubject.subscribe(
@@ -251,7 +254,9 @@ export class SchoolfellowListCom implements OnInit {
                     this.userInfo = res.result;
                     // 开启调用city下拉框方法
                     this.editProvinceChange(res.result.province_code);
-                    this.editCompanyProvinceChange(res.result.company_batch[0].area_code)
+                    if (res.result.company_batch.length > 0) {
+                      this.editCompanyProvinceChange(res.result.company_batch[0].area_code);
+                    }
                     // 调用获取专业联动方法
                     this.geMojorData(res.result.academy_id);
 
