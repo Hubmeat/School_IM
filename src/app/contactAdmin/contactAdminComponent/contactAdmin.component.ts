@@ -8,7 +8,7 @@ import {Md5} from 'ts-md5/dist/md5';
 @Component({selector: 'contactAdmin-component', templateUrl: './contactAdmin.component.html', styleUrls: ['./contactAdmin.component.less']})
 
 export class ContactAdminComponent implements OnInit, DoCheck {
-  dataList = '';
+  dataList: any;
   schoolName = '';
   isVisible = false;
   isVisible1 = false;
@@ -35,6 +35,9 @@ export class ContactAdminComponent implements OnInit, DoCheck {
 
   // 文件
   inputFile:any;
+
+  //昵称 头像
+  custom: boolean = false;
 
 
   constructor(
@@ -301,7 +304,7 @@ export class ContactAdminComponent implements OnInit, DoCheck {
     }
 
     sendFile(inputFile) {
-      
+
     }
 
     /**
@@ -326,6 +329,12 @@ export class ContactAdminComponent implements OnInit, DoCheck {
     updateSessionsUI(res) {
         // 刷新界面
         this.dataList = res;
+        for (let i in this.dataList) {
+          if (this.dataList[i].lastMsg.custom) {
+            this.dataList[i].lastMsg.custom = JSON.parse(this.dataList[i].lastMsg.custom);
+            this.custom = true;
+            console.log(this.dataList[i].lastMsg.custom);
+          }
+        }
     }
-
 }

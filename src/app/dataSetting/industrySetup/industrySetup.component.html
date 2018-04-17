@@ -28,7 +28,7 @@
         <td nz-td>
           <a>{{data.industry_name}}</a>
         </td>
-        <td nz-td>{{data.id}}</td>
+        <td nz-td>{{data.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
         <td nz-td>
           <a class="a-click" (click)="editModal(data.id, data.industry_name)">编辑</a>
           <a class="a-click">
@@ -114,11 +114,11 @@
           [nzTitle]="'批量导入'"
           [nzOkText]="'提交'"
           [nzCancelText]="'取消'"
-          [nzContent]="modalContent"
+          [nzContent]="modalContentResult"
           (nzOnCancel)="handleCancel($event)"
           (nzOnOk)="handleCancel($event)"
 >
-  <ng-template #modalContent>
+  <ng-template #modalContentResult>
     <div>
       <div>
         <p>成功上传：{{upload.success}}</p>

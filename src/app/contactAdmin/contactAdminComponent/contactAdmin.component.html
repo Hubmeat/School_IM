@@ -3,7 +3,14 @@
     <ul>
       <li>系统管理员</li>
       <li *ngFor="let item of dataList" (click)='changeChatObject(item)' >
-        {{item.id}}
+        <p>
+           <span>
+            {{item.lastMsg.custom === undefined ? item.id : item.lastMsg.custom.xy_nickname}}
+          </span>
+          <span *ngIf="item.lastMsg.custom === undefined ? false : true">
+            <img style="width: 30px;height: 30px;" src="{{item.lastMsg.custom.xy_avatar}}" alt="">
+          </span>
+        </p>
       </li>
     </ul>
   </div>
