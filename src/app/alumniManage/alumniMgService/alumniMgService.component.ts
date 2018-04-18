@@ -605,4 +605,5 @@ export class AMService {
         })
     }
     schoolApi = this.$HOST.host + '/a/academy_template/export';
+    RecordApi = this.$HOST.host + '/a/user_defeat/export';
 }

@@ -13,8 +13,11 @@ export class DataSettingService {
    * 下载api
    */
   industryApi = this.$HOST.host + '/a/industry_template/export';
-  departmentsApi = this.$HOST.host + '/a/industry_template/export';
-  specialtyApi = this.$HOST.host + '/a/industry_template/export';
+  industryRecordApiApi = this.$HOST.host + '/a/industry_defeat/export';
+  departmentsApi = this.$HOST.host + '/a/academy_defeat/export';
+  departmentsRecordApiApi = this.$HOST.host + '/a/academy_defeat/export';
+  specialtyApi = this.$HOST.host + '/a/major_template/export';
+  specialtyRecordApiApi = this.$HOST.host + '/a/major_defeat/export';
 
 
   constructor(
@@ -274,10 +277,7 @@ export class DataSettingService {
 
     public DownRecordInfoSubject = new Subject<any>();
 
-    public downRecordInfo(unique_identification) {
-      const formData = {
-        unique_identification: unique_identification
-      };
+    public downRecordInfo(formData) {
       this.$http
         .post(this.$HOST.host + '/a/academy_defeat/export', formData)
         .subscribe(res => {

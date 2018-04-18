@@ -25,6 +25,7 @@ export class CkeditorComponent implements OnInit {
     const _this = this;
     this.article_content = this.fromFatherValue;
     this.editor = new this.E('#editor');
+    this.editor.customConfig.uploadImgShowBase64 = true   // 使用 base64 保存图片
     this.editor.customConfig.onchange = function (html) {
       // html 即变化之后的内容
       console.log(html)

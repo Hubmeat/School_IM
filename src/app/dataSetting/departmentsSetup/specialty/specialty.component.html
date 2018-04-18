@@ -128,7 +128,7 @@
       <div>
         <p>成功上传：{{upload.success}}</p>
         <span>上传失败：{{upload.defeat}}</span>
-        <button nz-button (click)="getDownRecord()" [disabled]="upload.defeat < 1">下载失败记录</button>
+        <button nz-button (click)="getDownRecord()">下载失败记录</button>
         <p *ngIf="recordInfo" style="color: red">已存在</p>
       </div>
     </div>
