@@ -40,8 +40,7 @@ export class AuditRecordCom implements OnInit {
     auditStatusOptions = [
         { value: null, label: '全部'},
         { value: 1, label: '审核通过'},
-        { value: 2, label: '审核不通过'},
-        { value: 3, label: '待审核'}
+        { value: 2, label: '审核不通过'}
     ];
     auditStatusSelected = this.auditStatusOptions[0].value;
 

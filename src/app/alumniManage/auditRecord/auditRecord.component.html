@@ -2,25 +2,26 @@
   <div class="auditRecord_head" nz-row>
     <!-- 查询时间段 -->
     <!--<div class="timeSelect_area">-->
-        <div class="register" nz-col [nzSpan]="11">
-            <span>
-                注册时间：
-            </span>
-            <nz-datepicker [(ngModel)]="registerBeginTime" nzShowTime [nzPlaceHolder]="'选择开始时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
-            <span>至</span>
-            <nz-datepicker [(ngModel)]="registeEndrTime" nzShowTime [nzPlaceHolder]="'选择结束时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
-        </div>
-        <div class="joinSchool" nz-col [nzSpan]="11">
-            <span>
-                入学时间：
-            </span>
-            <nz-datepicker [(ngModel)]="joinBeginTime" nzShowTime [nzPlaceHolder]="'选择开始时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
-            <span>至</span>
-            <nz-datepicker [(ngModel)]="joinEndrTime" nzShowTime [nzPlaceHolder]="'选择结束时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
-        </div>
+
     <!--</div>-->
     <!-- 查询条件、下拉框 -->
     <div class="conditionSelect_area" nz-row>
+      <div class="register" nz-col [nzSpan]="11">
+            <span>
+                注册时间：
+            </span>
+        <nz-datepicker [(ngModel)]="registerBeginTime" nzShowTime [nzPlaceHolder]="'选择开始时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+        <span>至</span>
+        <nz-datepicker [(ngModel)]="registeEndrTime" nzShowTime [nzPlaceHolder]="'选择结束时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+      </div>
+      <div class="joinSchool" nz-col [nzSpan]="11">
+            <span>
+                入学时间：
+            </span>
+        <nz-datepicker [(ngModel)]="joinBeginTime" nzShowTime [nzPlaceHolder]="'选择开始时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+        <span>至</span>
+        <nz-datepicker [(ngModel)]="joinEndrTime" nzShowTime [nzPlaceHolder]="'选择结束时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+      </div>
       <!--<div class="top">-->
           <div nz-col [nzSpan]="6" class="name">
             <span>
@@ -133,13 +134,13 @@
           <tbody nz-tbody>
             <tr nz-tbody-tr *ngFor="let data of nzTable.data">
               <td nz-td>
-                {{data.update_at | date:'yyyy-MM-dd HH:mm:ss'}}
+                {{data.examine_time | date:'yyyy-MM-dd HH:mm:ss'}}
               </td>
               <td nz-td>
                 {{data.examine_user}}
               </td>
               <td nz-td>
-                {{data.examine_state === 1?'通过':[data.examine_stat === 2?'不通过':'待审核']}}
+                {{data.examine_state === 1?'通过': data.examine_state === 2 ? '不通过':'待审核'}}
               </td>
               <td nz-td>
                 {{data.created_at | date:'yyyy-MM-dd HH:mm:ss'}}
@@ -175,9 +176,6 @@
       <div class="page" *ngIf="data.length > 0">
         <nz-pagination
             [nzPageIndex]="currentPage"
-            [nzPageSize] = '15'
-            [nzTotal]="totalPage"
-            (nzPageIndexClickChange) = 'currentPageChange($event)'
             nzShowTotal>
         </nz-pagination>
       </div>

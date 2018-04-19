@@ -94,7 +94,7 @@ export class LiveListComponent implements OnInit  {
         return;
       }
       if (res.detail.error_code === 0) {
-        this.detailData = res.detail.result[index];
+        this.detailData = res.detail.result[0];
       }
     })
   }
