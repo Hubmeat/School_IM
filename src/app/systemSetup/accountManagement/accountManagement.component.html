@@ -43,10 +43,6 @@
     *ngIf="isShowTable;else nzTable"
     [nzDataSource]="_dataSet"
     #nzTable
-    [nzPageSize]="10"
-    [nzPageIndex]="page"
-    (nzPageIndexChange)="pageChange($event)"
-    nzShowSizeChanger
   >
     <thead nz-thead>
     <tr>

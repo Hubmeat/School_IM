@@ -140,7 +140,7 @@
       </div>
     </div>
     <div nz-row style="margin-top: 40px;">
-      <nz-table #nzTable [nzDataSource]="addMemberList" [nzPageSize]="100" (nzDataChange)="_displayDataChange($event)" nz-col [nzSpan]="18">
+      <nz-table #nzTable [nzDataSource]="addMemberList" (nzDataChange)="_displayDataChange($event)" nz-col [nzSpan]="18">
         <thead nz-thead>
         <tr>
           <th nz-th nzCheckbox>

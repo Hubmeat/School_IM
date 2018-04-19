@@ -13,6 +13,7 @@
       <span>公告状态</span>
       <nz-select style="width: 75%;"
                  [(ngModel)]="affiche_state"
+                 [nzPlaceHolder]="'请输入公告状态'"
                  nzAllowClear
       >
         <nz-option
@@ -29,7 +30,7 @@
 </div>
 
 <div class="accountM_table">
-  <nz-table #nzTable [nzDataSource]="_dataSet" [nzPageSize]="10" nzShowSizeChanger>
+  <nz-table #nzTable [nzDataSource]="_dataSet">
     <thead nz-thead>
     <tr>
       <th nz-th><span>发布时间</span></th>
@@ -79,8 +80,11 @@
   <ng-template #modalContent>
     <h2 style="padding: 15px;text-align: center">{{dataDetails.affiche_title}}</h2>
     <div><img src="{{dataDetails.affiche_pic}}" alt="" style="width: 100%;margin-bottom: 15px;"></div>
-    <p>
+    <p *ngIf="dataDetails.article_content !== ''">
       {{dataDetails.article_content}}
+    </p>
+    <p *ngIf="dataDetails.article_intr !== ''">
+      {{dataDetails.article_intr}}
     </p>
   </ng-template>
 </nz-modal>
