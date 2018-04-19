@@ -173,12 +173,15 @@ DoCheck {
   pushMsg(msgs) {
     console.log('**** msgs', msgs)
     // if (msgs.lastMsg.) {
-      
+
     // }
     var obj = {};
-    obj['type'] = 'text';
-    obj['text'] = 'msgs';
+    // obj['type'] = msgs.type;
+    // obj['text'] = msgs.text;
+    obj['type'] = 'type';
+    obj['text'] = 'text';
     this.msgList.push(obj);
+    console.log(this.msgList);
     // if (!Array.isArray(msgs)) { msgs = [msgs]; } var sessionId = msg[0].scene +
     // '-' + msgs[0].account; data.msgs = data.msgs || {}; data.msgs[sessionId] =
     // nim.mergeMsgs(data.msgs[sessionId], msgs);

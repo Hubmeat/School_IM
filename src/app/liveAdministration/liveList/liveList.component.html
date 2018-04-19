@@ -91,7 +91,7 @@
       <div nz-col [nzSpan]="10" class="user-heard-img"><img class="user-heard-img" src="{{detailData.live_pic}}" alt=""></div>
       <div nz-col [nzSpan]="10">
         <h2>{{detailData.live_title}}</h2>
-        <p>直播时间:{{detailData.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+        <!--<p>直播时间:{{detailData.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</p>-->
         <!--<div class="user-sm-img">
 
         </div>-->
@@ -100,12 +100,12 @@
     </div>
 
     <hr>
-    <div class="margin-top-15">直播简介</div>
+    <div class="margin-top-15">视频地址: <span>{{detailData.video_url}}</span></div>
     <div class="margin-top-15">
-      <p>{{detailData.foreshow_intro}}</p>
+      视频类型: <span>{{detailData.live_type === 1 ? '直播' : '回放'}}</span>
     </div>
     <div class="margin-top-15">
-      预告状态：
+      视频状态:
       <span>{{detailData.live_state === 1 ? '显示': '隐藏'}}</span>
     </div>
   </ng-template>

@@ -16,12 +16,12 @@
   </div>
   <div id="chart"  nz-col [nzSpan]="16">
     <div class="text_content">
-      <p *ngFor='let item of msgList'>
+      <div *ngFor='let item of msgList'>
         <span class="date_span">{{item.time | date : 'yyyy-MM-dd hh:mm:ss EEEE'}}</span>
-        <span [ngStyle]="{'float': item.flow === 'in'?'left':'right'}">
+        <p [ngStyle]="{'text-align': item.flow === 'in'?'left':'right'}">
           {{item.text}}
-        </span>
-      </p>
+        </p>
+      </div>
     </div>
     <div class="send_message">
       <div nz-row>
@@ -35,9 +35,12 @@
                 <i class="anticon anticon-upload"></i><span>Select File</span>
               </button>
             </nz-upload> -->
-            <input type="file" (change)="getUpload($event)" >
+            <label>
+              <input style="width: 30px" type="file" (change)="getUpload($event)" style="position:absolute;opacity:0;"  >
+              <img style="width: 30px;height: 30px;" src="../../../assets/images/timg.jpg">
+            </label>
           </span>
-          <nz-input style="width: 87%;" class="text_area" id="saytext" name="saytext" [(ngModel)]="sendMsg" [nzPlaceHolder]="'请输入聊天内容'"></nz-input>
+          <nz-input style="width: 78%;" class="text_area" id="saytext" name="saytext" [(ngModel)]="sendMsg" [nzPlaceHolder]="'请输入聊天内容'"></nz-input>
         </div>
         <div style="text-align: center;padding: 0 10px 0 10px;" nz-col [nzSpan]='4'>
           <button style="width: 100%;" class="send_btn" nz-button (click)='sendMessage(sendMsg)' (keyup.enter)='sendMessage(sendMsg)' [nzType]="'default'">

@@ -199,7 +199,8 @@ export class AMService {
         phone,
         status,
         provinceCode,
-        cityCode
+        cityCode,
+        areaCode
     ):void {
         var formData = {
             "education": education,
@@ -215,7 +216,8 @@ export class AMService {
             "contact_phone": phone,
             "c_data_state":  status,
             "province_code": provinceCode,
-            "city_code": cityCode
+            "city_code": cityCode,
+            "area_code": areaCode
         }
 
         this.$http

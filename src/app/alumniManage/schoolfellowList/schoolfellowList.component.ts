@@ -163,7 +163,8 @@ export class SchoolfellowListCom implements OnInit {
             this.phone,
             this.accountSelected,
             this.provinceSelected,
-            this.citySelectde
+            this.citySelectde,
+            this.areaSelected
         );
         this.alumniMgService.schoolFWSubject.subscribe(
             res => {
@@ -214,6 +215,15 @@ export class SchoolfellowListCom implements OnInit {
             }
         )
     }
+    areaChange(areacode) {
+        this.alumniMgService.getareaList(areacode);
+        this.alumniMgService.provinceCodeSubject.subscribe(res => {
+          if (res.area) {
+            this.areaOptions = res.area.result;
+          }
+        })
+    }
+
 
     geMojorData (value) {
         this.alumniMgService.getMajorSelectData(value);

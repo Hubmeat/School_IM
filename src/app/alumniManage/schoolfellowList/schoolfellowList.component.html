@@ -108,13 +108,21 @@
                         [nzDisabled]="item.disabled">
                       </nz-option>
                   </nz-select>
-                  <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="citySelectde" [nzPlaceHolder]="'请选择城市'" nzAllowClear>
+                  <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="citySelectde" (ngModelChange)="areaChange($event)" [nzPlaceHolder]="'请选择城市'" nzAllowClear>
                       <nz-option
                         *ngFor="let item of cityOptions"
                         [nzLabel]="item.name"
                         [nzValue]="item.code"
                         [nzDisabled]="item.disabled">
                       </nz-option>
+                  </nz-select>
+                  <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="areaSelected" [nzPlaceHolder]="'请选择城市'" nzAllowClear>
+                    <nz-option
+                      *ngFor="let item of areaOptions"
+                      [nzLabel]="item.name"
+                      [nzValue]="item.code"
+                      [nzDisabled]="item.disabled">
+                    </nz-option>
                   </nz-select>
                 </div>
             <!--</div>-->
