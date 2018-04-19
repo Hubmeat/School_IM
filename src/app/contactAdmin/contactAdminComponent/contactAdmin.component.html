@@ -4,11 +4,11 @@
       <li>系统管理员</li>
       <li *ngFor="let item of dataList" (click)='changeChatObject(item)' >
         <p>
-           <span>
-            {{item.lastMsg.custom === undefined ? item.id : item.lastMsg.custom.xy_nickname}}
-          </span>
-          <span *ngIf="item.lastMsg.custom === undefined ? false : true">
+          <span class="pic" *ngIf="item.lastMsg.custom === undefined ? false : true">
             <img style="width: 30px;height: 30px;" src="{{item.lastMsg.custom.xy_avatar}}" alt="">
+          </span>
+          <span class="text">
+            {{item.lastMsg.custom === undefined ? item.id : item.lastMsg.custom.xy_nickname}}
           </span>
         </p>
       </li>
@@ -26,8 +26,8 @@
     <div class="send_message">
       <div nz-row>
         <div style="padding: 0 10px 0 10px;" nz-col [nzSpan]='20'>
-          <span style="display: inline-block; margin-right: 10px;" (click)='addFace()' class="emotion"><i class="anticon anticon-smile-o"></i></span>
-          <span style="display: inline-block;vertical-align: middle;width: 80px;overflow: hidden;line-height: 40px;">
+          <span style="display: inline-block; margin-right: 10px; font-size: 19px;" (click)='addFace()' class="emotion"><i class="anticon anticon-smile-o"></i></span>
+          <span style="display: inline-block;vertical-align: middle;width: 66px;overflow: hidden;line-height: 40px;">
             <!-- <nz-upload
               [(nzFileList)]="fileList"
               [nzBeforeUpload]="beforeUpload">
@@ -40,7 +40,7 @@
           <nz-input style="width: 87%;" class="text_area" id="saytext" name="saytext" [(ngModel)]="sendMsg" [nzPlaceHolder]="'请输入聊天内容'"></nz-input>
         </div>
         <div style="text-align: center;padding: 0 10px 0 10px;" nz-col [nzSpan]='4'>
-          <button style="width: 100%;" class="send_btn" nz-button (click)='sendMessage(sendMsg)' [nzType]="'default'">
+          <button style="width: 100%;" class="send_btn" nz-button (click)='sendMessage(sendMsg)' (keyup.enter)='sendMessage(sendMsg)' [nzType]="'default'">
             <span>发送</span>
           </button>
         </div>
