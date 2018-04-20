@@ -217,7 +217,7 @@ DoCheck {
       });
   }
 
-  private getUpload(e) {
+  getUpload(e) {
     if (e.target.files[0]) {
       const file = e.target;
       this.inputFile = file;

@@ -52,7 +52,10 @@ export class HeadComponent implements OnInit {
     }
 
     editPass() {
-      this.checkPass();
+      const flag = this.checkPass();
+      if (!flag) {
+        return
+      }
       this.service.editPassword(
         this.uid,
         this.oldPassword,
@@ -62,14 +65,19 @@ export class HeadComponent implements OnInit {
         if (res.error_code === 0) {
           this._message.success('修改成功');
           this.editSubscription.unsubscribe();
+        } else {
+          this._message.warning(res.code_msg);
         }
+        this.editSubscription.unsubscribe();
       })
     }
 
     checkPass() {
       if (this.oldPassword !== this.newPassword) {
         this._message.warning('密码不一致');
-        return;
+        return false;
+      } else {
+        return true;
       }
     }
     showModal = () => {

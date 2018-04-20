@@ -80,8 +80,8 @@
   <ng-template #modalContent>
     <h2 style="padding: 15px;text-align: center">{{dataDetails.affiche_title}}</h2>
     <div><img src="{{dataDetails.affiche_pic}}" alt="" style="width: 100%;margin-bottom: 15px;"></div>
-    <p *ngIf="dataDetails.article_content !== ''">
-      {{dataDetails.article_content}}
+    <p id="contentHtml" *ngIf="dataDetails.article_content !== ''">
+
     </p>
     <p *ngIf="dataDetails.article_intr !== ''">
       {{dataDetails.article_intr}}

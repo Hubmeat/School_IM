@@ -301,3 +301,29 @@
     </div>
   </ng-template>
 </nz-modal>
+
+
+<nz-modal [nzVisible]="showOwnerChangeFlag"
+          [nzTitle]="'选择群主'"
+          [nzCancelText]="'取消'"
+          [nzContent]="modalContentOwner"
+          [nzFooter]="modalFooterOwner"
+          (nzOnCancel)="handleCancel($event)"
+>
+  <ng-template #modalContentOwner>
+    <div>
+      <p style="text-align: center;color: #333333;font-weight: bold">该帐号是以下群群主，请先将群主身份转移!</p>
+      <p>群名：</p>
+      <ul>
+        <li class="li_owner" *ngFor="let item of showOwnerList">
+          {{item.tname}}
+        </li>
+      </ul>
+
+    </div>
+  </ng-template>
+  <ng-template #modalFooterOwner>
+    <button nz-button (click)="handleCancel($event)">取 消</button>
+    <button nz-button (click)="changeSubmit($event)">确 定</button>
+  </ng-template>
+</nz-modal>

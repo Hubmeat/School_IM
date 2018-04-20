@@ -70,6 +70,7 @@ export class GroupManagementCom implements OnInit {
     membercurrentPage: any = 1;
 
     menubarList: any = []; // 成员列表
+    showOwnerChangeFlag: boolean = false; // 群主转让
 
     delSubscription: Subscription;
     editSubscription: Subscription;

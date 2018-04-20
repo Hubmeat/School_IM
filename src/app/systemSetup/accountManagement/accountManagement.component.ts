@@ -61,6 +61,8 @@ export class AccountManagementComponent implements OnInit {
     }
   ]
   isVisible = false;
+  showOwnerFlag: boolean = false;
+  showOwnerList: any = [];
 
   constructor(
     private service: SystemSetupService,
@@ -97,22 +99,23 @@ export class AccountManagementComponent implements OnInit {
   showModal = (username, uid) => {
     this.UserName = username;
     this.uid = uid;
+    this.newUserPassword = '';
+    this.repeatPassword = '';
     this.isVisible = true;
 
   }
   // 重置密码
   handleOk = () => {
-    if (this.newUserPassword === '' || this.newUserPassword === '') {
+    if (this.newUserPassword === '' || this.repeatPassword === '') {
       this._message.warning('密码不能为空');
     }
-    if (this.newUserPassword === this.repeatPassword) {
-      this._message.warning('新旧密码重复');
+    if (this.newUserPassword !== this.repeatPassword) {
+      this._message.warning('请输入相同密码');
       return;
     }
     this.service.resetPassword(
       this.uid,
-      this.newUserPassword,
-      this.repeatPassword
+      this.newUserPassword
     )
     this.editPassWordSubscription = this.service.SystemResetPasswordSubject.subscribe(res => {
         if (res.editpassword === undefined) {
@@ -139,8 +142,13 @@ export class AccountManagementComponent implements OnInit {
         return;
       }
       if (res.state.error_code === 0) {
+        if (res.state.is_owner === 1) {
+          this.showOwnerList = res.state.result;
+          this.showOwnerFlag = true;
+        } else {
+          this.loadData()
+        }
         this.stateSubscription.unsubscribe();
-        this.loadData()
       }
     })
   }
@@ -164,6 +172,7 @@ export class AccountManagementComponent implements OnInit {
   handleCancel = (e) => {
     console.log(e);
     this.isVisible = false;
+    this.showOwnerFlag = false;
   }
   _console() {
     // ..

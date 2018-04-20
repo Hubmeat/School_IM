@@ -62,7 +62,7 @@ export class publicService {
         new_password: new_password,
       }
       this.$http
-        .post(this.$HOST.host + '/a/user/reset_password', formData)
+        .post(this.$HOST.host + '/a/user/change_password', formData)
         .subscribe(res => {
           this.EditPasswordSubject.next(res);
         })

@@ -96,36 +96,36 @@
                       </nz-option>
                   </nz-select>
                 </div>
-                <div class="education" nz-col [nzSpan]="6">
-                  <span>
-                      所在地：&nbsp;&nbsp;&nbsp;&nbsp;
-                  </span>
-                  <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="provinceSelected" (ngModelChange) = 'provinceChange($event)' [nzPlaceHolder]="'请选择省份'" nzAllowClear>
-                      <nz-option
-                        *ngFor="let item of provinceOptions"
-                        [nzLabel]="item.name"
-                        [nzValue]="item.code"
-                        [nzDisabled]="item.disabled">
-                      </nz-option>
-                  </nz-select>
-                  <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="citySelectde" (ngModelChange)="areaChange($event)" [nzPlaceHolder]="'请选择城市'" nzAllowClear>
-                      <nz-option
-                        *ngFor="let item of cityOptions"
-                        [nzLabel]="item.name"
-                        [nzValue]="item.code"
-                        [nzDisabled]="item.disabled">
-                      </nz-option>
-                  </nz-select>
-                  <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="areaSelected" [nzPlaceHolder]="'请选择城市'" nzAllowClear>
-                    <nz-option
-                      *ngFor="let item of areaOptions"
-                      [nzLabel]="item.name"
-                      [nzValue]="item.code"
-                      [nzDisabled]="item.disabled">
-                    </nz-option>
-                  </nz-select>
-                </div>
             <!--</div>-->
+          </div>
+          <div class="education" nz-row>
+                  <span>
+                      所在地:
+                  </span>
+            <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="provinceSelected" (ngModelChange) = 'provinceChange($event)' [nzPlaceHolder]="'请选择省份'" nzAllowClear>
+              <nz-option
+                *ngFor="let item of provinceOptions"
+                [nzLabel]="item.name"
+                [nzValue]="item.code"
+                [nzDisabled]="item.disabled">
+              </nz-option>
+            </nz-select>
+            <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="citySelectde" (ngModelChange)="areaChange($event)" [nzPlaceHolder]="'请选择城市'" nzAllowClear>
+              <nz-option
+                *ngFor="let item of cityOptions"
+                [nzLabel]="item.name"
+                [nzValue]="item.code"
+                [nzDisabled]="item.disabled">
+              </nz-option>
+            </nz-select>
+            <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="areaSelected" [nzPlaceHolder]="'请选择区域'" nzAllowClear>
+              <nz-option
+                *ngFor="let item of areaOptions"
+                [nzLabel]="item.name"
+                [nzValue]="item.code"
+                [nzDisabled]="item.disabled">
+              </nz-option>
+            </nz-select>
           </div>
           <!-- 搜索 -->
           <div class="search" nz-row>
@@ -290,9 +290,17 @@
                           [nzDisabled]="item.disabled">
                         </nz-option>
                       </nz-select>
-                      <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.city_code" [nzDisabled]='!editFlag'>
+                      <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.city_code" (ngModelChange)="editAreaChange(userInfo.city_code)" [nzDisabled]='!editFlag' [nzPlaceHolder]="userInfo.city">
                         <nz-option
                           *ngFor="let item of editCityOptions"
+                          [nzLabel]="item.name"
+                          [nzValue]="item.code"
+                          [nzDisabled]="item.disabled">
+                        </nz-option>
+                      </nz-select>
+                      <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.area_code" [nzDisabled]='!editFlag' [nzPlaceHolder]="userInfo.area">
+                        <nz-option
+                          *ngFor="let item of editAreaOptions"
                           [nzLabel]="item.name"
                           [nzValue]="item.code"
                           [nzDisabled]="item.disabled">
@@ -397,7 +405,7 @@
                           [nzDisabled]="item.disabled">
                         </nz-option>
                     </nz-select>
-                    <nz-select  class="selectInput" [nzDisabled]='!editFlag' style="width: 100px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].area_code" [nzPlaceHolder]="'请选择城市'" nzAllowClear>
+                    <nz-select  class="selectInput" [nzDisabled]='!editFlag' style="width: 100px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].city_code" [nzPlaceHolder]="'请选择城市'" (ngModelChange)="editCompanyAreaChange(userInfo.company_batch[0].city_code)" nzAllowClear>
                         <nz-option
                           *ngFor="let item of editComCityOptions"
                           [nzLabel]="item.name"
@@ -405,7 +413,15 @@
                           [nzDisabled]="item.disabled">
                         </nz-option>
                     </nz-select>
-                    <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].address" [nzReadonly]='!editFlag'></nz-input>
+                    <nz-select  class="selectInput" [nzDisabled]='!editFlag' style="width: 100px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].area_code" [nzPlaceHolder]="'请选择区域'" nzAllowClear>
+                      <nz-option
+                        *ngFor="let item of editComAreaOptions"
+                        [nzLabel]="item.name"
+                        [nzValue]="item.code"
+                        [nzDisabled]="item.disabled">
+                      </nz-option>
+                    </nz-select>
+                    <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].address" [nzReadonly]='!editFlag' [nzPlaceHolder]="'请输入具体地址'"></nz-input>
                   </li>
                 </ul>
                 <p>

@@ -32,7 +32,7 @@
   <ng-template #modalContent>
     <div id="template">
       <div>
-        <nz-input [(ngModel)]="oldPassword" [nzPlaceHolder]="'请输入旧密码'">
+        <nz-input [nzType]="'password'" [(ngModel)]="oldPassword" [nzPlaceHolder]="'请输入旧密码'">
           <ng-template #addOnBefore>旧密码</ng-template>
         </nz-input>
       </div>

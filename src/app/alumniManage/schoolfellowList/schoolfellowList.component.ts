@@ -106,7 +106,9 @@ export class SchoolfellowListCom implements OnInit {
     sexSelected = '';
     editCityOptions = []; // 编辑功能城市列表
     industroyOptions = []; // 行业下拉列表数据
+    editAreaOptions = [];
     editComCityOptions = []; // 编辑 公司地址
+    editComAreaOptions = [];
     uploadSubscription: Subscription;
     recordInfo: any = false;
     isShowResult: boolean = false;
@@ -441,6 +443,14 @@ export class SchoolfellowListCom implements OnInit {
             }
         )
     }
+    editAreaChange(id) {
+      this.alumniMgService.getareaList(id);
+      this.alumniMgService.provinceCodeSubject.subscribe(res => {
+        if (res.area) {
+          this.editAreaOptions = res.area.result;
+        }
+      })
+    }
 
     editCompanyProvinceChange(id):void {
         this.alumniMgService.getCityList(id);
@@ -452,6 +462,14 @@ export class SchoolfellowListCom implements OnInit {
             }
         )
     }
+  editCompanyAreaChange(id) {
+    this.alumniMgService.getareaList(id);
+    this.alumniMgService.provinceCodeSubject.subscribe(res => {
+      if (res.area) {
+        this.editComAreaOptions = res.area.result;
+      }
+    })
+  }
 
   getDownRecord() {
     $("#downloadform").remove();
