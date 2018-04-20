@@ -3,6 +3,7 @@ import {NzMessageService, UploadFile} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 import {ContactAdminService} from '../contactAdminService/contactAdmin.service';
 import {Md5} from 'ts-md5/dist/md5';
+import * as Q from 'jquery';
 // import Chatroom from '../../../assets/NIM_Web_Chatroom_v5.0.0';
 
 @Component({selector: 'contactAdmin-component', templateUrl: './contactAdmin.component.html', styleUrls: ['./contactAdmin.component.less']})
@@ -10,6 +11,7 @@ import {Md5} from 'ts-md5/dist/md5';
 export class ContactAdminComponent implements OnInit,
 DoCheck {
   dataList : any;
+  currentChatObject = '';
   schoolName = '';
   isVisible = false;
   isVisible1 = false;
@@ -106,22 +108,22 @@ DoCheck {
         onerror: function (error) {
           console.log(error);
         },
-        // onroamingmsgs: function (obj) {
-        //   console.log('收到漫游消息', obj);
-        //   obj
-        //     .msgs
-        //     .map(item => {
-        //       that.pushMsg({text: item.text, flow: item.flow});
-        //     })
-        // },
-        // onofflinemsgs: function (obj) {
-        //   console.log('收到离线消息', obj);
-        //   obj
-        //     .msgs
-        //     .map(item => {
-        //       that.pushMsg({text: item.text, flow: item.flow});
-        //     })
-        // },
+        onroamingmsgs: function (obj) {
+          console.log('收到漫游消息', obj);
+          obj
+            .msgs
+            .map(item => {
+              that.pushMsg({text: item.text, flow: item.flow});
+            })
+        },
+        onofflinemsgs: function (obj) {
+          console.log('收到离线消息', obj);
+          obj
+            .msgs
+            .map(item => {
+              that.pushMsg({text: item.text, flow: item.flow});
+            })
+        },
         onmsg: function onMsg(msg) {
           console.log('收到消息', msg.scene, msg.type, msg);
           that.pushMsg(msg);
@@ -129,6 +131,8 @@ DoCheck {
         },
         onsessions: function (sessions) {
           console.log('收到会话列表', sessions);
+          var account = sessions[0];
+          that.changeChatObject(account);
           // that.dataList = sessions; sessions = this.chatListNim.mergeSessions(sessions,
           // sessions);
           that.updateSessionsUI(sessions);
@@ -153,15 +157,18 @@ DoCheck {
   changeChatObject(item) {
     this.msgList = [];
     var token = Md5.hashStr(item.to.toString());
-    var account = item
-      .to
-      .toString();
+    var account = item.to.toString();
+    this.currentChatObject = item.lastMsg.fromNick; 
     //  改变聊天对象account
     this.chatId = account;
 
-    var nim1 = SDK
-      .NIM
-      .getInstance({appKey: 'ff5c5a21d8269d4afddfc7b1a2f40027', token: token, account: account})
+    var nim1 = SDK.NIM.getInstance(
+      {
+        appKey: 'ff5c5a21d8269d4afddfc7b1a2f40027', 
+        token: token, 
+        account: account
+      }
+    )
     // 断开 IM
     nim1.disconnect();
     // 更新 token
