@@ -608,4 +608,33 @@ export class AMService {
     }
     schoolApi = this.$HOST.host + '/a/academy_template/export';
     RecordApi = this.$HOST.host + '/a/user_defeat/export';
+
+    // 群主转让list
+    public OwnerChangeSubject = new Subject<any>();
+
+    public ownerChangeListSubject() {
+      this.$http
+        .post(this.$HOST.host + '/a/owner_change/userlist', '')
+        .subscribe(res => {
+          this.OwnerChangeSubject.next(res);
+        })
+    }
+
+    // 群主转让submit
+    public OwnerChangeSubmitSubject = new Subject<any>();
+
+    public ownerSubmit(newowner, tid, uid, id) {
+      const formData = {
+        newowner: newowner,
+        tid: tid,
+        uid: uid,
+        id:id
+      };
+      this.$http
+        .post(this.$HOST.host + '/a/group/ownerchange', formData)
+        .subscribe(res => {
+          this.OwnerChangeSubmitSubject.next(res);
+        })
+    }
+
 }

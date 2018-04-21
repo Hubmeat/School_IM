@@ -17,11 +17,7 @@ export class WaitPendingComponent implements OnInit {
     joinBeginTime = null;
     joinEndrTime = null;
 
-    constructor(
-        private alumniMgService: AMService,
-        private _message: NzMessageService
-    ) {
-    }
+
 
     // 搜索数据
     userName:string = '';
@@ -63,6 +59,12 @@ export class WaitPendingComponent implements OnInit {
     rejectLoading:boolean = false;
 
     auditStatusSelected = ''
+
+    constructor(
+      private alumniMgService: AMService,
+      private _message: NzMessageService
+    ) {
+    }
 
     ngOnInit():any {
         // 初始化下拉列表数据与表格数据

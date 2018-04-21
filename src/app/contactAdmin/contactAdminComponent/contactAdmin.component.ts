@@ -158,14 +158,14 @@ DoCheck {
     this.msgList = [];
     var token = Md5.hashStr(item.to.toString());
     var account = item.to.toString();
-    this.currentChatObject = item.lastMsg.fromNick; 
+    this.currentChatObject = item.lastMsg.fromNick;
     //  改变聊天对象account
     this.chatId = account;
 
     var nim1 = SDK.NIM.getInstance(
       {
-        appKey: 'ff5c5a21d8269d4afddfc7b1a2f40027', 
-        token: token, 
+        appKey: 'ff5c5a21d8269d4afddfc7b1a2f40027',
+        token: token,
         account: account
       }
     )
@@ -183,10 +183,10 @@ DoCheck {
 
     // }
     var obj = {};
-    // obj['type'] = msgs.type;
-    // obj['text'] = msgs.text;
-    obj['type'] = 'type';
-    obj['text'] = 'text';
+    obj['type'] = msgs.lastMsg.type;
+    obj['text'] = msgs.lastMsg.text;
+    // obj['type'] = 'type';
+    // obj['text'] = 'text';
     this.msgList.push(obj);
     console.log(this.msgList);
     // if (!Array.isArray(msgs)) { msgs = [msgs]; } var sessionId = msg[0].scene +
