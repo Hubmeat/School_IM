@@ -4,16 +4,22 @@
   border-radius: 4px;
   margin-top: 30px;
   background: #fff;
+  padding: 10px;
   .contact-list {
     overflow-y: auto;
-    max-height: 500px;
+    min-height: 800px;
     background: #fff;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-radius: 4px;
     ul {
       li:nth-of-type(1) {
         background: rgba(0, 153, 255, 0.16862745);
         height: 61px;
         line-height: 61px;
         text-align: center;
+        margin: 0;
         font-size: 18px;
         font-weight: bold;
       }
@@ -22,36 +28,118 @@
       }
       li {
         cursor: pointer;
-        height: 40px;
-        line-height: 40px;
+        height: 60px;
+        line-height: 60px;
         font-size: 16px;
         font-weight: bold;
-        text-indent: 5%;
-        border-bottom: 1px solid #efd5d5;
+        margin: 0 8px 0 8px;
+        text-indent: 12px;
+        border-bottom: 1px solid #eee;
+        p {
+          overflow: hidden;
+          height: 60px;
+          line-height: 60px;
+          width: 100%;
+          span.pic {
+            border: 1px solid #f2e8e8;
+            background: #ccc;
+            /* border-radius: 50%; */
+            border-radius: 3px;
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 30px;
+            overflow: hidden;
+            position: relative;
+            margin-top: 4px;
+            img {
+              width: 100%;
+              display: inline-block;
+              position: absolute;
+              left: 0;
+              width: 50px;
+              height: 50px;
+            }
+          }
+          span.text {
+            vertical-align: top;
+            line-height: 60px;
+            text-align: center;
+            text-align: left;
+          }
+          .spot_div {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: #db3b21 1px solid;
+            border-radius: 50%;
+            background: #db3b21;
+            color: white;
+            z-index: 1000;
+            line-height: 20px;
+            position: absolute;
+            left: 68px;
+            .spot_text {
+              margin: 0px auto;
+              line-height: 20px;
+              position: absolute;
+              left: -10px;
+              top: -1px;
+              font-size: 9px;
+            }
+          }
+        }
       }
       li:hover {
-        background: rgba(225, 225, 225, 0.7)
+        background: rgba(0, 153, 255, 0.08);
+        transition: all .5s linear 0s;
       }
     }
   }
-  #chart {    
-    // width: 500px;
-    height: 500px;
+  #chart {
+    min-height: 800px;
     background: #fff;
-    border-left: 1px solid #ccc;
+    border: 1px solid #ccc;
+    border-radius: 4px;
     position: relative;
+    .chat_info {
+      width: 100%;
+      height: 60px;
+      line-height: 60px;
+      background: #ccc;
+      p {
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        span:nth-of-type(1) {
+          float: left;
+          margin-left: 22px;
+          font-size: 16px;
+          font-weight: bold;
+          color: #fff;
+        }
+        span:nth-of-type(2) {
+          float: right;
+          margin-right: 30px;
+          font-size: 18px;
+          font-weight: bold;
+          color: #fff;
+        }
+      }
+    }
     .text_content {
-      max-height: 460px;
+      max-height: 697px;
       overflow-y: auto;
       background: #fff;
       border-radius: 4px;
-      border: 1px solid #cbdef0;
       p {
         width: 100%;
         height: 48px;
         line-height: 45px;
         padding-right: 20px;
-        background: rgba(219, 238, 255,0.1);
+        padding-left: 20px;
+        background: rgba(219, 238, 255, 0.1);
         span {
           font-size: 16px;
           font-weight: bold;
@@ -74,12 +162,90 @@
       line-height: 40px;
       border-top: 1px solid #ddd;
       box-sizing: content-box;
-      .text_area {
+      .face {
         display: inline-block;
-      } 
+        margin-right: 10px;
+        font-size: 19px;
+        margin-left: 20px;
+      }
+      .file {
+        display: inline-block;
+        vertical-align: middle;
+        width: 66px;
+        margin-top: 5px;
+        overflow: hidden;
+        margin-left: 18px;
+        line-height: 40px;
+      }
+      .text_area {
+        width: 75%;
+        vertical-align: top;
+        margin-left: 30px;
+        height: 34px;
+        margin-top: 3px;
+        text-indent: 10px;
+        padding: 10;
+        line-height: 40px;
+        z-index: 222222222222222222222;
+        outline: none;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+      }
       .send_btn {
         display: inline-block;
-      }     
+        width: 100%;
+        background: rgba(22, 155, 213, 0.35);
+        color: #fff;
+        border: 1px solid rgba(22, 155, 213, 0.35);
+      }
     }
   }
+  .date_span {
+    display: inline-block;
+    color: #c0c0c0;
+    font-weight: lighter !important;
+    border: none !important;
+    font-size: 9px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    height: 14px !important;
+    line-height: 100% !important;
+  }
+  /*.fileBtn {
+    width: 40px;
+    border: none;
+    outline: none;
+  }*/
 }
+
+.fileBox {
+  width: 100px;overflow: hidden;border: 1px solid #cccccc;border-radius: 10px;margin: 10px;
+  a {
+    overflow: hidden;display: block;
+    img {
+      width: 100px;display: inline-block;
+    }
+  }
+  p {
+    width: 100px;text-align: center;height: 30px;line-height: 30px;font-weight: bold;margin-top: -24px;
+  }
+}
+
+
+/* 滚动 */
+::-webkit-scrollbar {
+  width: 8px !important;
+ }
+ ::-webkit-scrollbar-thumb {
+   background-color: rgba(255,255,255,0.5) !important;
+   border-radius: 5px;
+   padding: 10px 0px;
+ }
+ ::-webkit-scrollbar-track {
+     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5) !important;
+     border-radius: 5px;
+     background:rgba(0,0,0,0.08) !important;
+ }
+ ::-webkit-scrollbar-button{
+   height: 0px !important;
+ }

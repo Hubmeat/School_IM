@@ -83,7 +83,9 @@ jQuery.fn.extend({
 	}, 
 
 	insertAtCaret: function(textFeildValue){ 
+		window.localStorage.setItem('emio', textFeildValue)
 		var textObj = $(this).get(0); 
+		// textObj.value = textFeildValue;
 		if(document.all && textObj.createTextRange && textObj.caretPos){ 
 			var caretPos=textObj.caretPos; 
 			caretPos.text = caretPos.text.charAt(caretPos.text.length-1) == '' ? 
@@ -101,8 +103,6 @@ jQuery.fn.extend({
 			textObj.blur(); 
 		}else{ 
 			textObj.value+=textFeildValue; 
-			window.localStorage.setItem('emio', textObj.value.split('d')[2])
-			console.log('textObj.value', textObj.value)
 		} 
 	} 
 });

@@ -16,16 +16,10 @@ export class AuditRecordCom implements OnInit {
     joinBeginTime = null;
     joinEndrTime = null;
 
-    constructor(
-        private alumniMgService: AMService,
-        private _message: NzMessageService
-    ) {
-    }
-
     // 搜索数据
-    userName:string = '';
-    IDcard:string = '';
-    phone:string = '';
+    userName: string = '';
+    IDcard: string = '';
+    phone: string = '';
 
     // 学院选项框
     collegeOptions = [];
@@ -52,8 +46,8 @@ export class AuditRecordCom implements OnInit {
 
     // 表格数据
     data = [];
-    spinShow:boolean = false;
-    borderShow:boolean = false;
+    spinShow: boolean = false;
+    borderShow: boolean = false;
     currentPage = 1;
     totalPage = 0;
 
@@ -68,6 +62,11 @@ export class AuditRecordCom implements OnInit {
     acceptLoading:boolean = false;
     rejectLoading:boolean = false;
 
+    constructor(
+      private alumniMgService: AMService,
+      private _message: NzMessageService
+    ) {
+    }
     ngOnInit():any {
         // 初始化下拉列表数据与表格数据
         this.getCollegeSelectData()

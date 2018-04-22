@@ -22,7 +22,7 @@
       <span>账号状态</span>
       <nz-select style="width: 150px;"
                  [(ngModel)]="selectedOption"
-                 [nzPlaceHolder]="'请选择查询姓名'"
+                 [nzPlaceHolder]="'请选择账号状态'"
                  nzAllowClear
       >
         <nz-option
@@ -43,10 +43,6 @@
     *ngIf="isShowTable;else nzTable"
     [nzDataSource]="_dataSet"
     #nzTable
-    [nzPageSize]="10"
-    [nzPageIndex]="page"
-    (nzPageIndexChange)="pageChange($event)"
-    nzShowSizeChanger
   >
     <thead nz-thead>
     <tr>
@@ -86,17 +82,17 @@
   <ng-template #modalContent>
     <div id="template">
       <div>
-        <nz-input [(ngModel)]="UserName" [nzDisabled]="true" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)">
+        <nz-input [(ngModel)]="UserName" [nzDisabled]="true" [nzPlaceHolder]="'请输入姓名'" (ngModelChange)="_console($event)">
           <ng-template #addOnBefore>姓名</ng-template>
         </nz-input>
       </div>
       <div>
-        <nz-input [nzType]="'password'" [(ngModel)]="newUserPassword" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)">
+        <nz-input [nzType]="'password'" [(ngModel)]="newUserPassword" [nzPlaceHolder]="'请输入密码'" (ngModelChange)="_console($event)">
           <ng-template #addOnBefore>密码</ng-template>
         </nz-input>
       </div>
       <div>
-        <nz-input [nzType]="'password'" [(ngModel)]="repeatPassword" [nzPlaceHolder]="'Basic usage'" (ngModelChange)="_console($event)">
+        <nz-input [nzType]="'password'" [(ngModel)]="repeatPassword" [nzPlaceHolder]="'请确认密码'" (ngModelChange)="_console($event)">
           <ng-template #addOnBefore>确认密码</ng-template>
         </nz-input>
       </div>
@@ -109,50 +105,28 @@
       暂无数据
     </div>
 </ng-template>
-<!--<div>
-  <div nz-row>
-    <button nz-button>返回</button>
-  </div>
-  <div nz-row>
-    <h3>新建账号</h3>
+
+
+<nz-modal [nzVisible]="showOwnerFlag"
+          [nzTitle]="'账号停用'"
+          [nzCancelText]="'取消'"
+          [nzContent]="modalContentOwner"
+          [nzFooter]="modalFooterOwner"
+          (nzOnCancel)="handleCancel($event)"
+>
+  <ng-template #modalContentOwner>
     <div>
-        <label>姓名</label>
-        <nz-input
-          [(ngModel)]="newUserName"
-          [nzPlaceHolder]="'Basic usage'"
-          (ngModelChange)="_console($event)">
-        </nz-input>
-        <label>手机号</label>
-        <nz-input
-          [(ngModel)]="userPhone"
-          [nzPlaceHolder]="'Basic usage'"
-          (ngModelChange)="_console($event)">
-        </nz-input>
-        <label>初始密码</label>
-        <nz-input
-          [(ngModel)]="firstPassword"
-          [nzPlaceHolder]="'Basic usage'"
-          (ngModelChange)="_console($event)">
-        </nz-input>
-        <label>确认密码</label>
-        <nz-input
-          [(ngModel)]="lastPassword"
-          [nzPlaceHolder]="'Basic usage'"
-          (ngModelChange)="_console($event)">
-        </nz-input>
-        <div>
-          <span>账号状态</span>
-          <nz-radio-group [(ngModel)]="radioState">
-            <label nz-radio [nzValue]="'start'">
-              <span>正常</span>
-            </label>
-            <label nz-radio [nzValue]="'stop'">
-              <span>停用</span>
-            </label>
-          </nz-radio-group>
-        </div>
-        <button nz-button>取消</button>
-        <button nz-button>提交</button>
+      <p style="text-align: center;color: #333333;font-weight: bold">该帐号是以下群群主，请先将群主身份转移!</p>
+      <p>群名：</p>
+      <ul>
+        <li class="li_owner" *ngFor="let item of showOwnerList">
+          {{item.tname}}
+        </li>
+      </ul>
+
     </div>
-  </div>
-</div>-->
+  </ng-template>
+  <ng-template #modalFooterOwner>
+      <button nz-button (click)="handleCancel($event)">知道了</button>
+  </ng-template>
+</nz-modal>

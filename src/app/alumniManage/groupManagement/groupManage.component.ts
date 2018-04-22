@@ -70,11 +70,19 @@ export class GroupManagementCom implements OnInit {
     membercurrentPage: any = 1;
 
     menubarList: any = []; // 成员列表
+    showOwnerChangeFlag: boolean = false; // 群主转让
+    showOwnerList: any = []; // 群主转让列表
 
     delSubscription: Subscription;
     editSubscription: Subscription;
     delMemberSubscription: Subscription;
+    ownerChangeSubscription: Subscription;
     isReadOnly:boolean = true;
+
+  ChangeTid: number;
+  ChangeId: number;
+  ChangeUid: number;
+  ChangeNewowner: number;
 
     constructor(
         private router: Router,
@@ -294,5 +302,48 @@ export class GroupManagementCom implements OnInit {
     }
     handleCancel = (e) => {
         this.detailsVisible = false;
+        this.showOwnerChangeFlag = false;
+    }
+    // 群主转让show
+    showOwnerChange(data) {
+      console.log(data);
+      this.ChangeTid = data.tid;
+      this.ChangeId = data.id;
+      this.ChangeUid = data.uid;
+      this.alumniService.ownerChangeListSubject();
+      this.alumniService.OwnerChangeSubject.subscribe(res => {
+        if (res.error_code === 0) {
+          this.showOwnerList = res.result;
+          this.showOwnerChangeFlag = true;
+        } else {
+          this._message.warning(res.error_msg);
+        }
+      })
+    }
+
+    // 群主选择
+    changOwner(data) {
+        this.ChangeNewowner = data.id;
+    }
+    changeSubmit() {
+        if (!this.ChangeNewowner) {
+          return;
+        }
+        this.alumniService.ownerSubmit(
+          this.ChangeNewowner,
+          this.ChangeTid,
+          this.ChangeUid,
+          this.ChangeId
+        )
+      this.ownerChangeSubscription = this.alumniService.OwnerChangeSubmitSubject.subscribe(res => {
+        if (res.error_code === 0) {
+          this._message.success('转让成功');
+          this.loadData();
+          this.showOwnerChangeFlag = false;
+        } else {
+          this._message.warning(res.error_msg);
+        }
+        this.ownerChangeSubscription.unsubscribe();
+      })
     }
 }

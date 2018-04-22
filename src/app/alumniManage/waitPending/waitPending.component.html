@@ -26,19 +26,19 @@
             <span>
                 姓名：
             </span>
-            <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="userName" [nzPlaceHolder]="'Basic usage'" ></nz-input>
+            <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="userName" [nzPlaceHolder]="'请输入姓名'" ></nz-input>
           </div>
           <div class="ID_card" nz-col [nzSpan]='6'>
             <span>
                 身份证：
             </span>
-            <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="IDcard" [nzPlaceHolder]="'Basic usage'" ></nz-input>
+            <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="IDcard" [nzPlaceHolder]="'请输入身份证'" ></nz-input>
           </div>
           <div class="phone" nz-col [nzSpan]='6'>
             <span>
                 手机：
             </span>
-            <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="phone" [nzPlaceHolder]="'Basic usage'" ></nz-input>
+            <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="phone" [nzPlaceHolder]="'请输入手机'" ></nz-input>
           </div>
       </div>
       <div class="bottom" nz-row>
@@ -118,7 +118,7 @@
         <tbody nz-tbody>
           <tr nz-tbody-tr *ngFor="let data of nzTable.data">
             <td nz-td>
-              {{data.created_at}}
+              {{data.created_at | date:'yyyy-MM-dd HH:mm:ss'}}
             </td>
             <td nz-td  (click)="showInfoModal(data)"  style="color: blue; cursor: pointer;">
               {{data.user_name}}
@@ -133,7 +133,7 @@
               {{data.gender === 1?'男':[data.gender === 2?'女':'未知']}}
             </td>
             <td nz-td>
-              {{data.academic_starts}}
+              {{data.academic_starts | date:'yyyy-MM-dd HH:mm:ss'}}
             </td>
             <td nz-td>
               {{data.academy}}
@@ -154,7 +154,6 @@
     <div class="page" *ngIf="data.length > 0">
         <nz-pagination
             [nzPageIndex]="currentPage"
-            [nzPageSize] = '15'
             [nzTotal]="totalPage"
             (nzPageIndexClickChange) = 'currentPageChange($event)'
             nzShowTotal>

@@ -30,12 +30,11 @@ export class SystemSetupService {
         })
     }
 
-    // 重置/修改密码
+    // 重置
     public SystemResetPasswordSubject = new Subject<any>();
-    public resetPassword(uid, old_password, new_password) {
+    public resetPassword(uid, new_password) {
       const formData = {
         uid: uid,
-        old_password: old_password,
         new_password: new_password
       }
       this.$http

@@ -125,6 +125,7 @@ export class NoticeAdminComponent implements OnInit  {
       }
       if (res.detailmsg.error_code === 0) {
         this.dataDetails = res.detailmsg.result[0];
+        $('#contentHtml').html(this.dataDetails.article_content);
         this.showDetailsSubscription.unsubscribe();
       }
     })

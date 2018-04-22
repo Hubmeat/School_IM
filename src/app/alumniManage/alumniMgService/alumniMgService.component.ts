@@ -199,7 +199,8 @@ export class AMService {
         phone,
         status,
         provinceCode,
-        cityCode
+        cityCode,
+        areaCode
     ):void {
         var formData = {
             "education": education,
@@ -215,7 +216,8 @@ export class AMService {
             "contact_phone": phone,
             "c_data_state":  status,
             "province_code": provinceCode,
-            "city_code": cityCode
+            "city_code": cityCode,
+            "area_code": areaCode
         }
 
         this.$http
@@ -555,8 +557,8 @@ export class AMService {
         page: page,
         profession_id: profession_id,
         academy_id: academy_id,
-        academic_start: academic_start,
-        academic_end: academic_end,
+        academic_start: academic_start === null ? '' : moment(academic_start).valueOf(),
+        academic_end: academic_end === null ? '' : moment(academic_end).valueOf(),
         user_name: user_name,
         contact_phone: contact_phone,
         province_code: province_code,
@@ -604,4 +606,35 @@ export class AMService {
           this.uoFileSubject.next({file: res})
         })
     }
+    schoolApi = this.$HOST.host + '/a/academy_template/export';
+    RecordApi = this.$HOST.host + '/a/user_defeat/export';
+
+    // 群主转让list
+    public OwnerChangeSubject = new Subject<any>();
+
+    public ownerChangeListSubject() {
+      this.$http
+        .post(this.$HOST.host + '/a/owner_change/userlist', '')
+        .subscribe(res => {
+          this.OwnerChangeSubject.next(res);
+        })
+    }
+
+    // 群主转让submit
+    public OwnerChangeSubmitSubject = new Subject<any>();
+
+    public ownerSubmit(newowner, tid, uid, id) {
+      const formData = {
+        newowner: newowner,
+        tid: tid,
+        uid: uid,
+        id:id
+      };
+      this.$http
+        .post(this.$HOST.host + '/a/group/ownerchange', formData)
+        .subscribe(res => {
+          this.OwnerChangeSubmitSubject.next(res);
+        })
+    }
+
 }

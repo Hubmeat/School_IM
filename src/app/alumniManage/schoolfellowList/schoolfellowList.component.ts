@@ -65,7 +65,9 @@ export class SchoolfellowListCom implements OnInit {
     totalPage = 0;
 
     // 用户资料model
-    userInfo = {};
+    userInfo = {
+      company_batch: []
+    };
     userInfoVisible:boolean = false;
     acceptLoading:boolean = false;
     rejectLoading:boolean = false;
@@ -104,7 +106,9 @@ export class SchoolfellowListCom implements OnInit {
     sexSelected = '';
     editCityOptions = []; // 编辑功能城市列表
     industroyOptions = []; // 行业下拉列表数据
+    editAreaOptions = [];
     editComCityOptions = []; // 编辑 公司地址
+    editComAreaOptions = [];
     uploadSubscription: Subscription;
     recordInfo: any = false;
     isShowResult: boolean = false;
@@ -112,6 +116,8 @@ export class SchoolfellowListCom implements OnInit {
       success: 0,
       defeat: 0
     };
+    schoolApi: any;
+    unique_identification: string = '';
 
     constructor(
         private alumniMgService: AMService,
@@ -121,6 +127,7 @@ export class SchoolfellowListCom implements OnInit {
     }
 
     ngOnInit():any {
+        this.schoolApi = this.alumniMgService.schoolApi;
         // 初始化下拉列表数据与表格数据
         this.getCollegeSelectData()
         // 获取行业数据
@@ -158,7 +165,8 @@ export class SchoolfellowListCom implements OnInit {
             this.phone,
             this.accountSelected,
             this.provinceSelected,
-            this.citySelectde
+            this.citySelectde,
+            this.areaSelected
         );
         this.alumniMgService.schoolFWSubject.subscribe(
             res => {
@@ -209,6 +217,15 @@ export class SchoolfellowListCom implements OnInit {
             }
         )
     }
+    areaChange(areacode) {
+        this.alumniMgService.getareaList(areacode);
+        this.alumniMgService.provinceCodeSubject.subscribe(res => {
+          if (res.area) {
+            this.areaOptions = res.area.result;
+          }
+        })
+    }
+
 
     geMojorData (value) {
         this.alumniMgService.getMajorSelectData(value);
@@ -240,6 +257,7 @@ export class SchoolfellowListCom implements OnInit {
 
     // 审核资料展示 方法
     showInfoModal = (data) => {
+        this.editFlag = false;
         var id = data.id;
         this.alumniMgService.getSchoolFwDetail(id);
         this.alumniMgService.schoolFwDeatilSubject.subscribe(
@@ -249,7 +267,9 @@ export class SchoolfellowListCom implements OnInit {
                     this.userInfo = res.result;
                     // 开启调用city下拉框方法
                     this.editProvinceChange(res.result.province_code);
-                    this.editCompanyProvinceChange(res.result.company_batch[0].area_code)
+                    if (res.result.company_batch.length > 0) {
+                      this.editCompanyProvinceChange(res.result.company_batch[0].area_code);
+                    }
                     // 调用获取专业联动方法
                     this.geMojorData(res.result.academy_id);
 
@@ -333,12 +353,13 @@ export class SchoolfellowListCom implements OnInit {
                 console.log('导出', res);
                 if (res.status === 200) {
                     this._message.success('导出成功！')
-                    window.open(res.url);
-                    this.exportSubscbscription.unsubscribe()
+                    // window.open(res.url);
+                  const ifram = window.document.getElementById('ifile');
+                  ifram.setAttribute('src', res.url)
                 } else {
                     this._message.error('导出失败')
-                    this.exportSubscbscription.unsubscribe()
                 }
+                this.exportSubscbscription.unsubscribe()
             }
         )
     }
@@ -357,6 +378,7 @@ export class SchoolfellowListCom implements OnInit {
             formData.append('unique_identification', file.uid);
             formData.append('header_index', '1');
             formData.append('file', file);
+            this.unique_identification = file.uid;
         });
         console.log('formData', formData)
         this.alumniMgService.uploadFileList(formData);
@@ -364,13 +386,13 @@ export class SchoolfellowListCom implements OnInit {
           var timer = setInterval( () => {
             this.progressValue += 5;
             if (this.progressValue >= 100) {
+              clearInterval(timer);
               if (res.error_code === 0) {
-                this.upload = res.updata.return;
+                this.upload = res.return;
                 this._message.success('上传成功！')
               }
               this.progressFlag = false;
               this.progressValue = 0;
-              clearInterval(timer);
               this.fileList = [];
               setTimeout( () => {
                 this.uploadVisible = false;
@@ -421,6 +443,14 @@ export class SchoolfellowListCom implements OnInit {
             }
         )
     }
+    editAreaChange(id) {
+      this.alumniMgService.getareaList(id);
+      this.alumniMgService.provinceCodeSubject.subscribe(res => {
+        if (res.area) {
+          this.editAreaOptions = res.area.result;
+        }
+      })
+    }
 
     editCompanyProvinceChange(id):void {
         this.alumniMgService.getCityList(id);
@@ -432,12 +462,30 @@ export class SchoolfellowListCom implements OnInit {
             }
         )
     }
+  editCompanyAreaChange(id) {
+    this.alumniMgService.getareaList(id);
+    this.alumniMgService.provinceCodeSubject.subscribe(res => {
+      if (res.area) {
+        this.editComAreaOptions = res.area.result;
+      }
+    })
+  }
 
   getDownRecord() {
-    if (this.upload.defeat > 0) {
-      this.recordInfo = true;
-    } else {
-      this.recordInfo = false;
-    }
+    $("#downloadform").remove();
+    var form = $("<form>"); // 定义一个form表单
+    form.attr("id", "downloadform");
+    form.attr("style", "display:none");
+    form.attr("target", "");
+    form.attr("method", "post");
+    form.attr("unique_identification", this.unique_identification);
+    form.attr("action", this.alumniMgService.RecordApi);
+    var input1 = $("<input>");
+    input1.attr("type", "hidden");
+    input1.attr("name", "fileName");
+    input1.attr("value", "threeBody.txt");
+    form.append(input1);
+    $("body").append(form); // 将表单放置在web中
+    form.submit(); // 表单提交
   }
 }

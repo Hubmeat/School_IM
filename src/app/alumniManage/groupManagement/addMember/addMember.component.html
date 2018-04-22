@@ -140,7 +140,7 @@
       </div>
     </div>
     <div nz-row style="margin-top: 40px;">
-      <nz-table #nzTable [nzDataSource]="addMemberList" [nzPageSize]="100" (nzDataChange)="_displayDataChange($event)" nz-col [nzSpan]="18">
+      <nz-table #nzTable [nzDataSource]="addMemberList" (nzDataChange)="_displayDataChange($event)" nz-col [nzSpan]="18">
         <thead nz-thead>
         <tr>
           <th nz-th nzCheckbox>
@@ -168,7 +168,7 @@
           <td nz-td>{{data.user_name}}</td>
           <td nz-td>{{data.contact_phone}}</td>
           <td nz-td>{{data.gender === 1?'男':[data.gender === 2?'女':'未知']}}</td>
-          <td nz-td>{{data.academic_starts}}</td>
+          <td nz-td>{{data.academic_starts | date:'yyyy-MM-dd HH:mm:ss'}}</td>
           <td nz-td>{{data.academy}}</td>
           <td nz-td>{{data.profession}}</td>
           <td nz-td>{{data.education}}</td>

@@ -25,8 +25,7 @@ export class AddGroupCom implements OnInit {
     members: any = []; // 添加成员列表
 
     // nextStep data
-    registerBeginTime = null;
-    registeEndrTime = null;
+
     joinBeginTime = null;
     joinEndrTime = null;
 
@@ -97,7 +96,6 @@ export class AddGroupCom implements OnInit {
     file: any;
     fileType: any = 'image';
     addMemberList = [];
-    groupPhone
   addMemberListcheckedList = []
   tid = null;
   fileList = [];
@@ -368,7 +366,7 @@ export class AddGroupCom implements OnInit {
       this.joinBeginTime,
       this.joinEndrTime,
       this.groupUserName,
-      this.groupPhone,
+      this.phone,
       this.provinceSelected,
       this.citySelectde,
       this.areaSelected,

@@ -37,6 +37,7 @@ export class SpecialtyComponent implements OnInit {
     success: 0,
     defeat: 0
   };
+  unique_identification: string = '';
   constructor(
     private service: DataSettingService,
     private router: Router,
@@ -179,9 +180,10 @@ export class SpecialtyComponent implements OnInit {
       formData.append('unique_identification', file.uid);
       formData.append('header_index', '1');
       formData.append('file', file);
+      this.unique_identification = file.uid;
     });
     console.log('formData', formData)
-    this.service.uploadacademyFileList(formData);
+    this.service.uploadmajorFileList(formData);
     this.uploadSubscription = this.service.SpecialtySetupSubject.subscribe(res => {
       var timer = setInterval( () => {
         this.progressValue += 5;
@@ -206,10 +208,20 @@ export class SpecialtyComponent implements OnInit {
   }
 
   getDownRecord() {
-    if (this.upload.defeat > 0) {
-      this.recordInfo = true;
-    } else {
-      this.recordInfo = false;
-    }
+    $("#downloadform").remove();
+    var form = $("<form>"); //定义一个form表单
+    form.attr("id", "downloadform");
+    form.attr("style", "display:none");
+    form.attr("target", "");
+    form.attr("method", "post");
+    form.attr("unique_identification", this.unique_identification);
+    form.attr("action", this.service.specialtyRecordApiApi);
+    var input1 = $("<input>");
+    input1.attr("type", "hidden");
+    input1.attr("name", "fileName");
+    input1.attr("value", "threeBody.txt");
+    form.append(input1);
+    $("body").append(form); //将表单放置在web中
+    form.submit(); //表单提交
   }
 }
