@@ -64,6 +64,7 @@ export class ContactAdminComponent implements OnInit, DoCheck {
     
       str = str.replace(/\n/g,'<br/>');
     
+      // str = str.replace(/\[em_([0-9]*)\]/g,'<img src="arclist/$1.gif" border="0" />');
       str = str.replace(/\[em_([0-9]*)\]/g,'<img src="arclist/$1.gif" border="0" />');
     
       return str;
@@ -82,7 +83,6 @@ export class ContactAdminComponent implements OnInit, DoCheck {
         this.initChat(account.toString(), token);
       }, 300)
       // this.initChat(account, token);
-
     })
   }
 

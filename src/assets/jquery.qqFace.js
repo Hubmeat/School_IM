@@ -93,6 +93,7 @@ jQuery.fn.extend({
 			var rangeEnd=textObj.selectionEnd; 
 			var tempStr1=textObj.value.substring(0,rangeStart); 
 			var tempStr2=textObj.value.substring(rangeEnd); 
+			window.localStorage.setItem('emio', textObj.value)
 			textObj.value=tempStr1+textFeildValue+tempStr2; 
 			textObj.focus(); 
 			var len=textFeildValue.length; 
