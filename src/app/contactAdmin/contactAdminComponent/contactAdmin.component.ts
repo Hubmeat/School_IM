@@ -25,6 +25,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
 
   chatListNim : any;
   Nm : any;
+  chatFlag = true;
 
   // 当前沟通对象
   chatId = '';
@@ -51,7 +52,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
 
 
   ngDoCheck() {
-    // var str = window.localStorage.getItem('emio'); this.sendMsg = str.toString();
+    
   }
 
   ngOnDestroy ():void {
@@ -123,9 +124,19 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
         },
         onroamingmsgs: function (obj) {
           console.log('收到漫游消息', obj);
+          obj.msgs.map(
+            item => {
+              that.getMsgs(item)
+            }
+          )
         },
         onofflinemsgs: function (obj) {
           console.log('收到离线消息', obj);
+          obj.msgs.map(
+            item => {
+              that.getMsgs(item)
+            }
+          )
         },
         onmsg: function onMsg(msg) {
           console.log('收到消息', msg.scene, msg.type, msg);
@@ -134,8 +145,8 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
         onsessions: function (sessions) {
           console.log('收到会话列表', sessions);
           var account = sessions[0];
-          // that.changeChatObject(account);
-          that.updateSessionsUI(sessions);
+          that.changeChatObject(account);
+          that.UI(sessions);
         },
         onupdatesession: function (session) {
           console.log('会话更新了', session);
@@ -156,15 +167,32 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
     $('.text_content').html('');
     var token = Md5.hashStr(item.to.toString());
     var account = item.to.toString();
+    this.Nm.disconnect();
     this.currentChatObject = item.lastMsg.fromNick;
     //  改变聊天对象account
     this.chatId = account;
-
+    var that = this;
     var nim1 = SDK.NIM.getInstance(
       {
         appKey: 'ff5c5a21d8269d4afddfc7b1a2f40027',
         token: token,
-        account: account
+        account: account,
+        onroamingmsgs: function (obj) {
+          console.log('收到漫游消息', obj);
+          obj.msgs.map(
+            item => {
+              that.getMsgs(item)
+            }
+          )
+        },
+        onofflinemsgs: function (obj) {
+          console.log('收到离线消息', obj);
+          obj.msgs.map(
+            item => {
+              that.getMsgs(item)
+            }
+          )
+        }
       }
     )
     // 断开 IM
@@ -181,7 +209,8 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
     if (msgs.type === 'text') {
       var text = msgs.text;
       var flow =  msgs.flow === 'out' ? 'right' : 'left';
-      var headImg = msgs.custom === undefined ? './assets/images/defaulthead.jpg' : 'msgs.custom.xy_avatar';
+      var headImg = msgs.custom === undefined ? './assets/images/defaulthead.jpg' : JSON.parse(msgs.custom).xy_avatar;
+      console.log('】】】', headImg)
       var box = `
         <div style="width: 100%;overflow: hidden; display: block;">
           <div style='min-width: 400px;overflow: hidden; margin: 10px; float:${flow}'>
@@ -200,7 +229,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
       var url = msgs.file.url;
       var fileName = msgs.file.name;
       var flow =  msgs.flow === 'out'?'right':'left';
-      var headImg = msgs.custom === undefined?'./assets/images/defaulthead.jpg':'msgs.custom.xy_avatar'
+      var headImg:any = msgs.custom === undefined?'./assets/images/defaulthead.jpg':JSON.parse(msgs.custom).xy_avatar
       var box = `
         <div style='width: 100%; overflow: hidden; display: block;'>
           <div style='width: 200px;overflow: hidden; margin: 10px; float:${flow}'>
@@ -226,7 +255,8 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
     if (msgs.type === 'text') {
       var text = msgs.text;
       var flow =  msgs.flow === 'out' ? 'right' : 'left';
-      var headImg = msgs.custom === undefined ? './assets/images/defaulthead.jpg' : msgs.custom.xy_avatar;
+      var headImg = msgs.custom === undefined ? './assets/images/defaulthead.jpg' : JSON.parse(msgs.custom).xy_avatar;
+      console.log('head ssss', headImg)
       var box = `
         <div style="width: 100%;overflow: hidden; display: block;">
           <div style='min-width: 400px;overflow: hidden; margin: 10px; float:${flow}'>
@@ -316,7 +346,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
       });
   }
 
-  updateSessionsUI(res) {
+  UI(res) {
     // 刷新界面
     console.log('mmmm')
     this.dataList = res;
@@ -324,8 +354,10 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
       if (this.dataList[i].lastMsg.custom) {
         this.dataList[i].lastMsg.custom = JSON.parse(this.dataList[i].lastMsg.custom);
         this.custom = true;
-        console.log(this.dataList[i].lastMsg.custom);
       }
     }
+    setTimeout( () => {
+      this.chatFlag = false;
+    }, 500)
   }
 }
