@@ -85,7 +85,7 @@ jQuery.fn.extend({
 	insertAtCaret: function(textFeildValue){ 
 		window.localStorage.setItem('emio', textFeildValue)
 		var textObj = $(this).get(0); 
-		textObj.innerHtml = textObj.innerHtml += textFeildValue
+		// textObj.value = textFeildValue;
 		if(document.all && textObj.createTextRange && textObj.caretPos){ 
 			var caretPos=textObj.caretPos; 
 			caretPos.text = caretPos.text.charAt(caretPos.text.length-1) == '' ? 

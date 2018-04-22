@@ -1,4 +1,4 @@
-import {Component, OnInit, DoCheck, OnChanges, SimpleChange} from '@angular/core';
+import {Component, OnInit, DoCheck, OnChanges, SimpleChange, AfterContentInit} from '@angular/core';
 import {NzMessageService, UploadFile} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 import {ContactAdminService} from '../contactAdminService/contactAdmin.service';
@@ -8,7 +8,7 @@ import * as Q from 'jquery';
 
 @Component({selector: 'contactAdmin-component', templateUrl: './contactAdmin.component.html', styleUrls: ['./contactAdmin.component.less']})
 
-export class ContactAdminComponent implements OnInit,DoCheck,OnChanges {
+export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit {
   dataList : any;
   currentChatObject = '';
   schoolName = '';
@@ -30,7 +30,7 @@ export class ContactAdminComponent implements OnInit,DoCheck,OnChanges {
   chatId = '';
 
   // 发送的消息
-  sendMsg : string = '';
+  sendMsg  =  '';
 
   // 消息记录
   msgList = []
@@ -53,14 +53,18 @@ export class ContactAdminComponent implements OnInit,DoCheck,OnChanges {
     // var str = window.localStorage.getItem('emio'); this.sendMsg = str.toString();
   }
 
-  change = window.localStorage.getItem('emio');
-
-  ngOnChanges (SimpleChange) {
-    console.log('change', SimpleChange[this.change]);
+  ngAfterContentInit () {
+    console.log('nihao', this.sendMsg)
   }
 
   addFace() {
     $('.emotion').qqFace({id: 'facebox', assign: 'saytext', path: './assets/arclist/'});
+  }
+
+  inputChange(e):void {
+    console.log('e', e)
+    // var arr = document.getElementById('#saytext')[0].value
+    // this.sendMsg = arr;
   }
 
   replace_em(str) {
@@ -70,7 +74,7 @@ export class ContactAdminComponent implements OnInit,DoCheck,OnChanges {
 
     str = str.replace(/\n/g, '<br/>');
 
-    str = str.replace(/\[em_([0-9]*)\]/g, '<img src="arclist/$1.gif" border="0" />');
+    str = str.replace(/\[em_([0-9]*)\]/g, '<img src="./assets/arclist/$1.gif" border="0" />');
 
     return str;
 
@@ -220,13 +224,13 @@ export class ContactAdminComponent implements OnInit,DoCheck,OnChanges {
      * 发送消息
      */
   sendMessage(info) : void {
+    var mas = document.getElementById('saytext')['value'];
+    info = mas;
     if(this.inputFile != '') {
       this.sendFile();
       return
     } else if (info === '') {
-      this
-        ._message
-        .warning('不能发送空消息')
+      this._message.warning('不能发送空消息')
       return
     }
 
@@ -241,7 +245,7 @@ export class ContactAdminComponent implements OnInit,DoCheck,OnChanges {
         done: function sendMsgDone(error, msg) {
             // that.pushMsg({text: msg.text, flow: msg.flow, time: msg.userUpdateTime});
           that.pushMsg(msg);
-          that.sendMsg = ''
+          document.getElementById('saytext')['value'] = ''
         }
       });
   }

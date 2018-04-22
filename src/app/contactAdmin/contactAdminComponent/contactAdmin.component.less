@@ -108,7 +108,7 @@
       }
     }
     .text_content {
-      max-height: 460px;
+      max-height: 697px;
       overflow-y: auto;
       background: #fff;
       border-radius: 4px;
@@ -157,7 +157,18 @@
         line-height: 40px;
       }
       .text_area {
-        display: inline-block;
+        width: 75%;
+        vertical-align: top;
+        margin-left: 30px;
+        height: 34px;
+        margin-top: 3px;
+        text-indent: 10px;
+        padding: 10;
+        line-height: 40px;
+        z-index: 222222222222222222222;
+        outline: none;
+        border-radius: 4px;
+        border: 1px solid #ccc;
       }
       .send_btn {
         display: inline-block;
@@ -198,3 +209,22 @@
     width: 100px;text-align: center;height: 30px;line-height: 30px;font-weight: bold;margin-top: -24px;
   }
 }
+
+
+/* 滚动 */
+::-webkit-scrollbar {
+  width: 8px !important;
+ }
+ ::-webkit-scrollbar-thumb {
+   background-color: rgba(255,255,255,0.5) !important;
+   border-radius: 5px;
+   padding: 10px 0px;
+ }
+ ::-webkit-scrollbar-track {
+     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5) !important;
+     border-radius: 5px;
+     background:rgba(0,0,0,0.08) !important;
+ }
+ ::-webkit-scrollbar-button{
+   height: 0px !important;
+ }

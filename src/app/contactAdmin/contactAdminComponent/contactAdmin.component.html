@@ -40,11 +40,12 @@
           <span style="cursor: pointer;"  (click)='addFace()' class="emotion face"><i class="anticon anticon-smile-o"></i></span>
           <span class="file">
             <label>
-              <input style="width: 30px" type="file" (change)="getUpload($event)" style="position:absolute;opacity:0;"  >
-              <img style="width: 30px;height: 30px;" src="../../../assets/images/timg.jpg">
+              <input type="file" (change)="getUpload($event)" style="position:absolute;opacity:0;width: 20px;"  >
+              <img style="width: 30px; height: 30px;" src="../../../assets/images/timg.jpg">
             </label>
           </span>
-          <nz-input style="width: 78%; vertical-align: top;" class="text_area" id="saytext" name="saytext" [(ngModel)]="sendMsg" [nzPlaceHolder]="'请输入聊天内容'"></nz-input>
+          <!-- <nz-input style="width: 78%; vertical-align: top;" class="text_area" id="saytext" name="saytext" [(ngModel)]="sendMsg" [nzPlaceHolder]="'请输入聊天内容'"></nz-input> -->
+          <input type="text" style="width: 78%; vertical-align: top;" class="text_area" id="saytext" name="saytext" [(ngModel)]="sendMsg" (ngModelChange)='inputChange($event)' />          
         </div>
         <div style="text-align: center;padding: 0 10px 0 10px;" nz-col [nzSpan]='4'>
           <button class="send_btn" nz-button (click)='sendMessage(sendMsg)' (keyup.enter)='sendMessage(sendMsg)' [nzType]="'default'">
