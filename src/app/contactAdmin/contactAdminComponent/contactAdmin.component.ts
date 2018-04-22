@@ -1,4 +1,4 @@
-import {Component, OnInit, DoCheck, OnChanges, SimpleChange, AfterContentInit} from '@angular/core';
+import {Component, OnInit, DoCheck, OnChanges, SimpleChange, AfterContentInit, OnDestroy} from '@angular/core';
 import {NzMessageService, UploadFile} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 import {ContactAdminService} from '../contactAdminService/contactAdmin.service';
@@ -8,7 +8,7 @@ import * as Q from 'jquery';
 
 @Component({selector: 'contactAdmin-component', templateUrl: './contactAdmin.component.html', styleUrls: ['./contactAdmin.component.less']})
 
-export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit {
+export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, OnDestroy {
   dataList : any;
   currentChatObject = '';
   schoolName = '';
@@ -45,12 +45,17 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit {
   constructor(private service : ContactAdminService, private _message : NzMessageService, private router : Router) {}
 
   ngOnInit() {
-    var str = window.localStorage.setItem('emio', '');
+    console.log('111')
     this.getNIMConfig();
   }
 
+
   ngDoCheck() {
     // var str = window.localStorage.getItem('emio'); this.sendMsg = str.toString();
+  }
+
+  ngOnDestroy ():void {
+    this.Nm.destroy();
   }
 
   ngAfterContentInit () {
@@ -62,7 +67,6 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit {
   }
 
   inputChange(e):void {
-    console.log('e', e)
     // var arr = document.getElementById('#saytext')[0].value
     // this.sendMsg = arr;
   }
@@ -130,7 +134,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit {
         onsessions: function (sessions) {
           console.log('收到会话列表', sessions);
           var account = sessions[0];
-          that.changeChatObject(account);
+          // that.changeChatObject(account);
           that.updateSessionsUI(sessions);
         },
         onupdatesession: function (session) {
@@ -173,6 +177,25 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit {
 
   getMsgs(msgs) {
     console.log('**** msgs', msgs)
+
+    if (msgs.type === 'text') {
+      var text = msgs.text;
+      var flow =  msgs.flow === 'out' ? 'right' : 'left';
+      var headImg = msgs.custom === undefined ? './assets/images/defaulthead.jpg' : 'msgs.custom.xy_avatar';
+      var box = `
+        <div style="width: 100%;overflow: hidden; display: block;">
+          <div style='min-width: 400px;overflow: hidden; margin: 10px; float:${flow}'>
+            <div style="float:${flow};margin-top: 11px;border: 1px solid #f2e8e8;border-radius: 5px;overflow: hidden;">
+              <img style='width: 50px; height: 50px; display: block;' src=${headImg}/>
+            </div> 
+            <div style='float:${flow}; border: 1px solid #eee; border-radius: 3px;margin: 10px;'>
+              <span style='padding: 20px; font-size: 16px;font-weight: 400;'>${text}</span> 
+            </div>
+          </div>
+        </div>
+      `
+      $('.text_content').append(box)
+    }
     if (msgs.type === 'file') {
       var url = msgs.file.url;
       var fileName = msgs.file.name;
@@ -203,7 +226,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit {
     if (msgs.type === 'text') {
       var text = msgs.text;
       var flow =  msgs.flow === 'out' ? 'right' : 'left';
-      var headImg = msgs.custom === undefined ? './assets/images/defaulthead.jpg' : 'msgs.custom.xy_avatar';
+      var headImg = msgs.custom === undefined ? './assets/images/defaulthead.jpg' : msgs.custom.xy_avatar;
       var box = `
         <div style="width: 100%;overflow: hidden; display: block;">
           <div style='min-width: 400px;overflow: hidden; margin: 10px; float:${flow}'>
@@ -295,6 +318,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit {
 
   updateSessionsUI(res) {
     // 刷新界面
+    console.log('mmmm')
     this.dataList = res;
     for (let i in this.dataList) {
       if (this.dataList[i].lastMsg.custom) {
