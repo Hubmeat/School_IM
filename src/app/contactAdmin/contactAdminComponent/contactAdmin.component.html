@@ -27,17 +27,17 @@
       </p>
     </div>
     <div class="text_content">
-      <div *ngFor='let item of msgList'>
+      <!-- <div *ngFor='let item of msgList'>
         <span class="date_span">{{item.time | date : 'yyyy-MM-dd hh:mm:ss EEEE'}}</span>
         <p [ngStyle]="{'text-align': item.flow === 'in'?'left':'right'}">
           {{item.text}}
         </p>
-      </div>
+      </div> -->
     </div>
     <div class="send_message">
       <div nz-row>
         <div style="padding: 0 10px 0 10px;" nz-col [nzSpan]='20'>
-          <span  (click)='addFace()' class="emotion face"><i class="anticon anticon-smile-o"></i></span>
+          <span style="cursor: pointer;"  (click)='addFace()' class="emotion face"><i class="anticon anticon-smile-o"></i></span>
           <span class="file">
             <label>
               <input style="width: 30px" type="file" (change)="getUpload($event)" style="position:absolute;opacity:0;"  >

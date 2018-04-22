@@ -1,4 +1,4 @@
-import {Component, OnInit, DoCheck} from '@angular/core';
+import {Component, OnInit, DoCheck, OnChanges, SimpleChange} from '@angular/core';
 import {NzMessageService, UploadFile} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 import {ContactAdminService} from '../contactAdminService/contactAdmin.service';
@@ -8,8 +8,7 @@ import * as Q from 'jquery';
 
 @Component({selector: 'contactAdmin-component', templateUrl: './contactAdmin.component.html', styleUrls: ['./contactAdmin.component.less']})
 
-export class ContactAdminComponent implements OnInit,
-DoCheck {
+export class ContactAdminComponent implements OnInit,DoCheck,OnChanges {
   dataList : any;
   currentChatObject = '';
   schoolName = '';
@@ -52,6 +51,12 @@ DoCheck {
 
   ngDoCheck() {
     // var str = window.localStorage.getItem('emio'); this.sendMsg = str.toString();
+  }
+
+  change = window.localStorage.getItem('emio');
+
+  ngOnChanges (SimpleChange) {
+    console.log('change', SimpleChange[this.change]);
   }
 
   addFace() {
@@ -110,39 +115,24 @@ DoCheck {
         },
         onroamingmsgs: function (obj) {
           console.log('收到漫游消息', obj);
-          obj
-            .msgs
-            .map(item => {
-              that.pushMsg({text: item.text, flow: item.flow});
-            })
         },
         onofflinemsgs: function (obj) {
           console.log('收到离线消息', obj);
-          obj
-            .msgs
-            .map(item => {
-              that.pushMsg({text: item.text, flow: item.flow});
-            })
         },
         onmsg: function onMsg(msg) {
           console.log('收到消息', msg.scene, msg.type, msg);
-          that.pushMsg(msg);
-          // that.pushMsg({text: msg.text, flow: msg.flow});
+          that.getMsgs(msg);
         },
         onsessions: function (sessions) {
           console.log('收到会话列表', sessions);
           var account = sessions[0];
           that.changeChatObject(account);
-          // that.dataList = sessions; sessions = this.chatListNim.mergeSessions(sessions,
-          // sessions);
           that.updateSessionsUI(sessions);
         },
         onupdatesession: function (session) {
           console.log('会话更新了', session);
-          that.pushMsg(session)
+          // that.pushMsg(session)
         }
-        // onmsg: function (msg) {   console.log('msg',msg)   //
-        // 此处为委托消息事件，消息发送成功后，成功消息也在此处处理 }
       });
   }
 
@@ -155,7 +145,7 @@ DoCheck {
    */
 
   changeChatObject(item) {
-    this.msgList = [];
+    $('.text_content').html('');
     var token = Md5.hashStr(item.to.toString());
     var account = item.to.toString();
     this.currentChatObject = item.lastMsg.fromNick;
@@ -177,21 +167,53 @@ DoCheck {
     nim1.connect();
   }
 
-  pushMsg(msgs) {
+  getMsgs(msgs) {
     console.log('**** msgs', msgs)
-    // if (msgs.lastMsg.) {
+    if (msgs.type === 'file') {
+      var url = msgs.file.url;
+      var fileName = msgs.file.name;
+      var flow =  msgs.flow === 'out'?'right':'left';
+      var headImg = msgs.custom === undefined?'./assets/images/defaulthead.jpg':'msgs.custom.xy_avatar'
+      var box = `
+        <div style='width: 100%; overflow: hidden; display: block;'>
+          <div style='width: 200px;overflow: hidden; margin: 10px; float:${flow}'>
+            <div style="float:${flow};margin-top: 11px;border: 1px solid #444;border-radius: 5px;overflow: hidden;">
+              <img style='width: 50px; height: 50px; display: block;' src=${headImg} />
+            </div> 
+            <div style='float:${flow}; border: 1px solid #cccccc;border-radius: 10px;margin: 10px;' >
+              <a style='overflow: hidden;display: block;' target="_Blank" href='${url}'>
+                <img style='width: 100px;display: inline-block;' src='./assets/images/file.png' />  
+              </a> 
+              <p style='width: 100px;text-align: center;height: 30px;line-height: 30px;font-weight: bold;margin-top: -24px;'>${fileName}</p>
+            </div>
+          </div>
+        </div>
+      `
+      $('.text_content').append(box)
+    }
+  }
 
-    // }
+  pushMsg(msgs) {
+    console.log('pushMsg msgs', msgs)
     var obj = {};
-    obj['type'] = msgs.lastMsg.type;
-    obj['text'] = msgs.lastMsg.text;
-    // obj['type'] = 'type';
-    // obj['text'] = 'text';
-    this.msgList.push(obj);
-    console.log(this.msgList);
-    // if (!Array.isArray(msgs)) { msgs = [msgs]; } var sessionId = msg[0].scene +
-    // '-' + msgs[0].account; data.msgs = data.msgs || {}; data.msgs[sessionId] =
-    // nim.mergeMsgs(data.msgs[sessionId], msgs);
+    if (msgs.type === 'text') {
+      var text = msgs.text;
+      var flow =  msgs.flow === 'out'?'right':'left';
+      var headImg = msgs.custom === undefined?'./assets/images/defaulthead.jpg':'msgs.custom.xy_avatar'
+      var box = `
+        <div style='width: 100%; overflow: hidden; display: block;'>
+          <div style='min-width: 400px;overflow: hidden; margin: 10px; float:${flow}'>
+            <div style="float:${flow};margin-top: 11px;border: 1px solid #f2e8e8;border-radius: 5px;overflow: hidden;">
+              <img style='width: 50px; height: 50px; display: block;' src=${headImg} />
+            </div> 
+            <div style='float:${flow}; border: 1px solid #eee; border-radius: 3px;margin: 10px;' >
+              <span style='padding: 20px; font-size: 16px;font-weight: 400;'>${text}</span> 
+            </div>
+          </div>
+        </div>
+      `
+      $('.text_content').append(box)
+    }
   }
 
   /**
@@ -218,8 +240,8 @@ DoCheck {
         text: str,
         done: function sendMsgDone(error, msg) {
             // that.pushMsg({text: msg.text, flow: msg.flow, time: msg.userUpdateTime});
-          // that.pushMsg(msg);
-          that.sendMsg = '';
+          that.pushMsg(msg);
+          that.sendMsg = ''
         }
       });
   }
@@ -256,13 +278,12 @@ DoCheck {
         },
         beforesend: function (msg) {
           console.log('正在发送p2p image消息, id=' + msg.idClient);
-          that.pushMsg(msg);
         },
         done: function sendMsgDone(error, msg) {
           console.log(error);
           console.log(msg);
           // that.pushMsg({text: msg.name, flow: msg.flow, time: msg.userUpdateTime});
-          that.pushMsg(msg);
+          that.getMsgs(msg);
           that.inputFile = '';
         }
       });
