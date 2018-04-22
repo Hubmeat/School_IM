@@ -202,15 +202,15 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit {
     var obj = {};
     if (msgs.type === 'text') {
       var text = msgs.text;
-      var flow =  msgs.flow === 'out'?'right':'left';
-      var headImg = msgs.custom === undefined?'./assets/images/defaulthead.jpg':'msgs.custom.xy_avatar'
+      var flow =  msgs.flow === 'out' ? 'right' : 'left';
+      var headImg = msgs.custom === undefined ? './assets/images/defaulthead.jpg' : 'msgs.custom.xy_avatar';
       var box = `
-        <div style='width: 100%; overflow: hidden; display: block;'>
+        <div style="width: 100%;overflow: hidden; display: block;">
           <div style='min-width: 400px;overflow: hidden; margin: 10px; float:${flow}'>
             <div style="float:${flow};margin-top: 11px;border: 1px solid #f2e8e8;border-radius: 5px;overflow: hidden;">
-              <img style='width: 50px; height: 50px; display: block;' src=${headImg} />
+              <img style='width: 50px; height: 50px; display: block;' src=${headImg}/>
             </div> 
-            <div style='float:${flow}; border: 1px solid #eee; border-radius: 3px;margin: 10px;' >
+            <div style='float:${flow}; border: 1px solid #eee; border-radius: 3px;margin: 10px;'>
               <span style='padding: 20px; font-size: 16px;font-weight: 400;'>${text}</span> 
             </div>
           </div>

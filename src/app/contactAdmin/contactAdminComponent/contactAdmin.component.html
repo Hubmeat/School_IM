@@ -11,6 +11,7 @@
           <span class="pic">
             <img style="width: 50px; height: 50px; display: block;" src="./assets/images/defaulthead.jpg" alt="head">
           </span>
+            <div class="spot_div"><span class="spot_text">12</span></div>
           </ng-template>
           <span class="text">
             {{item.lastMsg.custom === undefined ? item.id : item.lastMsg.custom.xy_nickname}}
@@ -45,7 +46,7 @@
             </label>
           </span>
           <!-- <nz-input style="width: 78%; vertical-align: top;" class="text_area" id="saytext" name="saytext" [(ngModel)]="sendMsg" [nzPlaceHolder]="'请输入聊天内容'"></nz-input> -->
-          <input type="text" style="width: 78%; vertical-align: top;" class="text_area" id="saytext" name="saytext" [(ngModel)]="sendMsg" (ngModelChange)='inputChange($event)' />          
+          <input type="text" style="width: 55%;margin-left: 0px; vertical-align: top;" class="text_area" id="saytext" name="saytext" [(ngModel)]="sendMsg" (ngModelChange)='inputChange($event)' />
         </div>
         <div style="text-align: center;padding: 0 10px 0 10px;" nz-col [nzSpan]='4'>
           <button class="send_btn" nz-button (click)='sendMessage(sendMsg)' (keyup.enter)='sendMessage(sendMsg)' [nzType]="'default'">

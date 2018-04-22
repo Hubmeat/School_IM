@@ -35,7 +35,7 @@
         margin: 0 8px 0 8px;
         text-indent: 12px;
         border-bottom: 1px solid #eee;
-        p {    
+        p {
           overflow: hidden;
           height: 60px;
           line-height: 60px;
@@ -57,7 +57,7 @@
               width: 100%;
               display: inline-block;
               position: absolute;
-              left: 0;    
+              left: 0;
               width: 50px;
               height: 50px;
             }
@@ -67,6 +67,27 @@
             line-height: 60px;
             text-align: center;
             text-align: left;
+          }
+          .spot_div {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: #db3b21 1px solid;
+            border-radius: 50%;
+            background: #db3b21;
+            color: white;
+            z-index: 1000;
+            line-height: 20px;
+            position: absolute;
+            left: 68px;
+            .spot_text {
+              margin: 0px auto;
+              line-height: 20px;
+              position: absolute;
+              left: -10px;
+              top: -1px;
+              font-size: 9px;
+            }
           }
         }
       }
@@ -172,9 +193,9 @@
       }
       .send_btn {
         display: inline-block;
-        width: 100%; 
-        background: rgba(22, 155, 213, 0.35); 
-        color: #fff; 
+        width: 100%;
+        background: rgba(22, 155, 213, 0.35);
+        color: #fff;
         border: 1px solid rgba(22, 155, 213, 0.35);
       }
     }
