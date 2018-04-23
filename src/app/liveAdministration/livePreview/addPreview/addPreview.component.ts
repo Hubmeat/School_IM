@@ -21,6 +21,8 @@ export class AddPreviewComponent implements OnInit {
   foreshow_intro
   live_state: number = 1; // 默认显示
   live_person_id
+  LiveStartTime // 直播时间
+  LiveEndTime // 直播时间
   live_person_gender
   addSubscription: Subscription;
   editSubscription: Subscription;
@@ -60,7 +62,8 @@ export class AddPreviewComponent implements OnInit {
           this.live_title = this.editData.live_title
           this.live_pic = this.editData.live_pic
           this.avatarUrl = this.editData.live_pic
-          this.live_time = this.editData.live_time
+          this.LiveStartTime = this.editData.LiveStartTime
+          this.LiveEndTime = this.editData.LiveEndTime
           this.live_person_id = this.editData.live_person_id
           this.live_person = this.editData.live_person
           this.live_person_gender = this.editData.live_person_gender
@@ -109,12 +112,13 @@ export class AddPreviewComponent implements OnInit {
       uid,
       this.live_title,
       this.live_pic,
-      this.live_time,
       this.live_person_id,
       this.live_person,
       this.live_person_gender,
       this.foreshow_intro,
-      this.live_state
+      this.live_state,
+      this.LiveStartTime,
+      this.LiveEndTime
     )
     this.addSubscription = this.service.LivePreSubject.subscribe(res => {
       console.log(res)
@@ -134,7 +138,6 @@ export class AddPreviewComponent implements OnInit {
       this.id,
       this.live_title,
       this.live_pic,
-      this.live_time,
       this.live_person_id,
       this.live_person,
       this.live_person_gender,
@@ -142,6 +145,8 @@ export class AddPreviewComponent implements OnInit {
       this.live_state,
       this.video_url,
       this.video_type,
+      this.LiveStartTime,
+      this.LiveEndTime
     )
     this.editSubscription = this.service.LiveServiceSubject.subscribe(res => {
       if (res.editmsg) {

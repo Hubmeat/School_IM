@@ -14,7 +14,7 @@ export class DataSettingService {
    */
   industryApi = this.$HOST.host + '/a/industry_template/export';
   industryRecordApiApi = this.$HOST.host + '/a/industry_defeat/export';
-  departmentsApi = this.$HOST.host + '/a/academy_defeat/export';
+  departmentsApi = this.$HOST.host + '/a/academy_template/export';
   departmentsRecordApiApi = this.$HOST.host + '/a/academy_defeat/export';
   specialtyApi = this.$HOST.host + '/a/major_template/export';
   specialtyRecordApiApi = this.$HOST.host + '/a/major_defeat/export';

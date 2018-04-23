@@ -34,12 +34,8 @@
     </div>
     <div>
       <span class="text-padd-span">直播时间</span>
-      <nz-input
-        style="width: 75%;"
-        [(ngModel)]="live_time"
-        [nzPlaceHolder]="'请输入直播时间'"
-      >
-      </nz-input>
+      <nz-datepicker [(ngModel)]="LiveStartTime" nzShowTime [nzPlaceHolder]="'选择开始时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+      <nz-datepicker [(ngModel)]="LiveEndTime" nzShowTime [nzPlaceHolder]="'选择开始时间'" [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
     </div>
     <div>
       <span class="text-padd-span">直播人</span>

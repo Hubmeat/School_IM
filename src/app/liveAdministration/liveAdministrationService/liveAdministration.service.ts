@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiModule } from '../../api/api';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/retry';
+import * as moment from 'moment';
 
 @Injectable()
 
@@ -33,23 +34,25 @@ export class LiveAdministrationService {
       uid,
       live_title,
       live_pic,
-      live_time,
       live_person_id,
       live_person,
       live_person_gender,
       foreshow_intro,
-      live_state
+      live_state,
+      live_time,
+      live_end_time
     ) {
       const formData = {
         uid: uid,
         live_title: live_title,
         live_pic: live_pic,
-        live_time: live_time,
         live_person_id: live_person_id,
         live_person: live_person,
         live_person_gender: live_person_gender,
         foreshow_intro: foreshow_intro,
-        live_state: live_state
+        live_state: live_state,
+        live_time: live_time === null ? '' : moment(live_time).valueOf(),
+        live_end_time: live_end_time === null ? '' : moment(live_end_time).valueOf(),
       };
       this.$http
         .post(this.$HOST.host + '/a/live_foreshow/new', formData)
@@ -124,7 +127,6 @@ export class LiveAdministrationService {
       id,
       live_title,
       live_pic,
-      live_time,
       live_person_id,
       live_person,
       live_person_gender,
@@ -132,19 +134,22 @@ export class LiveAdministrationService {
       live_state,
       video_url,
       video_type,
+      live_time,
+      live_end_time
     ) {
       const formData = {
         id: id,
         live_title: live_title,
         live_pic: live_pic,
-        live_time: live_time,
         live_person_id: live_person_id,
         live_person: live_person,
         live_person_gender: live_person_gender,
         foreshow_intro: foreshow_intro,
         live_state: live_state,
         video_url: video_url,
-        video_type: video_type
+        video_type: video_type,
+        live_time: live_time === null ? '' : moment(live_time).valueOf(),
+        live_end_time: live_end_time === null ? '' : moment(live_end_time).valueOf(),
       };
       this.$http
         .post(this.$HOST.host + '/a/live/update', formData)

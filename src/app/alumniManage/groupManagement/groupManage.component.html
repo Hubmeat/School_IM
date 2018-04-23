@@ -76,7 +76,7 @@
                               </nz-popconfirm>
                             </button>
                             <p style="color: #ccc;font-style: italic;">*仅群主可解散群</p>
-                            <button nz-button [nzType]="'default'" style="width: 80px" (click)="showOwnerChange(data)">
+                            <button nz-button [nzType]="'default'" style="width: 80px" (click)="showOwnerChange(data)" [disabled]="data.ownerChangeFlag">
                               群主转让
                             </button>
                         </td>

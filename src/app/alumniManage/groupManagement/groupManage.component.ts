@@ -112,6 +112,14 @@ export class GroupManagementCom implements OnInit {
                 if (res.error_code === 0) {
                     this.data = res.result;
                     this.totalPage = res.total_count;
+
+                    for (let i in this.data) {
+                      if (this.data[i].uid === this.uid) {
+                        this.data['ownerChangeFlag'] = false;
+                      } else {
+                        this.data['ownerChangeFlag'] = true;
+                      }
+                    }
                 } else {
                     this.data = [];
                     this.totalPage = 0;
