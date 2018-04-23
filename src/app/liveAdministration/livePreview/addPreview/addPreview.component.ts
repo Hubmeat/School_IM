@@ -145,8 +145,8 @@ export class AddPreviewComponent implements OnInit {
       this.live_state,
       this.video_url,
       this.video_type,
-      this.LiveStartTime,
-      this.LiveEndTime
+      // this.LiveStartTime,
+      // this.LiveEndTime
     )
     this.editSubscription = this.service.LiveServiceSubject.subscribe(res => {
       if (res.editmsg) {

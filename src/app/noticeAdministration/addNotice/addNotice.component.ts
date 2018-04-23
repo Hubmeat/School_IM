@@ -55,6 +55,7 @@ export class AddNoticeComponent implements OnInit  {
   ) {}
   ngOnInit() {
     this.editFlag = this.service.editFlag;
+    console.log(this.service.editFlag);
     if (!this.editFlag && this.editFlag !== undefined) {
       this.editData = this.service.editData;
         this.id = this.editData.id;

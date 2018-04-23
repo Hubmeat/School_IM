@@ -110,7 +110,6 @@ export class NoticeAdminComponent implements OnInit  {
     this.router.navigate(['/index/addNotice'])
   }
   editNot(data) {
-    console.log(data)
     this.service.editFlag = false;
     this.service.editData = data;
     this.router.navigate(['/index/addNotice']);
