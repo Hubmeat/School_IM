@@ -1,4 +1,4 @@
-import {Component, OnInit, DoCheck, OnChanges, SimpleChange, AfterContentInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, DoCheck, OnChanges, SimpleChange, AfterContentInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {NzMessageService, UploadFile} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 import {ContactAdminService} from '../contactAdminService/contactAdmin.service';
@@ -9,7 +9,7 @@ import * as Q from 'jquery';
 @Component({selector: 'contactAdmin-component', templateUrl: './contactAdmin.component.html', styleUrls: ['./contactAdmin.component.less']})
 
 export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, OnDestroy {
-  dataList : any;
+  dataList = [];
   currentChatObject = '';
   schoolName = '';
   isVisible = false;
@@ -25,7 +25,6 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
 
   chatListNim : any;
   Nm : any;
-  chatFlag = true;
 
   // 当前沟通对象
   chatId = '';
@@ -43,7 +42,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
   //昵称 头像
   custom : boolean = false;
 
-  constructor(private service : ContactAdminService, private _message : NzMessageService, private router : Router) {}
+  constructor(private service : ContactAdminService, private _message : NzMessageService, private router : Router, private changeDetectorRef:ChangeDetectorRef ) {}
 
   ngOnInit() {
     console.log('111')
@@ -106,7 +105,11 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
         debug: false,
         appKey: "ff5c5a21d8269d4afddfc7b1a2f40027",
         account: account,
+        syncSessionUnread:true,
         token: token,
+        onsyncdone: () => {
+          console.log('同步完成')
+        },
         onconnect: function (res) {
           console.log(res)
           console.log('连接成功');
@@ -142,15 +145,30 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
           console.log('收到消息', msg.scene, msg.type, msg);
           that.getMsgs(msg);
         },
-        onsessions: function (sessions) {
+        onsessions: (sessions) => {
           console.log('收到会话列表', sessions);
           var account = sessions[0];
-          that.changeChatObject(account);
-          that.UI(sessions);
+          // this.changeChatObject(account);
+          var newArr = new Array();
+          newArr = sessions.slice(0);
+          this.dataList = newArr;
+          for (let i in this.dataList) {
+            if (this.dataList[i].lastMsg.custom) {
+              this.dataList[i].lastMsg.custom = JSON.parse(this.dataList[i].lastMsg.custom);
+              this.custom = true;
+            }
+          }
+          this.changeDetectorRef.markForCheck();  
+          this.changeDetectorRef.detectChanges(); 
         },
-        onupdatesession: function (session) {
-          console.log('会话更新了', session);
-          // that.pushMsg(session)
+        onupdatesession: (sessions) => {
+          console.log('会话更新了', sessions);
+          var id = sessions.id;
+          this.dataList.map( item => {
+            if (id === item.id) {
+              item.unread = sessions.unread
+            }
+          })
         }
       });
   }
@@ -167,50 +185,66 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
     $('.text_content').html('');
     var token = Md5.hashStr(item.to.toString());
     var account = item.to.toString();
-    this.Nm.disconnect();
-    this.currentChatObject = item.lastMsg.fromNick;
+    var sessionId = item.id;
     //  改变聊天对象account
+    this.currentChatObject = item.lastMsg.fromNick;
     this.chatId = account;
     var that = this;
-    var nim1 = SDK.NIM.getInstance(
-      {
-        appKey: 'ff5c5a21d8269d4afddfc7b1a2f40027',
-        token: token,
-        account: account,
-        onroamingmsgs: function (obj) {
-          console.log('收到漫游消息', obj);
-          obj.msgs.map(
-            item => {
-              that.getMsgs(item)
-            }
-          )
-        },
-        onofflinemsgs: function (obj) {
-          console.log('收到离线消息', obj);
-          obj.msgs.map(
-            item => {
-              that.getMsgs(item)
-            }
-          )
-        }
+    this.Nm.getLocalMsgs({
+      sessionId: sessionId,
+      limit: 100,
+      done: function getLocalMsgsDone(error, obj) {
+        console.log('获取本地消息' + (!error?'成功':'失败'), error, obj)
+        var arr = new Array();
+        arr = obj.msgs.reverse();
+        arr.map( item => {
+          that.getMsgs(item);
+        })
       }
-    )
-    // 断开 IM
-    nim1.disconnect();
-    // 更新 token
-    nim1.setOptions({token: token});
+    })
+    this.Nm.setCurrSession(sessionId)
+    this.Nm.resetSessionUnread(sessionId)
+    // this.Nm.resetAllSessionUnread()
     // 重新连接
-    nim1.connect();
+
+    // this.Nm.disconnect();
+    // var that = this;
+    // var nim1 = SDK.NIM.getInstance(
+    //   {
+    //     appKey: 'ff5c5a21d8269d4afddfc7b1a2f40027',
+    //     token: token,
+    //     account: account,
+    //     onroamingmsgs: function (obj) {
+    //       console.log('收到漫游消息222', obj);
+    //       obj.msgs.map(
+    //         item => {
+    //           that.getMsgs(item)
+    //         }
+    //       )
+    //     },
+    //     onofflinemsgs: function (obj) {
+    //       console.log('收到离线消息22', obj);
+    //       obj.msgs.map(
+    //         item => {
+    //           that.getMsgs(item)
+    //         }
+    //       )
+    //     }
+    //   }
+    // )
+    // // 断开 IM
+    // nim1.disconnect();
+    // // 更新 token
+    // nim1.setOptions({token: token});
+    // // 重新连接
+    // nim1.connect();
   }
 
   getMsgs(msgs) {
-    console.log('**** msgs', msgs)
-
     if (msgs.type === 'text') {
       var text = msgs.text;
       var flow =  msgs.flow === 'out' ? 'right' : 'left';
       var headImg = msgs.custom === undefined ? './assets/images/defaulthead.jpg' : JSON.parse(msgs.custom).xy_avatar;
-      console.log('】】】', headImg)
       var box = `
         <div style="width: 100%;overflow: hidden; display: block;">
           <div style='min-width: 400px;overflow: hidden; margin: 10px; float:${flow}'>
@@ -289,9 +323,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
 
     var str = this.replace_em(info)
     var that = this;
-    var msg = this
-      .Nm
-      .sendText({
+    var msg = this.Nm.sendText({
         scene: 'p2p',
         to: this.chatId,
         text: str,
@@ -348,16 +380,16 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
 
   UI(res) {
     // 刷新界面
-    console.log('mmmm')
-    this.dataList = res;
+    var newArr = new Array();
+    newArr = res.slice(0);
+    this.dataList = newArr;
     for (let i in this.dataList) {
       if (this.dataList[i].lastMsg.custom) {
         this.dataList[i].lastMsg.custom = JSON.parse(this.dataList[i].lastMsg.custom);
         this.custom = true;
       }
     }
-    setTimeout( () => {
-      this.chatFlag = false;
-    }, 500)
+    this.changeDetectorRef.markForCheck();  
+    this.changeDetectorRef.detectChanges(); 
   }
 }

@@ -1,63 +1,66 @@
 <div id="contactAdmin" (keyup.enter)='sendMessage(sendMsg)' nz-row>
-  <div class="contact-list" nz-col [nzSpan]="8">
-    <ul>
-      <li>系统管理员</li>
-      <li *ngFor="let item of dataList" (click)='changeChatObject(item)' >
-        <div>
-          <span class="pic" style="vertical-align: top" *ngIf="item.lastMsg.custom === undefined ? false : true; else defaultBox">
-            <img style="width: 50px; height: 50px; display: inline-block;" src="{{item.lastMsg.custom.xy_avatar}}" alt="head">
-            <div class="spot_div"><span class="spot_text">12</span></div>
-          </span>
-          <ng-template #defaultBox>
-            <span class="pic" style="vertical-align: top">
-              <img style="width: 50px; height: 50px; display: inline-block;" src="./assets/images/defaulthead.jpg" alt="head">
+    <div class="contact-list" nz-col [nzSpan]="8">
+      <ul>
+        <li>系统管理员</li>
+        <li *ngFor="let item of dataList" (click)='changeChatObject(item)' >
+          <div>
+            <span class="pic" style="vertical-align: top" *ngIf="item.lastMsg.custom === undefined ? false : true; else defaultBox">
+              <span>
+                <img style="width: 50px; height: 50px; display: inline-block;" src="{{item.lastMsg.custom.xy_avatar}}" alt="head">
+              </span>
             </span>
-            <div class="spot_div"><span class="spot_text">12</span></div>
-          </ng-template>
-          <div class="listConter">
-            <span class="text">
-              {{item.lastMsg.custom === undefined ? item.id : item.lastMsg.custom.xy_nickname}}
-            </span>
-            <span class="text_lastMsg_text">{{item.lastMsg.text}}</span>
+            <div class="spot_div" *ngIf="item.unread === 0?false:true"><span class="spot_text">{{item.unread}}</span></div>
+            <ng-template #defaultBox>
+              <span class="pic" style="vertical-align: top">
+                <img style="width: 50px; height: 50px; display: inline-block;" src="./assets/images/defaulthead.jpg" alt="head">
+              </span>
+              <div class="spot_div" *ngIf="item.unread === 0?false:true"><span class="spot_text">{{item.unread}}</span></div>
+            </ng-template>
+            <div class="listConter">
+              <span class="text">
+                {{item.lastMsg.custom === undefined ? item.id : item.lastMsg.custom.xy_nickname}}
+              </span>
+              <span class="text_lastMsg_text">{{item.lastMsg.text}}</span>
+            </div>
           </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div id="chart"  nz-col [nzSpan]="15">
-    <div class="chat_info">
-      <p>
-        <span>{{currentChatObject}}</span>
-        <span>>></span>
-      </p>
+        </li>
+      </ul>
     </div>
-    <div class="text_content">
-      <!-- <div *ngFor='let item of msgList'>
-        <span class="date_span">{{item.time | date : 'yyyy-MM-dd hh:mm:ss EEEE'}}</span>
-        <p [ngStyle]="{'text-align': item.flow === 'in'?'left':'right'}">
-          {{item.text}}
+    <div id="chart"  nz-col [nzSpan]="15">
+      <div class="chat_info">
+        <p>
+          <span>{{currentChatObject}}</span>
+          <span>>></span>
         </p>
-      </div> -->
-    </div>
-    <div class="send_message">
-      <div nz-row>
-        <div style="padding: 0 10px 0 10px;" nz-col [nzSpan]='20'>
-          <span style="cursor: pointer;"  (click)='addFace()' class="emotion face"><i class="anticon anticon-smile-o"></i></span>
-          <span class="file">
-            <label>
-              <input type="file" (change)="getUpload($event)" style="position:absolute;opacity:0;width: 20px;"  >
-              <img style="width: 30px; height: 30px;" src="../../../assets/images/timg.jpg">
-            </label>
-          </span>
-          <!-- <nz-input style="width: 78%; vertical-align: top;" class="text_area" id="saytext" name="saytext" [(ngModel)]="sendMsg" [nzPlaceHolder]="'请输入聊天内容'"></nz-input> -->
-          <input type="text" style="width: 55%;margin-left: 0px; vertical-align: top;" class="text_area" id="saytext" name="saytext" [(ngModel)]="sendMsg" (ngModelChange)='inputChange($event)' />
-        </div>
-        <div style="text-align: center;padding: 0 10px 0 10px;" nz-col [nzSpan]='4'>
-          <button class="send_btn" nz-button (click)='sendMessage(sendMsg)' [nzType]="'default'">
-            <span>发送</span>
-          </button>
+      </div>
+      <div class="text_content">
+        <!-- <div *ngFor='let item of msgList'>
+          <span class="date_span">{{item.time | date : 'yyyy-MM-dd hh:mm:ss EEEE'}}</span>
+          <p [ngStyle]="{'text-align': item.flow === 'in'?'left':'right'}">
+            {{item.text}}
+          </p>
+        </div> -->
+      </div>
+      <div class="send_message">
+        <div nz-row>
+          <div style="padding: 0 10px 0 10px;" nz-col [nzSpan]='20'>
+            <span style="cursor: pointer;"  (click)='addFace()' class="emotion face"><i class="anticon anticon-smile-o"></i></span>
+            <span class="file">
+              <label>
+                <input type="file" (change)="getUpload($event)" style="position:absolute;opacity:0;width: 20px;"  >
+                <img style="width: 30px; height: 30px;" src="../../../assets/images/timg.jpg">
+              </label>
+            </span>
+            <!-- <nz-input style="width: 78%; vertical-align: top;" class="text_area" id="saytext" name="saytext" [(ngModel)]="sendMsg" [nzPlaceHolder]="'请输入聊天内容'"></nz-input> -->
+            <input type="text" style="width: 55%;margin-left: 0px; vertical-align: top;" class="text_area" id="saytext" name="saytext" [(ngModel)]="sendMsg" (ngModelChange)='inputChange($event)' />
+          </div>
+          <div style="text-align: center;padding: 0 10px 0 10px;" nz-col [nzSpan]='4'>
+            <button class="send_btn" nz-button (click)='sendMessage(sendMsg)' [nzType]="'default'">
+              <span>发送</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+  
