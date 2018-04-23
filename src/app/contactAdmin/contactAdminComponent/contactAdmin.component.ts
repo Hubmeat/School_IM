@@ -249,7 +249,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
         <div style="width: 100%;overflow: hidden; display: block;">
           <div style='min-width: 400px;overflow: hidden; margin: 10px; float:${flow}'>
             <div style="float:${flow};margin-top: 11px;border: 1px solid #f2e8e8;border-radius: 5px;overflow: hidden;">
-              <img style='width: 50px; height: 50px; display: block;' src=${headImg}/>
+              <img style='width: 50px; height: 50px; display: block;' src=${headImg} >
             </div> 
             <div style='float:${flow}; border: 1px solid #eee; border-radius: 3px;margin: 10px;'>
               <span style='padding: 20px; font-size: 16px;font-weight: 400;'>${text}</span> 
@@ -268,7 +268,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
         <div style='width: 100%; overflow: hidden; display: block;'>
           <div style='width: 200px;overflow: hidden; margin: 10px; float:${flow}'>
             <div style="float:${flow};margin-top: 11px;border: 1px solid #444;border-radius: 5px;overflow: hidden;">
-              <img style='width: 50px; height: 50px; display: block;' src=${headImg} />
+              <img style='width: 50px; height: 50px; display: block;' src=${headImg} >
             </div> 
             <div style='float:${flow}; border: 1px solid #cccccc;border-radius: 10px;margin: 10px;' >
               <a style='overflow: hidden;display: block;' target="_Blank" href='${url}'>
@@ -290,12 +290,11 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
       var text = msgs.text;
       var flow =  msgs.flow === 'out' ? 'right' : 'left';
       var headImg = msgs.custom === undefined ? './assets/images/defaulthead.jpg' : JSON.parse(msgs.custom).xy_avatar;
-      console.log('head ssss', headImg)
       var box = `
         <div style="width: 100%;overflow: hidden; display: block;">
           <div style='min-width: 400px;overflow: hidden; margin: 10px; float:${flow}'>
             <div style="float:${flow};margin-top: 11px;border: 1px solid #f2e8e8;border-radius: 5px;overflow: hidden;">
-              <img style='width: 50px; height: 50px; display: block;' src=${headImg}/>
+              <img style='width: 50px; height: 50px; display: block;' src=${headImg} >
             </div> 
             <div style='float:${flow}; border: 1px solid #eee; border-radius: 3px;margin: 10px;'>
               <span style='padding: 20px; font-size: 16px;font-weight: 400;'>${text}</span> 
