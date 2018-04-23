@@ -20,6 +20,7 @@ export class DepartmentsSetupComponent implements OnInit {
   isEditVisible= false;
 
   page: number = 1;
+  totalPage = 0;
   searchParam:string = '';
   editName: '';
   editId: string = ''
@@ -62,6 +63,7 @@ export class DepartmentsSetupComponent implements OnInit {
       res = res.dataList
       if (res !== undefined && res.error_code === 0) {
         this.dataList = res.result;
+        this.totalPage = res.total_count;
       } else {
         this.dataList = [];
       }

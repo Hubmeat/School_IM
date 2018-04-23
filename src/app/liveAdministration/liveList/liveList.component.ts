@@ -46,6 +46,7 @@ export class LiveListComponent implements OnInit  {
 
   searchParam: string = '';
   page: number = 1;
+  totalPage = 0;
   live_title: string = ''; // 直播标题
   video_type: string; // 视频类型：1 代表直播 2 代表回放
 
@@ -80,6 +81,7 @@ export class LiveListComponent implements OnInit  {
       }
       if (res.dataList.error_code === 0) {
         this._dataSet = res.dataList.result;
+        this.totalPage = res.dataList.total_count
         this.listSubscription.unsubscribe();
       }
     })

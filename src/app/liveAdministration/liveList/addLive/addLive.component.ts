@@ -29,6 +29,8 @@ export class AddLiveComponent implements OnInit  {
   upImgSubscription: Subscription; // 上传
   fileList: any = [];
   live_personOptions: any = []; // 直播人搜索列表
+  LiveStartTime = null
+  LiveEndTime = null
   showpersonList: boolean = false
 
   id;
@@ -55,7 +57,8 @@ export class AddLiveComponent implements OnInit  {
       this.live_title = this.editData.live_title;
       this.avatarUrl = this.editData.live_pic;
       this.live_pic = this.editData.live_pic;
-      this.live_time = this.editData.live_time;
+      this.LiveStartTime = this.editData.live_time
+      this.LiveEndTime = this.editData.live_end_time
       this.live_person_id = this.editData.live_person_id;
       this.live_person = this.editData.live_person;
       this.live_person_gender = this.editData.live_person_gender;
@@ -129,14 +132,15 @@ export class AddLiveComponent implements OnInit  {
       this.id,
       this.live_title,
       this.live_pic,
-      // this.live_time,
       this.live_person_id,
       this.live_person,
       this.live_person_gender,
       this.foreshow_intro,
       this.live_state,
       this.video_url,
-      this.video_type
+      this.video_type,
+      this.LiveStartTime,
+      this.LiveEndTime
     )
     this.editSubscription = this.service.LiveServiceSubject.subscribe(res => {
       if (res.editmsg) {

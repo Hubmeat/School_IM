@@ -17,6 +17,7 @@ import {Subscription} from 'rxjs/Subscription'
 export class NoticeAdminComponent implements OnInit  {
   _dataSet = [];
   page: number = 1;
+  totalPage = 0;
   affiche_state: number;
   affiche_title: number;
   dataSubscription: Subscription;
@@ -71,6 +72,7 @@ export class NoticeAdminComponent implements OnInit  {
       }
       if (res.dataList.error_code === 0) {
         this._dataSet = res.dataList.result;
+        this.totalPage = res.dataList.total_count;
         this.dataSubscription.unsubscribe();
       }
     })

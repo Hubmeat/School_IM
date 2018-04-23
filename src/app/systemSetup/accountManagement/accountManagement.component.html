@@ -43,6 +43,7 @@
     *ngIf="isShowTable;else nzTable"
     [nzDataSource]="_dataSet"
     #nzTable
+    [nzPageSize]="15" [nzPageIndex]="page" [nzTotal]="totalPage" nzShowTotal
   >
     <thead nz-thead>
     <tr>

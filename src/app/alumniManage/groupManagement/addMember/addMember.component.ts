@@ -339,6 +339,8 @@ export class AddMemberComponent implements OnInit {
         if (res.addDataList) {
           console.log(res);
           this.addMemberList = res.addDataList.result;
+          console.log(1231111111111111)
+          this.totalPage = res.addDataList.total_count;
         }
 
       })

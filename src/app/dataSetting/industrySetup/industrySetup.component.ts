@@ -18,6 +18,7 @@ export class IndustrySetupComponent implements OnInit {
   editVisible = false;
   uid = '';
   page = 1 ;
+  totalPage = 0;
   industry_name: string;
   addindustry_name: string;
   editindustry_name: string;
@@ -63,6 +64,7 @@ export class IndustrySetupComponent implements OnInit {
       res = res.dataList;
       if (res !== undefined && res.error_code === 0) {
         this.dataList = res.result;
+        this.totalPage = res.total_count;
         // this.service.IndustrySetupSubject.unsubscribe();
       } else {
         this.dataList = [];

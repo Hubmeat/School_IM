@@ -87,7 +87,7 @@
             </nz-table>
         </div>
         <div class="page" *ngIf="data.length > 0">
-            <nz-pagination [nzPageIndex]="currentPage" [nzTotal]="totalPage" (nzPageIndexClickChange)='currentPageChange($event)'
+            <nz-pagination [nzPageIndex]="currentPage" [nzPageSize]="15" [nzTotal]="totalPage" (nzPageIndexClickChange)='currentPageChange($event)'
                 nzShowTotal>
             </nz-pagination>
         </div>

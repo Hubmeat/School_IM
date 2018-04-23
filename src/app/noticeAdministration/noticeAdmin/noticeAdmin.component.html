@@ -30,7 +30,7 @@
 </div>
 
 <div class="accountM_table">
-  <nz-table #nzTable [nzDataSource]="_dataSet">
+  <nz-table #nzTable [nzDataSource]="_dataSet" [nzPageSize]="15" [nzPageIndex]="page" [nzTotal]="totalPage" nzShowTotal>
     <thead nz-thead>
     <tr>
       <th nz-th><span>发布时间</span></th>

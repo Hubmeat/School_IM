@@ -19,6 +19,7 @@ export class SpecialtyComponent implements OnInit {
   isVisible1= false;
   isEditVisible= false;
   page: 1;
+  totalPage = 0
 
   addMajorName: string = ''; // 学院名
   editMajorName: string = '';
@@ -68,6 +69,7 @@ export class SpecialtyComponent implements OnInit {
       }
       if (res.dataList.error_code === 0) {
         this.dataList = res.dataList.result;
+        this.totalPage = res.dataList.total_count
       }
     })
   }

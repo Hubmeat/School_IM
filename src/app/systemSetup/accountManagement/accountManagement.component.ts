@@ -19,6 +19,7 @@ export class AccountManagementComponent implements OnInit {
   repeatPassword: string = '';
 
   page = 1;
+  totalPage = 0;
   user_name = '';
   contact_phone = '';
   a_data_state = '';
@@ -88,6 +89,7 @@ export class AccountManagementComponent implements OnInit {
       }
       if (res.dataList.error_code === 0) {
         this._dataSet = res.dataList.result;
+        this.totalPage = res.dataList.total_count;
         if (this._dataSet.length < 1) {
           this.isShowTable = false;
         }

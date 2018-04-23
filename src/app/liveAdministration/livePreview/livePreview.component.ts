@@ -19,6 +19,7 @@ export class LivePreviewComponent implements OnInit  {
   live_title: string = '';
   searchParam: string = '';
   page: number = 1 ;
+  totalPage = 0;
   detailData: any = {
     'id': 0,
     'uid': 0,
@@ -65,6 +66,7 @@ export class LivePreviewComponent implements OnInit  {
       if (res.dataList.error_code === 0) {
         console.log(res.dataList)
         this._dataSet = res.dataList.result;
+        this.totalPage = res.dataList.total_count;
       }
     })
 }
