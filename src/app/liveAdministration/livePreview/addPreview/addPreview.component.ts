@@ -52,7 +52,6 @@ export class AddPreviewComponent implements OnInit {
 
   ngOnInit() {
     this.getLive_personsList(this.live_person);
-    console.log(this.avatarUrl)
       this.editFlag = this.service.editFlag;
       if (!this.editFlag) {
 
@@ -62,8 +61,8 @@ export class AddPreviewComponent implements OnInit {
           this.live_title = this.editData.live_title
           this.live_pic = this.editData.live_pic
           this.avatarUrl = this.editData.live_pic
-          this.LiveStartTime = this.editData.LiveStartTime
-          this.LiveEndTime = this.editData.LiveEndTime
+          this.LiveStartTime = this.editData.live_time
+          this.LiveEndTime = this.editData.live_end_time
           this.live_person_id = this.editData.live_person_id
           this.live_person = this.editData.live_person
           this.live_person_gender = this.editData.live_person_gender
@@ -145,8 +144,8 @@ export class AddPreviewComponent implements OnInit {
       this.live_state,
       this.video_url,
       this.video_type,
-      // this.LiveStartTime,
-      // this.LiveEndTime
+      this.LiveStartTime,
+      this.LiveEndTime
     )
     this.editSubscription = this.service.LiveServiceSubject.subscribe(res => {
       if (res.editmsg) {

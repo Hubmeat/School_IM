@@ -84,7 +84,7 @@
           [nzCancelText]="'关闭'"
           [nzContent]="modalContent"
           (nzOnCancel)="handleCancel($event)"
-          (nzOnOk)="handleOk($event)"
+          (nzOnOk)="handleCancel($event)"
 >
   <ng-template #modalContent>
     <div nz-row class="details-template">

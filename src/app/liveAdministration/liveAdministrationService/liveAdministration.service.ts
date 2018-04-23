@@ -134,8 +134,8 @@ export class LiveAdministrationService {
       live_state,
       video_url,
       video_type,
-      // live_time,
-      // live_end_time
+      live_time,
+      live_end_time
     ) {
       const formData = {
         id: id,
@@ -148,8 +148,8 @@ export class LiveAdministrationService {
         live_state: live_state,
         video_url: video_url,
         video_type: video_type,
-        // live_time: live_time === null ? '' : moment(live_time).valueOf(),
-        // live_end_time: live_end_time === null ? '' : moment(live_end_time).valueOf(),
+        live_time: live_time === null ? '' : moment(live_time).valueOf(),
+        live_end_time: live_end_time === null ? '' : moment(live_end_time).valueOf(),
       };
       this.$http
         .post(this.$HOST.host + '/a/live/update', formData)
