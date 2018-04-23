@@ -339,7 +339,7 @@
                     </nz-select>
                   </li>
                   <li>
-                    <b class="weight">学历：</b>
+                    <b class="weight">学历：&nbsp;&nbsp;&nbsp;&nbsp;</b>
                     <nz-select  class="selectInput" class="" style="width: 100px;" [nzDisabled]='!editFlag' [(ngModel)]="userInfo.education" [nzPlaceHolder]="'请选择学历'">
                       <nz-option
                         *ngFor="let item of educationOptions"
@@ -375,7 +375,7 @@
                   </li>
                   <li>
                     <b class="weight">职位名称：</b>
-                    <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].job_title" [nzReadonly]='!editFlag'></nz-input>
+                    <nz-input class="selectInput" style="width: 120px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].job_title" [nzReadonly]='!editFlag'></nz-input>
                   </li>
                   <li>
                     <b class="weight">所属行业：</b>
@@ -389,11 +389,19 @@
                   </li>
                   <li>
                     <b class="weight">企业人数：</b>
-                    <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].person_number" [nzReadonly]='!editFlag'></nz-input>
+                    <nz-input class="selectInput" style="width: 120px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].person_number" [nzReadonly]='!editFlag'></nz-input>
+                  </li>
+                  <li>
+                    <b class="weight">企业性质：</b>
+                    <nz-input class="selectInput" style="width: 160px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].corporate_property" [nzReadonly]='!editFlag'></nz-input>
+                  </li>
+                  <li>
+                    <b class="weight">星级：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
+                    <nz-input class="selectInput" style="width: 120px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].star_level" [nzReadonly]='!editFlag'></nz-input>
                   </li>
                   <li>
                     <b class="weight">上一年度资产总值：</b>
-                    <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].last_total_assets" [nzReadonly]='!editFlag'></nz-input>
+                    <nz-input class="selectInput" style="width: 120px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].last_total_assets" [nzReadonly]='!editFlag'></nz-input>
                   </li>
                   <li>
                     <b class="weight">公司地址：</b>
