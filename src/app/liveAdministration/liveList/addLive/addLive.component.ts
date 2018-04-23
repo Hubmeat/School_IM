@@ -129,14 +129,14 @@ export class AddLiveComponent implements OnInit  {
       this.id,
       this.live_title,
       this.live_pic,
-      this.live_time,
+      // this.live_time,
       this.live_person_id,
       this.live_person,
       this.live_person_gender,
       this.foreshow_intro,
       this.live_state,
       this.video_url,
-      this.video_type,
+      this.video_type
     )
     this.editSubscription = this.service.LiveServiceSubject.subscribe(res => {
       if (res.editmsg) {

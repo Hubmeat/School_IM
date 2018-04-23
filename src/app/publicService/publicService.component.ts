@@ -45,6 +45,20 @@ export class publicService {
               });
     }
 
+    // 忘记密码
+
+    public PassWordForgetSubject = new Subject<any>();
+
+    public postNewPassword(account_number, captcha, new_password): any {
+      const formData = {
+        account_number: account_number,
+        captcha: captcha,
+        new_password: new_password
+      }
+      return this.$http
+        .post(this.$HOST.host + '/a/user/forget_password', formData);
+    }
+
 
     //  退出的方法
     public signOut ():void {

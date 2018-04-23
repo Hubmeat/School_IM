@@ -6,8 +6,8 @@
             (click)="goback()">
       返回
     </button>
-    <h2 nz-col [nzSpan]="20" *ngIf="editFlag;else editFlag">添加公告</h2>
-    <ng-template #editFlag><h2 nz-col [nzSpan]="20">编辑公告</h2></ng-template>
+    <h2 nz-col [nzSpan]="20" *ngIf="editFlag ; else editFlagM">添加公告</h2>
+    <ng-template #editFlagM><h2 nz-col [nzSpan]="20">编辑公告</h2></ng-template>
 
   </div>
   <div nz-row class="addList_head">
@@ -79,7 +79,7 @@
     </div>
     <div nz-row class="foot-buts">
       <button nz-col [nzSpan]="5" [nzPush]="5" nz-button (click)="goback()">取消</button>
-      <button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="addNoticeSubmit()" *ngIf="editFlag;else editFlagSub">提交</button>
+      <button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="addNoticeSubmit()" *ngIf="editFlag ; else editFlagSub">提交</button>
       <ng-template #editFlagSub><button nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="editSubmit()">提交</button></ng-template>
     </div>
 
