@@ -473,19 +473,19 @@ export class SchoolfellowListCom implements OnInit {
 
   getDownRecord() {
     $("#downloadform").remove();
-    var form = $("<form>"); // 定义一个form表单
+    var form = $("<form>"); //定义一个form表单
     form.attr("id", "downloadform");
     form.attr("style", "display:none");
     form.attr("target", "");
     form.attr("method", "post");
-    form.attr("unique_identification", this.unique_identification);
+    // form.attr("unique_identification", this.unique_identification);
     form.attr("action", this.alumniMgService.RecordApi);
     var input1 = $("<input>");
     input1.attr("type", "hidden");
-    input1.attr("name", "fileName");
-    input1.attr("value", "threeBody.txt");
+    input1.attr("name", "unique_identification");
+    input1.attr("value", this.unique_identification);
     form.append(input1);
-    $("body").append(form); // 将表单放置在web中
-    form.submit(); // 表单提交
+    $("body").append(form); //将表单放置在web中
+    form.submit(); //表单提交
   }
 }

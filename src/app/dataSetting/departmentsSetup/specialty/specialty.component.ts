@@ -29,6 +29,7 @@ export class SpecialtyComponent implements OnInit {
   progressValue: number = 0;
   api
   downLoading
+  fileUid = ''; // 文件唯一标识
 
   uploadSubscription: Subscription;
   recordInfo: any = false;
@@ -169,7 +170,8 @@ export class SpecialtyComponent implements OnInit {
   beforeUpload = (file: UploadFile): boolean => {
     console.log('file', file);
     this.fileList.push(file);
-    console.log('fileList', this.fileList)
+    console.log('fileList', this.fileList);
+    this.fileUid = this.fileList[0].uid; // 文件唯一标识
     return false;
   }
 
@@ -214,12 +216,12 @@ export class SpecialtyComponent implements OnInit {
     form.attr("style", "display:none");
     form.attr("target", "");
     form.attr("method", "post");
-    form.attr("unique_identification", this.unique_identification);
+    // form.attr("unique_identification", this.unique_identification);
     form.attr("action", this.service.specialtyRecordApiApi);
     var input1 = $("<input>");
     input1.attr("type", "hidden");
-    input1.attr("name", "fileName");
-    input1.attr("value", "threeBody.txt");
+    input1.attr("name", "unique_identification");
+    input1.attr("value", this.unique_identification);
     form.append(input1);
     $("body").append(form); //将表单放置在web中
     form.submit(); //表单提交
