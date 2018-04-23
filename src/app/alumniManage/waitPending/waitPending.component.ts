@@ -46,6 +46,7 @@ export class WaitPendingComponent implements OnInit {
     borderShow:boolean = false;
     currentPage = 1;
     totalPage = 0;
+    pageSize = 15;
 
     // 用户资料model
     inforVisible:boolean = false;

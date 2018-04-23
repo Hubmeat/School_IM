@@ -154,6 +154,7 @@
     <div class="page" *ngIf="data.length > 0">
         <nz-pagination
             [nzPageIndex]="currentPage"
+            [nzPageSize] = 'pageSize'
             [nzTotal]="totalPage"
             (nzPageIndexClickChange) = 'currentPageChange($event)'
             nzShowTotal>
