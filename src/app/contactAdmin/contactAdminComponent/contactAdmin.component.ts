@@ -5,7 +5,7 @@ import {ContactAdminService} from '../contactAdminService/contactAdmin.service';
 import {Md5} from 'ts-md5/dist/md5';
 
 import * as Q from 'jquery';
-import { DOCUMENT } from '@angular/platform-browser'; 
+import { DOCUMENT } from '@angular/platform-browser';
 import { Observable } from "rxjs";
 // import 'rxjs/add/observable/fromEvent'
 // import { Observable } from "rxjs/Observable";
@@ -50,30 +50,31 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
   columnTop  = '';
 
   constructor(
-    private service : ContactAdminService, 
-    private _message : NzMessageService, 
-    private router : Router, 
+    private service : ContactAdminService,
+    private _message : NzMessageService,
+    private router : Router,
     private changeDetectorRef:ChangeDetectorRef ) {}
 
   ngOnInit() {
+    this.getScroll();
     this.getNIMConfig();
-    this.columnTop = '0';  
+    this.columnTop = '0';
     var obj = document.getElementsByClassName('.text_content')
-    Observable.fromEvent(obj, 'onScroll').subscribe((event) => {  
+    Observable.fromEvent(obj, 'onScroll').subscribe((event) => {
       console.log('1231321');
-      this.onWindowScroll();  
+      this.onWindowScroll();
     });
   }
 
-  onWindowScroll() {  
-    this.columnTop = (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop) + 'px';  
+  onWindowScroll() {
+    this.columnTop = (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop) + 'px';
     console.log('columnTop', this.columnTop)
-  }  
+  }
 
 
 
   ngDoCheck() {
-    
+
   }
 
   ngOnDestroy ():void {
@@ -180,8 +181,8 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
               this.custom = true;
             }
           }
-          this.changeDetectorRef.markForCheck();  
-          this.changeDetectorRef.detectChanges(); 
+          this.changeDetectorRef.markForCheck();
+          this.changeDetectorRef.detectChanges();
         },
         onupdatesession: (sessions) => {
           console.log('会话更新了', sessions);
@@ -191,8 +192,10 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
               item.unread = sessions.unread
             }
           })
+
         }
       });
+    this.getScroll()
   }
 
   /**
@@ -226,6 +229,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
     })
     this.Nm.setCurrSession(sessionId)
     this.Nm.resetSessionUnread(sessionId)
+    this.getScroll()
     // this.Nm.resetAllSessionUnread()
     // 重新连接
 
@@ -303,6 +307,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
       `
       $('.text_content').append(box)
     }
+    this.getScroll()
   }
 
   pushMsg(msgs) {
@@ -326,6 +331,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
       `
       $('.text_content').append(box)
     }
+    this.getScroll()
   }
 
   /**
@@ -351,6 +357,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
           document.getElementById('saytext')['value'] = ''
         }
       });
+    this.getScroll()
   }
 
   getUpload(e) {
@@ -398,6 +405,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
           that.inputFile = '';
         }
       });
+    this.getScroll()
   }
 
   UI(res) {
@@ -411,7 +419,17 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
         this.custom = true;
       }
     }
-    this.changeDetectorRef.markForCheck();  
-    this.changeDetectorRef.detectChanges(); 
+    this.changeDetectorRef.markForCheck();
+    this.changeDetectorRef.detectChanges();
+    this.getScroll()
+  }
+
+  /***
+   * 调整滚动条
+   */
+  getScroll() {
+    const content = document.getElementById('content-text');
+    const contentHight = content.scrollHeight;
+    content.scrollTop = contentHight;
   }
 }

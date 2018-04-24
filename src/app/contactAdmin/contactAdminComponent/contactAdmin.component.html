@@ -18,7 +18,7 @@
             </ng-template>
             <div class="listConter">
               <span class="text">
-                {{item.lastMsg.custom === undefined ? item.id : item.lastMsg.custom.xy_nickname}}
+                {{item.lastMsg.custom === undefined ? '企业家联谊会用户' : item.lastMsg.custom.xy_nickname}}
               </span>
               <span class="text_lastMsg_text">{{item.lastMsg.text}}</span>
             </div>
@@ -33,7 +33,7 @@
           <span>>></span>
         </p>
       </div>
-      <div class="text_content">
+      <div class="text_content" id="content-text">
         <!-- <div *ngFor='let item of msgList'>
           <span class="date_span">{{item.time | date : 'yyyy-MM-dd hh:mm:ss EEEE'}}</span>
           <p [ngStyle]="{'text-align': item.flow === 'in'?'left':'right'}">
@@ -63,4 +63,3 @@
       </div>
     </div>
   </div>
-  
