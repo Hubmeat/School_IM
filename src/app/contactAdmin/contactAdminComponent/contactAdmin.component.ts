@@ -49,6 +49,9 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
 
   columnTop  = '';
 
+  currentId: any; // 当前聊天人id
+  currentLastMsg: any; // 当前聊天人最后一条内容
+
   constructor(
     private service : ContactAdminService,
     private _message : NzMessageService,
@@ -187,11 +190,20 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
         onupdatesession: (sessions) => {
           console.log('会话更新了', sessions);
           var id = sessions.id;
+          this.currentLastMsg = sessions.lastMsg;
           this.dataList.map( item => {
             if (id === item.id) {
               item.unread = sessions.unread
             }
           })
+          if (this.currentLastMsg.text.indexOf('<img') > -1) {
+            this.currentLastMsg.text = '[动画表情]';
+          }
+          for (let i in this.dataList) {
+            if (this.dataList[i].id === this.currentId) {
+              this.dataList[i].lastMsg = this.currentLastMsg;
+            }
+          }
 
         }
       });
@@ -207,6 +219,8 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
    */
 
   changeChatObject(item) {
+    console.log(item);
+    this.currentId = item.id;
     $('.text_content').html('');
     var token = Md5.hashStr(item.to.toString());
     var account = item.to.toString();
@@ -271,14 +285,16 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
       var text = msgs.text;
       var flow =  msgs.flow === 'out' ? 'right' : 'left';
       var headImg = msgs.custom === undefined ? './assets/images/defaulthead.jpg' : JSON.parse(msgs.custom).xy_avatar;
+      const time_date = this.crtTimeFtt(msgs.time);
       var box = `
         <div style="width: 100%;overflow: hidden; display: block;">
+          <span style="display: block;width: 100%;padding-top: 7px;text-align: center;color: #999999;">${time_date}</span>
           <div style='min-width: 400px;overflow: hidden; margin: 10px; float:${flow}'>
             <div style="float:${flow};margin-top: 11px;border: 1px solid #f2e8e8;border-radius: 5px;overflow: hidden;">
               <img style='width: 50px; height: 50px; display: block;' src=${headImg} >
-            </div> 
-            <div style='float:${flow}; border: 1px solid #eee; border-radius: 3px;margin: 10px;'>
-              <span style='padding: 20px; font-size: 16px;font-weight: 400;'>${text}</span> 
+            </div>
+            <div style="float:${flow}; border: 1px solid #eee; border-radius: 3px;margin: 10px;">
+              <span style='padding: 20px; font-size: 16px;font-weight: 400;'>${text}</span>
             </div>
           </div>
         </div>
@@ -288,18 +304,20 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
     if (msgs.type === 'file') {
       var url = msgs.file.url;
       var fileName = msgs.file.name;
-      var flow =  msgs.flow === 'out'?'right':'left';
-      var headImg:any = msgs.custom === undefined?'./assets/images/defaulthead.jpg':JSON.parse(msgs.custom).xy_avatar
+      var flow =  msgs.flow === 'out' ? 'right' : 'left';
+      var headImg: any = msgs.custom === undefined ? './assets/images/defaulthead.jpg' : JSON.parse(msgs.custom).xy_avatar
+      const time_date = this.crtTimeFtt(msgs.time);
       var box = `
         <div style='width: 100%; overflow: hidden; display: block;'>
+        <span style="display: block;width: 100%;padding-top: 7px;text-align: center;color: #999999;">${time_date}</span>
           <div style='width: 200px;overflow: hidden; margin: 10px; float:${flow}'>
             <div style="float:${flow};margin-top: 11px;border: 1px solid #444;border-radius: 5px;overflow: hidden;">
               <img style='width: 50px; height: 50px; display: block;' src=${headImg} >
-            </div> 
+            </div>
             <div style='float:${flow}; border: 1px solid #cccccc;border-radius: 10px;margin: 10px;' >
               <a style='overflow: hidden;display: block;' target="_Blank" href='${url}'>
-                <img style='width: 100px;display: inline-block;' src='./assets/images/file.png' />  
-              </a> 
+                <img style='width: 100px;display: inline-block;' src='./assets/images/file.png' />
+              </a>
               <p style='width: 100px;text-align: center;height: 30px;line-height: 30px;font-weight: bold;margin-top: -24px;'>${fileName}</p>
             </div>
           </div>
@@ -317,20 +335,23 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
       var text = msgs.text;
       var flow =  msgs.flow === 'out' ? 'right' : 'left';
       var headImg = msgs.custom === undefined ? './assets/images/defaulthead.jpg' : JSON.parse(msgs.custom).xy_avatar;
+      const time_date = this.crtTimeFtt(msgs.time);
       var box = `
         <div style="width: 100%;overflow: hidden; display: block;">
+        <span style="display: block;width: 100%;padding-top: 7px;text-align: center;color: #999999;">${time_date}</span>
           <div style='min-width: 400px;overflow: hidden; margin: 10px; float:${flow}'>
             <div style="float:${flow};margin-top: 11px;border: 1px solid #f2e8e8;border-radius: 5px;overflow: hidden;">
               <img style='width: 50px; height: 50px; display: block;' src=${headImg} >
-            </div> 
+            </div>
             <div style='float:${flow}; border: 1px solid #eee; border-radius: 3px;margin: 10px;'>
-              <span style='padding: 20px; font-size: 16px;font-weight: 400;'>${text}</span> 
+              <span style='padding: 20px; font-size: 16px;font-weight: 400;'>${text}</span>
             </div>
           </div>
         </div>
       `
-      $('.text_content').append(box)
+      $('.text_content').append(box);
     }
+
     this.getScroll()
   }
 
@@ -353,11 +374,12 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
         text: str,
         done: function sendMsgDone(error, msg) {
             // that.pushMsg({text: msg.text, flow: msg.flow, time: msg.userUpdateTime});
+          console.log(msg);
           that.pushMsg(msg);
           document.getElementById('saytext')['value'] = ''
         }
       });
-    this.getScroll()
+    this.getScroll();
   }
 
   getUpload(e) {
@@ -431,5 +453,15 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
     const content = document.getElementById('content-text');
     const contentHight = content.scrollHeight;
     content.scrollTop = contentHight;
+  }
+
+  /***
+   * 格式化时间
+   */
+  crtTimeFtt(val) {
+    if (val != null) {
+      const date = new Date(val);
+      return (date.getMonth() + 1) + '-' + date.getDate() + '  ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+    }
   }
 }

@@ -20,6 +20,7 @@
               <span class="text">
                 {{item.lastMsg.custom === undefined ? '企业家联谊会用户' : item.lastMsg.custom.xy_nickname}}
               </span>
+              <span class="time_updata">{{item.lastMsg.time | date: 'MM-dd HH:mm:ss'}}</span>
               <span class="text_lastMsg_text">{{item.lastMsg.text}}</span>
             </div>
           </div>
@@ -44,11 +45,14 @@
       <div class="send_message">
         <div nz-row>
           <div style="padding: 0 10px 0 10px;" nz-col [nzSpan]='20'>
-            <span style="cursor: pointer;"  (click)='addFace()' class="emotion face"><i class="anticon anticon-smile-o"></i></span>
+            <!--<span style="cursor: pointer;"  (click)='addFace()' class="emotion face"><i class="anticon anticon-smile-o"></i></span>-->
+            <span style="cursor: pointer;"  (click)='addFace()' class="emotion face">
+              <img style="width: 30px; height: 30px;position: absolute;top: 7px;left: 17px;" src="./assets/images/phiz.jpg">
+            </span>
             <span class="file">
               <label>
                 <input type="file" (change)="sendFile($event)" style="position:absolute;opacity:0;width: 20px;"  >
-                <img style="width: 30px; height: 30px;" src="../../../assets/images/timg.jpg">
+                <img style="width: 30px; height: 30px;position: absolute;top: 7px;left: 71px;" src="./assets/images/timg.jpg">
               </label>
             </span>
             <!-- <nz-input style="width: 78%; vertical-align: top;" class="text_area" id="saytext" name="saytext" [(ngModel)]="sendMsg" [nzPlaceHolder]="'请输入聊天内容'"></nz-input> -->

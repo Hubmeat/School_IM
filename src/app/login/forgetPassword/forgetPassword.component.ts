@@ -135,8 +135,11 @@ export class ForgetPasswordComponent implements OnInit {
 
   submit() {
     const checksub = this.checkSub();
-    const checkVcode = this.checkVCode();
-    if (checksub && checkVcode) {
+    if (!checksub) {
+      return;
+    }
+    // const checkVcode = this.checkVCode();
+    if (checksub) {
       this.service.postNewPassword(
         this.username,
         this.validateCode,

@@ -170,6 +170,7 @@ export class IndustrySetupComponent implements OnInit {
     this.fileList.forEach((file: any) => {
       formData.append('unique_identification', file.uid);
       formData.append('header_index', '1');
+      formData.append('uid', window.localStorage.getItem('uid'));
       formData.append('file', file);
       this.unique_identification = file.uid;
     });
