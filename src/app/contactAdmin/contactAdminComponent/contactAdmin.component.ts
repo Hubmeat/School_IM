@@ -3,7 +3,12 @@ import {NzMessageService, UploadFile} from 'ng-zorro-antd';
 import {Router} from '@angular/router';
 import {ContactAdminService} from '../contactAdminService/contactAdmin.service';
 import {Md5} from 'ts-md5/dist/md5';
+
 import * as Q from 'jquery';
+import { DOCUMENT } from '@angular/platform-browser'; 
+import { Observable } from "rxjs";
+// import 'rxjs/add/observable/fromEvent'
+// import { Observable } from "rxjs/Observable";
 // import Chatroom from '../../../assets/NIM_Web_Chatroom_v5.0.0';
 
 @Component({selector: 'contactAdmin-component', templateUrl: './contactAdmin.component.html', styleUrls: ['./contactAdmin.component.less']})
@@ -42,12 +47,29 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
   //昵称 头像
   custom : boolean = false;
 
-  constructor(private service : ContactAdminService, private _message : NzMessageService, private router : Router, private changeDetectorRef:ChangeDetectorRef ) {}
+  columnTop  = '';
+
+  constructor(
+    private service : ContactAdminService, 
+    private _message : NzMessageService, 
+    private router : Router, 
+    private changeDetectorRef:ChangeDetectorRef ) {}
 
   ngOnInit() {
-    console.log('111')
     this.getNIMConfig();
+    this.columnTop = '0';  
+    var obj = document.getElementsByClassName('.text_content')
+    Observable.fromEvent(obj, 'onScroll').subscribe((event) => {  
+      console.log('1231321');
+      this.onWindowScroll();  
+    });
   }
+
+  onWindowScroll() {  
+    this.columnTop = (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop) + 'px';  
+    console.log('columnTop', this.columnTop)
+  }  
+
 
 
   ngDoCheck() {
@@ -312,10 +334,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
   sendMessage(info) : void {
     var mas = document.getElementById('saytext')['value'];
     info = mas;
-    if(this.inputFile != '') {
-      this.sendFile();
-      return
-    } else if (info === '') {
+    if (info === '') {
       this._message.warning('不能发送空消息')
       return
     }
@@ -341,7 +360,11 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
     }
   }
 
-  sendFile() {
+  sendFile(e) {
+    if (e.target.files[0]) {
+      const file = e.target;
+      this.inputFile = file;
+    }
     var that = this;
     this
       .Nm

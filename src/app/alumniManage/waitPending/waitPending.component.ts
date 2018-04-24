@@ -132,10 +132,10 @@ export class WaitPendingComponent implements OnInit {
                 if (res.major) {
                     if (res.major.error_code === 0) {
                         this.majorOptions = res.major.result;
-                    }
+                    } 
                 }
             }
-        )
+        )   
     }
 
     collegeChange (value) {
