@@ -67,7 +67,7 @@
                             <span style="color: #999999">{{data.custom}}</span>
                         </td>
                         <td nz-td>
-                            <button nz-button [nzType]="'default'" style="width: 80px">
+                            <button nz-button [nzType]="'default'" style="width: 80px" [disabled]="data.ownerChangeFlag">
                               <nz-popconfirm [nzTitle]="'确定解散群?'"
                                              [nzOkText]="'确定'"
                                              [nzCancelText]="'取消'"

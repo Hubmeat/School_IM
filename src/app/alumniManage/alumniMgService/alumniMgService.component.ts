@@ -606,7 +606,7 @@ export class AMService {
           this.uoFileSubject.next({file: res})
         })
     }
-    schoolApi = this.$HOST.host + '/a/academy_template/export';
+    schoolApi = this.$HOST.host + '/a/user_template/export';
     RecordApi = this.$HOST.host + '/a/user_defeat/export';
 
     // 群主转让list

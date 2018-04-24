@@ -27,10 +27,10 @@ export class publicService {
     public getUserInfo(contact_phone, password) {
 
         const data = {
-          contact_phone: contact_phone,
-          // 'contact_phone': '18333608300',
-          password: password
-          // 'password': '123456'
+          // contact_phone: contact_phone,
+          'contact_phone': '18333608300',
+          // password: password
+          'password': '123456'
         };
         const val = this.$HOST.host;
         this.$http
@@ -57,6 +57,25 @@ export class publicService {
       }
       return this.$http
         .post(this.$HOST.host + '/a/user/forget_password', formData);
+    }
+
+    // 获取验证码
+    public getValidateCode(account_number): any {
+      const formData = {
+        account_number: account_number
+      }
+      return this.$http
+        .post(this.$HOST.host + '/util/get/captcha', formData);
+    }
+
+    // 校验验证码
+    public checkValidateCode(account_number, captcha): any {
+      const formData = {
+        account_number: account_number,
+        captcha: captcha
+      }
+      return this.$http
+        .post(this.$HOST.host + '/util/verify/captcha', formData);
     }
 
 
