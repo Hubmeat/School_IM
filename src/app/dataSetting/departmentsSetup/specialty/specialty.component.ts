@@ -184,6 +184,8 @@ export class SpecialtyComponent implements OnInit {
       formData.append('unique_identification', file.uid);
       formData.append('header_index', '1');
       formData.append('file', file);
+      formData.append('uid', window.localStorage.getItem('uid'));
+      formData.append('academy_id', this.service.academy_id);
       this.unique_identification = file.uid;
     });
     console.log('formData', formData)
