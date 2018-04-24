@@ -470,7 +470,8 @@ export class AMService {
         )
     }
 
-
+    ownName = ''; // 群名称
+    ownPer = ''; // 群当前人数
     public MemberServiceSubject = new Subject<any>();
     // 踢出群
     public deleteMember(member_id, tid, uid, id) {

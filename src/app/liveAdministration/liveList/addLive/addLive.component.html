@@ -62,7 +62,7 @@
           </ng-template>
         </nz-option>
       </nz-select>-->
-      <nz-input style="width: 75%;" [(ngModel)]="live_person" [nzPlaceHolder]="'请输入直播人'" (ngModelChange)="searchChange($event)"></nz-input>
+      <nz-input style="width: 75%;" [(ngModel)]="live_person" [nzPlaceHolder]="'请输入直播人'" (nzFocus)="searchChange('')" (nzBlur)="cancle()" (ngModelChange)="searchChange($event)"></nz-input>
       <div *ngIf="live_personOptions.length > 1 && showpersonList" class="option-list">
         <ul>
           <li *ngFor="let option of live_personOptions" (click)="selectUserNmae(option)">

@@ -111,7 +111,19 @@
                         <div>
                             <dl class="tableStyle">
                                 <dt>
-                                    <img src="{{editInfo.icon}}" alt="{{editInfo.tname}}">
+                                  <div>
+                                    <span *ngIf="!isReadOnly" class="text-padd-span">上传缩略图</span>
+                                    <nz-upload class="avatar-uploader"
+                                               nzName="avatar"
+                                               [nzShowUploadList]="false"
+                                               [nzBeforeUpload]="beforeUpload"
+                                               (nzChange)="handleChange($event)"
+                                               [nzDisabled]='isReadOnly'>
+                                      <i *ngIf="!editInfo.icon" class="anticon anticon-plus avatar-uploader-trigger"></i>
+                                      <img *ngIf="editInfo.icon" [src]="editInfo.icon" class="avatar">
+                                    </nz-upload>
+                                  </div>
+                                    <!--<img src="{{editInfo.icon}}" alt="{{editInfo.tname}}">-->
                                 </dt>
                                 <dd>
                                     <nz-input style="width: 150px; display: block;" [(ngModel)]="editInfo.tname" [nzReadonly]='isReadOnly'></nz-input>

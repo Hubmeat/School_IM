@@ -73,12 +73,11 @@ export class AddLiveComponent implements OnInit  {
     this.getLive_personsList(event)
     window.setTimeout(() => {
       this.showpersonList = true;
-      if (this.live_person === '') {
-        this.showpersonList = false;
-      }
     }, 500)
     this.live_person = event
-
+  }
+  cancle() {
+    this.showpersonList = false;
   }
   selectUserNmae(data) {
     this.live_person = data.user_name;

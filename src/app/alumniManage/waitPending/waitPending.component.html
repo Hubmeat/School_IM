@@ -133,7 +133,7 @@
               {{data.gender === 1?'男':[data.gender === 2?'女':'未知']}}
             </td>
             <td nz-td>
-              {{data.academic_starts | date:'yyyy-MM-dd HH:mm:ss'}}
+              {{data.academic_starts | date:'yyyy'}}
             </td>
             <td nz-td>
               {{data.academy}}
@@ -168,9 +168,14 @@
     <ng-template #modalContent>
       <div id="examineModel">
           <div class="examineModel_head">
-            <div>
+            <div *ngIf="userInfo.avatar ; else defaImg">
               <img class="headImg" src="{{userInfo.avatar}}" />
             </div>
+            <ng-template #defaImg>
+              <div>
+                <img class="headImg" src="./assets/images/dak.jpg" />
+              </div>
+            </ng-template>
             <div>
               <ul>
                 <li>

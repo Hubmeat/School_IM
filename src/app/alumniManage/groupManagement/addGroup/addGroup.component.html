@@ -126,7 +126,7 @@
                                           </span>
                                           <nz-select class="selectInput" style="width: 150px;" [(ngModel)]="nationSelected"
                                               [nzPlaceHolder]="'请选择民族'" nzAllowClear>
-                                              <nz-option *ngFor="let item of nationOptions" [nzLabel]="item.label" [nzValue]="item.value" [nzDisabled]="item.disabled">
+                                              <nz-option *ngFor="let item of nationOptions" [nzLabel]="item" [nzValue]="item" [nzDisabled]="item.disabled">
                                               </nz-option>
                                           </nz-select>
                                       </div>

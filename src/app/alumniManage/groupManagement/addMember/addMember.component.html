@@ -3,8 +3,8 @@
     <button nz-button nz-col [nzSpan]="3" style="margin-right: 20px;" (click)="goback()">返回</button>
     <h2 nz-col [nzSpan]="20">添加群成员</h2>
     <div nz-col [nzSpan]="24" style="margin: 20px 0">
-      <p>群名称: </p>
-      <p>当前人数: </p>
+      <p style="padding: 7px;">群名称: <b>{{ownName}}</b></p>
+      <p style="padding: 7px;">当前人数: <b>{{ownPer}}</b></p>
     </div>
   </div>
     <div nz-row>
@@ -18,11 +18,11 @@
       </div>
       <div nz-col [nzSpan]="4">
         <span>姓名：</span>
-        <nz-input style="width: 100px;" [(ngModel)]="groupName" [nzPlaceHolder]="''" ></nz-input>
+        <nz-input style="width: 100px;" [(ngModel)]="groupName" [nzPlaceHolder]="'请输入姓名'" ></nz-input>
       </div>
       <div nz-col [nzSpan]="4">
         <span>手机：</span>
-        <nz-input style="width: 100px;" [(ngModel)]="groupPhone" [nzPlaceHolder]="''" ></nz-input>
+        <nz-input style="width: 100px;" [(ngModel)]="groupPhone" [nzPlaceHolder]="'请输入手机'" ></nz-input>
       </div>
       <div nz-col [nzSpan]="4">
         <span>性别：</span>
@@ -40,8 +40,8 @@
         <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="nationSelected" (ngModelChange) = 'collegeChange($event)' [nzPlaceHolder]="'请选择民族'" nzAllowClear>
           <nz-option
             *ngFor="let item of nationOptions"
-            [nzLabel]="item.academy_name"
-            [nzValue]="item.id"
+            [nzLabel]="item"
+            [nzValue]="item"
             [nzDisabled]="item.disabled">
           </nz-option>
         </nz-select>
@@ -168,7 +168,7 @@
           <td nz-td>{{data.user_name}}</td>
           <td nz-td>{{data.contact_phone}}</td>
           <td nz-td>{{data.gender === 1?'男':[data.gender === 2?'女':'未知']}}</td>
-          <td nz-td>{{data.academic_starts | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+          <td nz-td>{{data.academic_starts | date:'yyyy'}}</td>
           <td nz-td>{{data.academy}}</td>
           <td nz-td>{{data.profession}}</td>
           <td nz-td>{{data.education}}</td>

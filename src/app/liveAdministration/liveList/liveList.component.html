@@ -57,7 +57,7 @@
         <td nz-td>{{data.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
         <td nz-td (click)="showDetailsModal(data.id, index)"><a>{{data.live_title}}</a></td>
         <td nz-td><img src="{{data.live_pic}}" alt="" style="width: 60px;height: 60px;"></td>
-        <td nz-td><a href="{{data.video_url}}">{{data.video_url}}</a></td>
+        <td nz-td><a href="{{data.video_url}}" target="_Blank">{{data.video_url}}</a></td>
         <td nz-td>{{data.live_person}}</td>
         <td nz-td>{{data.video_type === 1 ? '直播' : '回放'}}</td>
         <td nz-td>{{data.live_state === 1 ? '显示' : '隐藏'}}</td>

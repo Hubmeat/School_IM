@@ -126,7 +126,7 @@
         }
     }
     #examineModel {
-        overflow: hidden;
+        overflow: auto;
         .examineModel_head {
             width: 100%;
             overflow: hidden;
@@ -206,4 +206,8 @@
             display: inline-block;
         }
     }
+}
+#schoolfellowContent :host ::ng-deep ant-modal-body {
+  max-height: 1000px;
+  overflow-y: auto;
 }

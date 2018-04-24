@@ -156,6 +156,7 @@ export class AuditRecordCom implements OnInit {
     // 审核资料展示 方法
     showInfoModal = (data) => {
         console.log('data', data)
+
         this.userInfo = Object.assign({}, data);
         this.inforVisible = true;
     }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AMService } from '../alumniMgService/alumniMgService.component';
-import { NzMessageService } from 'ng-zorro-antd';
+import {NzMessageService, UploadFile} from 'ng-zorro-antd';
 import { Subscription } from 'rxjs/Subscription'
 
 @Component({
@@ -83,6 +83,12 @@ export class GroupManagementCom implements OnInit {
   ChangeId: number;
   ChangeUid: number;
   ChangeNewowner: number;
+
+  fileList: any = [];
+  avatarUrl: any;
+  affiche_pic: any;
+  upImgSubscription: any;
+  fileType: any;
 
     constructor(
         private router: Router,
@@ -185,6 +191,9 @@ export class GroupManagementCom implements OnInit {
         this.alumniService.groupTid = data.tid;
         this.alumniService.groupUid = data.uid;
         this.alumniService.groupId = data.id;
+
+        this.alumniService.ownName = data.tname;
+        this.alumniService.ownPer = data.person_count;
         this.getMemberList();
         console.log('this.editInfo ', this.editInfo )
     }
@@ -218,6 +227,7 @@ export class GroupManagementCom implements OnInit {
         if (res.error_code === 0) {
           this._message.success('修改成功');
           this.isReadOnly = true;
+          this.loadData();
         } else {
           this._message.warning(res.error_msg || '修改失败');
         }
@@ -355,4 +365,43 @@ export class GroupManagementCom implements OnInit {
         this.ownerChangeSubscription.unsubscribe();
       })
     }
+
+  beforeUpload = (file: UploadFile) => {
+    this.fileList.push(file);
+    const formData = new FormData();
+    this.fileList.forEach((file: any) => {
+      console.log(file)
+      formData.append('type', 'image');
+      formData.append('file', file);
+    });
+    this.alumniService.upFile(formData);
+    this.upImgSubscription = this.alumniService.uoFileSubject.subscribe(res => {
+      console.log(res);
+      if (res.file === undefined) {
+        return;
+      }
+      this.editInfo.icon = res.file.original_pic;
+      // this.affiche_pic = res.file.original_pic;
+      this.upImgSubscription.unsubscribe();
+    })
+  }
+
+  handleChange(info: { file: UploadFile }) {
+    const file = info.file;
+    console.log(file)
+    const isJPG = file.type === 'image/jpeg';
+    if (isJPG) {
+      this.fileType = 'image';
+    }else {
+      this.fileType = 'file';
+    }
+    if (!isJPG) {
+      this._message.error('You can only upload JPG file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      this._message.error('Image must smaller than 2MB!');
+    }
+    return isJPG && isLt2M;
+  }
 }

@@ -184,7 +184,7 @@
                   {{data.gender === 1?'男':[data.gender === 2?'女':'未知']}}
                 </td>
                 <td nz-td>
-                  {{data.academic_starts | date:'yyyy-MM-dd HH:mm:ss'}}
+                  {{data.academic_starts | date:'yyyy'}}
                 </td>
                 <td nz-td>
                   {{data.academy}}
@@ -238,9 +238,14 @@
 
               </ng-template>
               <div class="examineModel_head">
-                <div>
+                <div *ngIf="userInfo.avatar ; else defaImg">
                   <img class="headImg" src="{{userInfo.avatar}}" />
                 </div>
+                <ng-template #defaImg>
+                  <div>
+                    <img class="headImg" src="./assets/images/dak.jpg" />
+                  </div>
+                </ng-template>
                 <div>
                   <ul>
                     <li>
@@ -264,7 +269,15 @@
                       </span>
                       <span  style="margin-left: 10px;">
                         <b class="weight">民族：</b>
-                        <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.nation" [nzReadonly]='!editFlag'></nz-input>
+                        <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.nation" [nzDisabled]='!editFlag' [nzPlaceHolder]="userInfo.nation">
+                        <nz-option
+                          *ngFor="let item of national"
+                          [nzLabel]="item"
+                          [nzValue]="item"
+                        >
+                        </nz-option>
+                      </nz-select>
+                        <!--<nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.nation" [nzReadonly]='!editFlag'></nz-input>-->
                       </span>
                     </li>
                     <li>
@@ -273,7 +286,15 @@
                       <span style="margin-left: 10px;"><b class="weight">邮箱：</b></span>
                       <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.private_email" [nzReadonly]='!editFlag'></nz-input>
                       <span style="margin-left: 10px;"><b class="weight">政治面貌：</b></span>
-                      <nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.politics_status" [nzReadonly]='!editFlag'></nz-input>
+                      <nz-select  class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.politics_status" [nzDisabled]='!editFlag' [nzPlaceHolder]="userInfo.politics_status">
+                        <nz-option
+                          *ngFor="let item of politicsStatus"
+                          [nzLabel]="item"
+                          [nzValue]="item"
+                        >
+                        </nz-option>
+                      </nz-select>
+                      <!--<nz-input class="selectInput" style="width: 100px;" [(ngModel)]="userInfo.politics_status" [nzReadonly]='!editFlag'></nz-input>-->
                       <span style="margin-left: 10px;"><b class="weight">身份证：</b></span>
                       <nz-input class="selectInput" style="width: 150px;" [(ngModel)]="userInfo.id_number" [nzReadonly]='!editFlag'></nz-input>
                     </li>
@@ -315,7 +336,7 @@
                 <ul>
                   <li>
                     <b class="weight">入学时间：</b>
-                    <nz-datepicker [nzFormat]="'YYYY/MM'" [(ngModel)]="userInfo.academic_starts" [nzDisabled]='!editFlag'></nz-datepicker>
+                    <nz-datepicker [nzFormat]="'YYYY/MM'" [nzMode]="'month'" [(ngModel)]="userInfo.academic_starts" [nzDisabled]='!editFlag'></nz-datepicker>
                   </li>
                   <li>
                     <b class="weight">学院：</b>
@@ -352,7 +373,7 @@
                   </li>
                   <li>
                     <b class="weight">毕业时间：</b>
-                    <nz-datepicker [nzFormat]="'YYYY/MM'" [nzDisabled]='!editFlag' [(ngModel)]="userInfo.graduate_time"></nz-datepicker>
+                    <nz-datepicker [nzFormat]="'YYYY/MM'" [nzMode]="'month'" [nzDisabled]='!editFlag' [(ngModel)]="userInfo.graduate_time"></nz-datepicker>
                   </li>
                   <li>
                     <b class="weight">班号：</b>
@@ -394,11 +415,27 @@
                   </li>
                   <li>
                     <b class="weight">企业性质：</b>
-                    <nz-input class="selectInput" style="width: 160px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].corporate_property" [nzReadonly]='!editFlag'></nz-input>
+                    <nz-select  class="selectInput" style="width: 160px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].corporate_property" [nzDisabled]='!editFlag' [nzPlaceHolder]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].corporate_property">
+                      <nz-option
+                        *ngFor="let item of enterprise"
+                        [nzLabel]="item"
+                        [nzValue]="item"
+                      >
+                      </nz-option>
+                    </nz-select>
+                    <!--<nz-input class="selectInput" style="width: 160px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].corporate_property" [nzReadonly]='!editFlag'></nz-input>-->
                   </li>
                   <li>
                     <b class="weight">星级：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
-                    <nz-input class="selectInput" style="width: 120px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].star_level" [nzReadonly]='!editFlag'></nz-input>
+                    <nz-select  class="selectInput" style="width: 120px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].star_level" [nzDisabled]='!editFlag' [nzPlaceHolder]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].star_level">
+                      <nz-option
+                        *ngFor="let item of starts"
+                        [nzLabel]="item.label"
+                        [nzValue]="item.val"
+                      >
+                      </nz-option>
+                    </nz-select>
+                    <!--<nz-input class="selectInput" style="width: 120px;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].star_level" [nzReadonly]='!editFlag'></nz-input>-->
                   </li>
                   <li>
                     <b class="weight">上一年度资产总值：</b>
@@ -435,25 +472,25 @@
                 </ul>
                 <p>
                   <b class="weight">公司简介：</b>
-                  <nz-input style="min-height: 40px; width: 100%;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].company_introduce" [nzType]="'textarea'" [nzReadonly]='!editFlag'></nz-input>
+                  <nz-input style="min-height: 50px; width: 100%;" [(ngModel)]="userInfo.company_batch.length < 1?'暂无':userInfo.company_batch[0].company_introduce" [nzType]="'textarea'" [nzReadonly]='!editFlag'></nz-input>
                 </p>
                 <p>
                   <b class="weight">企业家简介：</b>
-                  <nz-input style="min-height: 40px; width: 100%;" [(ngModel)]="userInfo.entrepreneur_introduce" [nzType]="'textarea'" [nzReadonly]='!editFlag'></nz-input>
+                  <nz-input style="min-height: 50px; width: 100%;" [(ngModel)]="userInfo.entrepreneur_introduce" [nzType]="'textarea'" [nzReadonly]='!editFlag'></nz-input>
                 </p>
                 <p>
                   <b class="weight">企业家兴趣爱好：</b>
-                  <nz-input style="min-height: 40px; width: 100%;" [(ngModel)]="userInfo.entrepreneur_hobby" [nzType]="'textarea'" [nzReadonly]='!editFlag'></nz-input>
+                  <nz-input style="min-height: 50px; width: 100%;" [(ngModel)]="userInfo.entrepreneur_hobby" [nzType]="'textarea'" [nzReadonly]='!editFlag'></nz-input>
                 </p>
                 <p>
                   <b class="weight">企业家动态：</b>
-                  <nz-input style="min-height: 40px; width: 100%;" [(ngModel)]="userInfo.entrepreneur_dynamic" [nzType]="'textarea'" [nzReadonly]='!editFlag'></nz-input>
+                  <nz-input style="min-height: 50px; width: 100%;" [(ngModel)]="userInfo.entrepreneur_dynamic" [nzType]="'textarea'" [nzReadonly]='!editFlag'></nz-input>
                 </p>
                 <p>
                   <b class="weight">一句话介绍：</b>
                 </p>
                 <p>
-                  <nz-input style="min-height: 40px; width: 100%;" [(ngModel)]="userInfo.a_word_introduce" [nzType]="'textarea'" [nzReadonly]='!editFlag'></nz-input>
+                  <nz-input style="min-height: 50px; width: 100%;" [(ngModel)]="userInfo.a_word_introduce" [nzType]="'textarea'" [nzReadonly]='!editFlag'></nz-input>
                 </p>
               </div>
           </div>

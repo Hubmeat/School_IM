@@ -28,4 +28,12 @@ export class ContactAdminService {
         }
     )
   }
+
+  public getUsersInfo(accid): any {
+    const formData = {
+      accid: accid
+    }
+    return this.$http
+      .post(this.$HOST.host + '/a/chat_user/info', formData)
+  }
 }

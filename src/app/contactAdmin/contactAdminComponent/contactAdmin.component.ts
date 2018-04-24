@@ -52,15 +52,19 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
   currentId: any; // 当前聊天人id
   currentLastMsg: any; // 当前聊天人最后一条内容
 
+  // 会话列表基本信息
+  Uersinfo: any = [];
+
   constructor(
-    private service : ContactAdminService,
-    private _message : NzMessageService,
-    private router : Router,
-    private changeDetectorRef:ChangeDetectorRef ) {}
+    private service: ContactAdminService,
+    private _message: NzMessageService,
+    private router: Router,
+    private changeDetectorRef: ChangeDetectorRef ) {}
 
   ngOnInit() {
     this.getScroll();
     this.getNIMConfig();
+    this.getUserInfo();
     this.columnTop = '0';
     var obj = document.getElementsByClassName('.text_content')
     Observable.fromEvent(obj, 'onScroll').subscribe((event) => {
@@ -201,7 +205,8 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
           }
           for (let i in this.dataList) {
             if (this.dataList[i].id === this.currentId) {
-              this.dataList[i].lastMsg = this.currentLastMsg;
+              this.dataList[i].lastMsg.text = this.currentLastMsg.text;
+              this.dataList[i].lastMsg.time = this.currentLastMsg.time;
             }
           }
 
@@ -463,5 +468,15 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
       const date = new Date(val);
       return (date.getMonth() + 1) + '-' + date.getDate() + '  ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
     }
+  }
+
+  /***
+   * 获取头像/昵称/账号
+   */
+  getUserInfo() {
+    this.service.getUsersInfo(1749515938889748).subscribe(res => {
+      console.log(res);
+      this.Uersinfo = res.result.uinfos;
+    })
   }
 }

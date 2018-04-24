@@ -90,7 +90,7 @@ export class AccountManagementComponent implements OnInit {
       if (res.dataList.error_code === 0) {
         this._dataSet = res.dataList.result;
         this.totalPage = res.dataList.total_count;
-        if (this._dataSet.length < 1) {
+        if (this._dataSet.length < 0) {
           this.isShowTable = false;
         }
       }

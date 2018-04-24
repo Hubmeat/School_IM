@@ -78,7 +78,9 @@
       <div nz-col [nzSpan]="10" class="user-heard-img"><img class="user-heard-img" src="{{detailData.live_pic}}" alt=""></div>
       <div nz-col [nzSpan]="10">
         <h2>{{detailData.live_title}}</h2>
-        <p>直播时间:{{detailData.live_time | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+        <p style="width: 260px;">直播时间: <br>
+          <b>{{detailData.live_time | date:'yyyy-MM-dd HH:mm'}} - {{detailData.live_end_time | date:'yyyy-MM-dd HH:mm'}}</b>
+        </p>
         <!--<div class="user-sm-img">
 
         </div>-->

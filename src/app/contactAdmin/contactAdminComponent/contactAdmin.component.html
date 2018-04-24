@@ -2,7 +2,7 @@
     <div class="contact-list" nz-col [nzSpan]="8">
       <ul>
         <li>系统管理员</li>
-        <li *ngFor="let item of dataList" (click)='changeChatObject(item)' >
+        <li *ngFor="let item of dataList" (click)='changeChatObject(item)'>
           <div>
             <span class="pic" style="vertical-align: top" *ngIf="item.lastMsg.custom === undefined ? false : true; else defaultBox">
               <span>
