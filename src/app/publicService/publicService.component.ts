@@ -27,10 +27,10 @@ export class publicService {
     public getUserInfo(contact_phone, password) {
 
         const data = {
-          // contact_phone: contact_phone,
-          'contact_phone': '18333608300',
-          // password: password
-          'password': '123456'
+          contact_phone: contact_phone,
+          // 'contact_phone': '18333608300',
+          password: password
+          // 'password': '123456'
         };
         const val = this.$HOST.host;
         this.$http
