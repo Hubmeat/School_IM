@@ -103,46 +103,43 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
 
   replace_em(str) {
     console.log('str', str)
-    if (str.indexOf('[em_') != -1) {
-      var www = str.split('_');
-      var arr = new Array();
-      www.map( item => {
-        if (item.indexOf(']') != -1) {
-          arr.push(item.split(']')[0])
-        }
-      })
-      for (var i = 0; i < arr.length; i++) {
-        if (Number(arr[i]) > 9) {
-          str = str.replace(/\</g, '&lt;');
-
-          str = str.replace(/\>/g, '&gt;');
-
-          str = str.replace(/\n/g, '<br/>');
-
-          var delStr =  `<img src="./assets/arclist/emoji_$1.png" border="0" />`
-          str = str.replace(/\[em_([0-9]*)\]/g,  delStr);
-
-          return str;
-        } else {
-          str = str.replace(/\</g, '&lt;');
-
-          str = str.replace(/\>/g, '&gt;');
-
-          str = str.replace(/\n/g, '<br/>');
-          var delStr =  `<img src="./assets/arclist/emoji_0$1.png" border="0" />`
-          str = str.replace(/\[em_([0-9]*)\]/g,  delStr);
-
-          return str;
-        }
+    var str = str.split('_');
+    var arr = new Array();
+    str.map( item => {
+      if (item.indexOf(']') != -1) {
+        arr.push(item.split(']')[0])
       }
-    } else {
+    })
+
+    console.log('arr', arr)
+    
+    for (var i = 0; i < arr.length; i++) {
+      if (Number(arr[i]) > 10) {
         str = str.replace(/\</g, '&lt;');
 
         str = str.replace(/\>/g, '&gt;');
 
         str = str.replace(/\n/g, '<br/>');
+        var str2 = str.replace(/\[em_([0-9]*)\]/g,  '$1');  
+        console.log('str2', str2)
+        var delStr =  `<img src="./assets/arclist/emoji_${Number(str2)<10?'0':''}$1.png" border="0" />`
+        str = str.replace(/\[em_([0-9]*)\]/g,  delStr);
 
         return str;
+      } else {
+          
+        str = str.replace(/\</g, '&lt;');
+
+        str = str.replace(/\>/g, '&gt;');
+
+        str = str.replace(/\n/g, '<br/>');
+        var str2 = str.replace(/\[em_([0-9]*)\]/g,  '$1');  
+        console.log('str2', str2)
+        var delStr =  `<img src="./assets/arclist/emoji_${Number(str2)<10?'0':''}$1.png" border="0" />`
+        str = str.replace(/\[em_([0-9]*)\]/g,  delStr);
+
+        return str;
+    }
     }
 
   }
@@ -168,7 +165,6 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
         debug: false,
         appKey: "ff5c5a21d8269d4afddfc7b1a2f40027",
         account: account,
-        sync:true,
         syncSessionUnread:true,
         token: token,
         onsyncdone: () => {
@@ -215,10 +211,17 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
           // this.changeChatObject(account);
           // var arr = new Array();
           // console.log('result arr', arr)
-          this.getChatListInfo(sessions)
-          // var newArr = new Array();
-          // newArr = sessions.slice(0);
-          // this.dataList = newArr;
+          var newArr = new Array();
+          newArr = sessions.slice(0);
+          this.dataList = newArr;
+          for (let i in this.dataList) {
+            if (this.dataList[i].lastMsg.custom) {
+              this.dataList[i].lastMsg.custom = JSON.parse(this.dataList[i].lastMsg.custom);
+              this.custom = true;
+            }
+          }
+          this.changeDetectorRef.markForCheck();  
+          this.changeDetectorRef.detectChanges(); 
         },
         onupdatesession: (sessions) => {
           console.log('会话更新了', sessions);
@@ -244,33 +247,6 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
     this.getScroll()
   }
 
-  // 获取聊天列表信息
-  getChatListInfo (arr) {
-    var newArr = new Array();
-    for (var i = 0; i < arr.length; i++) {
-      newArr.push(arr[i].to)
-    }
-    console.log('newArr', newArr)
-    this.Nm.getUsers({
-      accounts: newArr,
-        done: (error, users) => {
-          console.log(error);
-          for (var i = 0; i < arr.length; i++) {
-            users.map( item => {
-              item.text = arr[i].lastMsg.text;
-              item.time = arr[i].lastMsg.time;
-              item.unread = arr[i].unread;
-            })
-          }
-          console.log(users);
-          this.dataList = users;
-          this.changeDetectorRef.markForCheck();  
-          this.changeDetectorRef.detectChanges(); 
-          console.log('获取用户资料数组' + (!error?'成功':'失败'));
-        }
-    });
-  }
-
   /**
    *  ======================================================================================================================<<<
    */
@@ -281,13 +257,13 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
 
   changeChatObject(item) {
     console.log(item);
-    this.currentId = item.account;
+    this.currentId = item.id;
     $('.text_content').html('');
-    var token = Md5.hashStr(item.account.toString());
-    var account = item.account.toString();
+    var token = Md5.hashStr(item.to.toString());
+    var account = item.to.toString();
     var sessionId = item.id;
     //  改变聊天对象account
-    this.currentChatObject = item.nick;
+    this.currentChatObject = item.lastMsg.fromNick;
     this.chatId = account;
     var that = this;
     this.Nm.getLocalMsgs({
@@ -345,7 +321,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
     if (msgs.type === 'text') {
       var text = msgs.text;
       var flow =  msgs.flow === 'out' ? 'right' : 'left';
-      var headImg = msgs.custom === undefined ? './assets/images/defaulthead.png' : JSON.parse(msgs.custom).xy_avatar;
+      var headImg = msgs.custom === undefined ? './assets/images/defaulthead.jpg' : JSON.parse(msgs.custom).xy_avatar;
       const time_date = this.crtTimeFtt(msgs.time);
       var box = `
         <div style="width: 100%;overflow: hidden; display: block;">
@@ -366,7 +342,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
       var url = msgs.file.url;
       var fileName = msgs.file.name;
       var flow =  msgs.flow === 'out' ? 'right' : 'left';
-      var headImg: any = msgs.custom === undefined ? './assets/images/defaulthead.png' : JSON.parse(msgs.custom).xy_avatar
+      var headImg: any = msgs.custom === undefined ? './assets/images/defaulthead.jpg' : JSON.parse(msgs.custom).xy_avatar
       const time_date = this.crtTimeFtt(msgs.time);
       var box = `
         <div style='width: 100%; overflow: hidden; display: block;'>
@@ -395,7 +371,7 @@ export class ContactAdminComponent implements OnInit,DoCheck, AfterContentInit, 
     if (msgs.type === 'text') {
       var text = msgs.text;
       var flow =  msgs.flow === 'out' ? 'right' : 'left';
-      var headImg = msgs.custom === undefined ? './assets/images/defaulthead.png' : JSON.parse(msgs.custom).xy_avatar;
+      var headImg = msgs.custom === undefined ? './assets/images/defaulthead.jpg' : JSON.parse(msgs.custom).xy_avatar;
       const time_date = this.crtTimeFtt(msgs.time);
       var box = `
         <div style="width: 100%;overflow: hidden; display: block;">

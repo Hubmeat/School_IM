@@ -93,7 +93,7 @@ export class SystemSetupService {
       this.$http
         .post(this.$HOST.host + '/a/user/adminupdate', formData)
         .subscribe(res => {
-          this.SystemListDataSubject.next(res);
+          this.SystemUpDataSubject.next(res);
         })
     }
 

@@ -4,24 +4,24 @@
         <li>系统管理员</li>
         <li *ngFor="let item of dataList" (click)='changeChatObject(item)'>
           <div>
-            <span class="pic" style="vertical-align: top" *ngIf="item.lastMsg.custom === undefined ? false : true; else defaultBox">
+            <span class="pic" style="vertical-align: top" *ngIf="item.avatar === undefined ? false : true; else defaultBox">
               <span>
-                <img style="width: 50px; height: 50px; display: inline-block;" src="{{item.lastMsg.custom.xy_avatar}}" alt="head">
+                <img style="width: 50px; height: 50px; display: inline-block;" src="{{item.avatar}}" alt="head">
               </span>
             </span>
-            <div class="spot_div" *ngIf="item.unread === 0?false:true"><span class="spot_text">{{item.unread}}</span></div>
             <ng-template #defaultBox>
               <span class="pic" style="vertical-align: top">
-                <img style="width: 50px; height: 50px; display: inline-block;" src="./assets/images/defaulthead.jpg" alt="head">
+                <img style="width: 50px; height: 50px; display: inline-block;" src="./assets/images/defaulthead.png" alt="head">
               </span>
               <div class="spot_div" *ngIf="item.unread === 0?false:true"><span class="spot_text">{{item.unread}}</span></div>
             </ng-template>
+            <div class="spot_div" *ngIf="item.unread === 0?false:true"><span class="spot_text">{{item.unread}}</span></div>
             <div class="listConter">
               <span class="text">
-                {{item.lastMsg.custom === undefined ? '企业家联谊会用户' : item.lastMsg.custom.xy_nickname}}
+                {{item.nick === undefined ? '企业家联谊会用户' : item.nick}}
               </span>
-              <span class="time_updata">{{item.lastMsg.time | date: 'MM-dd HH:mm:ss'}}</span>
-              <span class="text_lastMsg_text">{{item.lastMsg.text}}</span>
+              <span class="time_updata">{{item.time | date: 'MM-dd HH:mm:ss'}}</span>
+              <span class="text_lastMsg_text">{{item.text}}</span>
             </div>
           </div>
         </li>
