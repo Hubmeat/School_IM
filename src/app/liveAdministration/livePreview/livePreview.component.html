@@ -84,7 +84,14 @@
         <!--<div class="user-sm-img">
 
         </div>-->
-        <div class="user-sm-name">{{detailData.live_person}}</div>
+        <div class="user-sm-name">
+          <img style="width: 60px;vertical-align: bottom;margin-right: 5px;" src="{{detailData.user_avatar}}" alt="">
+          <span style="font-family: '微软雅黑';">{{detailData.live_person}}</span>
+          <span style="margin-left: 5px;font-weight: bold;"
+                [ngStyle]="{'color': detailData.live_person_gender === 1? 'blue' : [detailData.live_person_gender === 2 ? 'red' : '' ]}">
+            {{detailData.live_person_gender === 1 ? '♂' : [detailData.live_person_gender === 2 ? '♀' : '' ]}}
+          </span>
+        </div>
       </div>
     </div>
 

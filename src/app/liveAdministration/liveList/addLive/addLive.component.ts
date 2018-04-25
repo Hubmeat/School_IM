@@ -77,12 +77,16 @@ export class AddLiveComponent implements OnInit  {
     this.live_person = event
   }
   cancle() {
-    this.showpersonList = false;
+    window.setTimeout(() => {
+      this.showpersonList = false;
+    }, 500)
   }
   selectUserNmae(data) {
+    console.log(data);
     this.live_person = data.user_name;
+    this.live_person_gender = data.gender;
+    this.live_person_id = data.id;
     this.showpersonList = false
-
   }
   // 获取直播人list
   getLive_personsList(son) {

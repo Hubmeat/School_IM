@@ -25,7 +25,7 @@ export class LiveListComponent implements OnInit  {
     'live_time': 0,
     'live_person_id': 0,
     'live_person': 0,
-    'live_person_gender': '',
+    'live_person_gender': 0,
     'publish_person': '',
     'foreshow_intro': '',
     'video_url': '',
