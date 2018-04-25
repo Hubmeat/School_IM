@@ -118,13 +118,13 @@ export class AddMemberComponent implements OnInit {
     }
 
     beforeUpload = (file: File) => {
-      const isJPG = file.type === 'image/jpeg';
+      const isJPG = file.type === 'image/jpeg' || 'png' || 'jpg' || 'jpeg';
       if (!isJPG) {
         this.msg.error('You can only upload JPG file!');
       }
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isLt2M = file.size / 1024 / 1024 < 5;
       if (!isLt2M) {
-        this.msg.error('Image must smaller than 2MB!');
+        this.msg.error('Image must smaller than 5MB!');
       }
       return isJPG && isLt2M;
     }

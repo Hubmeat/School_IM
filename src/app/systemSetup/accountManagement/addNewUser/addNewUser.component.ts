@@ -104,12 +104,15 @@ export class AddNewUserComponent implements OnInit  {
     this.service.userUpData(
       this.editId,
       this.UserName,
-      this.radioValue
+      this.radioValue,
+      this.UserPhone
     )
     this.editSubscription = this.service.SystemUpDataSubject.subscribe(res => {
       console.log(res);
       if (res.error_code === 0) {
         this._message.success('编辑完成');
+      } else {
+        this._message.warning(res.error_msg || '编辑失败');
       }
       this.editSubscription.unsubscribe();
     })
