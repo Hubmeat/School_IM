@@ -190,7 +190,7 @@ export class AddPreviewComponent implements OnInit {
   handleChange(info: { file: UploadFile }) {
     const file = info.file;
     console.log(file)
-    const isJPG = file.type === 'image/jpeg';
+    const isJPG = file.type === 'image/jpeg' || 'png' || 'jpg' || 'jpeg';
     if (isJPG) {
       this.fileType = 'image';
     }else {
@@ -200,9 +200,9 @@ export class AddPreviewComponent implements OnInit {
       this._message.error('You can only upload JPG file!');
       this.fileList = [];
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
+    const isLt2M = file.size / 1024 / 1024 < 5;
     if (!isLt2M) {
-      this._message.error('Image must smaller than 2MB!');
+      this._message.error('Image must smaller than 5MB!');
       this.fileList = [];
     }
     return isJPG && isLt2M;

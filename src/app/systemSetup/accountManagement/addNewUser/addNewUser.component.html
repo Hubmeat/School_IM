@@ -66,7 +66,7 @@
     <div nz-row class="foot-buts">
       <button nz-col [nzSpan]="5" [nzPush]="5" nz-button (click)="goback()">取消</button>
       <button *ngIf="!editFlag; else editSub" nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="previewSubmit()">提交</button>
-      <ng-template #editSub><button #editSub nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="editData()">提交</button></ng-template>
+      <ng-template #editSub><button #editSub nz-col [nzSpan]="5" [nzPush]="7" nz-button [nzType]="'primary'" (click)="editData()">提32131交</button></ng-template>
     </div>
   </div>
 </div>

@@ -83,11 +83,12 @@ export class SystemSetupService {
     public editFlag = false;
     public SystemUpDataSubject = new Subject<any>();
     // 编辑
-    public userUpData(id, username, state) {
+    public userUpData(id, username, state, contact_phone) {
       const formData = {
         id: id,
         user_name: username,
-        a_data_state: state
+        a_data_state: state,
+        contact_phone: contact_phone
       };
       this.$http
         .post(this.$HOST.host + '/a/user/adminupdate', formData)

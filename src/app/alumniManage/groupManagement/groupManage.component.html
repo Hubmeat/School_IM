@@ -250,7 +250,7 @@
                               </thead>
                               <tbody nz-tbody>
                               <tr nz-tbody-tr *ngFor="let data of nzTable.data;let index = index">
-                                <td nz-td><img src="{{data.avatar}}" alt="" style="width: 25px;height: 25px;vertical-align: middle;margin-right: 5px;">{{data.user_name}}</td>
+                                <td nz-td style="text-align: left"><img src="{{data.avatar}}" alt="" style="width: 25px;height: 25px;vertical-align: middle;margin-right: 5px;">{{data.user_name}}</td>
                                 <td nz-td>{{data.nick}}</td>
                                 <td nz-td>{{data.contact_phone}}</td>
                                 <td nz-td>{{data.gender === 1?'男':[data.gender === 2?'女':'未知']}}</td>
