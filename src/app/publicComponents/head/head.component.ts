@@ -73,7 +73,7 @@ export class HeadComponent implements OnInit {
     }
 
     checkPass() {
-      if (this.oldPassword !== this.newPassword) {
+      if (this.repeatPassword !== this.newPassword) {
         this._message.warning('密码不一致');
         return false;
       } else {
